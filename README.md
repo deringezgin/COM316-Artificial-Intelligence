@@ -1,1 +1,1 @@
-# COM316 Artificial Intelligence | Derin Gezgin
+# COM316: Artificial Intelligence | Derin Gezgin
