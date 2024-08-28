@@ -1,0 +1,70 @@
+Scheme Programming Assignment #1
+
+Turn in the functions that you are asked to define.
+
+Open Scheme or SWL.
+
+type these at the prompt: 
+
+"hello" 
+
+42
+
+3.81
+
++
+
+(+ 5 6)
+
+'(a b c d)
+
+(define lst '(a b c d))
+
+(car lst)
+
+(cdr lst)
+
+(cons 'x lst)
+
+define is_big
+(is_big x) => #t if x is greater than 1000, otherwise #f
+
+define sqr:
+(sqr x) => x squared
+
+answer:
+(define sqr
+  (lambda (x)
+    (* x x)))
+
+type at the prompt: 
+(sqr 5)
+(sqr 4)
+
+define double:
+(double x) => 2 * x
+
+define dist:
+(dist x1 y1 x2 y2) => Euclidean distance from point (x1, y1) to (x2, y2).
+
+type at the prompt: 
+(define pointa '(1 2))
+(define pointb '(3 5))
+
+define dist_pt:
+(dist_pt p1 p2)
+
+ensure that you get the same answer using dist_pt as you did with dist.
+
+define find_tf: 
+(find_tf x lst) => finds if x is in the list lst.  it returns #t or #f
+
+define find_posit: 
+(find_posit x lst) => returns index of x is in the list lst.  it returns -1 if not in list
+
+define count_all:
+(count_all lst) => returns the number of elements in the list lst
+
+define count_twos
+(count_twos lst) => returns the number of 2s in the list lst
+
