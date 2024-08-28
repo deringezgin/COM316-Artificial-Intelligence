@@ -37,8 +37,8 @@
 (println (sqr-list l1))
 (display "Testing with an empty list --> ")
 (println (sqr-list '()))
-(newline)
 (define l1 (sqr-list l1)) ; Updating l1 in the background for continuity
+(newline)
 
 
 ; ___________________________________________________________________________
@@ -142,17 +142,28 @@
 ; Function #7 flatten
 ; removes sub-list structure but keeps the list elements
 
-;(define flatten
-;  (lambda (lst)
-;    (cond
-;      ((null? lst) '())
-;      ((atom? (car lst)) (cons (car lst) (flatten (cdr lst))))
-;      (else (cons (flatten (car lst)) (flatten (cdr lst)))))))
-;
-;(define l2 '(1 2 (3 4 5 6)))
-;(println (flatten l2))
+(define flatten
+  (lambda (lst)
+    (cond
+      ((null? lst) '())
+      ((atom? (car lst)) (cons (car lst) (flatten (cdr lst))))
+      (else (append (flatten (car lst)) (flatten (cdr lst)))))))
+
+(define l5 '(1 2 (3 (4 5) 6)))
+(define l6 '(((((1)))) (2 3) (4 5 6) ((7 8)) 9))
+
+(println "Function #7 flatten")
+(print-l l5 "5")
+(display "Applying the flatten function to l5 --> ")
+(println (flatten l5))
+(print-l l6 "6")
+(display "Applying the flatten function to l6 --> ")
+(println (flatten l6))
+(newline)
+
 
 ; ___________________________________________________________________________
-;Run 20 commands from Chapter 6 that you think would be particularly
-;advantageous.  Make sure you experiment with vectors and their conversions
-;to and from lists.
+; Run 20 commands from Chapter 6 that you think would be particularly advantageous.
+; Make sure you experiment with vectors and their conversions to and from lists.
+
+; Command #1 -
