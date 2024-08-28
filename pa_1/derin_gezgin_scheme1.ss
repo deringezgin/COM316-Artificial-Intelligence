@@ -1,6 +1,7 @@
 ; Derin Gezgin
 ; COM316: Artificial Intelligence | Fall 2024
 ; Scheme #1
+; Due August 29 2024
 
 ; For my own usage
 (define println
