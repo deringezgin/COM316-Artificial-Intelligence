@@ -11,6 +11,7 @@
 
 ; ___________________________________________________________________________
 ; Function #1 is_big
+
 (define is_big
   (lambda (x)
     (> x 1000)))
@@ -40,6 +41,7 @@
 
 ; ___________________________________________________________________________
 ; Function #3 double
+
 (define double
   (lambda (x)
     (* 2 x)))
@@ -54,6 +56,7 @@
 
 ; ___________________________________________________________________________
 ; Function #4 dist
+
 (define sqr (lambda (n) (* n n))) ; Defining again to avoid confusion
 
 (define dist
@@ -84,6 +87,7 @@
 ; ___________________________________________________________________________
 ; Function #6 find_tf
 ; finds if x is in the list lst. It returns #t or #f
+
 (define find_tf
   (lambda (x lst)
     (cond
@@ -112,6 +116,7 @@
 ; ___________________________________________________________________________
 ; Function #7 find_posit
 ; returns index of x is in the list lst.  it returns -1 if not in list
+
 (define finder
   (lambda (x lst ind)
     (cond
@@ -140,6 +145,7 @@
 ; ___________________________________________________________________________
 ; Function #8 count_all
 ; returns the number of elements in the list lst
+
 (define count_all
   (lambda (lst)
     (cond
