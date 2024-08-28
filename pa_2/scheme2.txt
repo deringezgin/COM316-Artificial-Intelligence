@@ -1,0 +1,51 @@
+Scheme Programming Assignment #2
+
+Turn in the following functions:
+
+define sqr-list
+(sqr-list lst) => squares each element of the list
+
+define place: 
+(place x lst) => inserts x into ordered list lst
+
+place may be too hard; I'll get you started with one possible answer (it uses a helper function):
+(define place
+  (lambda (x lst)
+    (if (null? lst)
+      (list x)
+    ;else
+      (place2 x (car lst) (cdr lst)))))  
+
+(define place2
+  (lambda (x carlst cdrlst)
+...
+
+
+(change x) => if x is negative it returns x^2, if 0 it returns 0, if positive it returns x + 1.
+
+(change-list lst) applies change to each element in the list
+
+(closest-point point lst) => returns the point in the list of points that 
+is closest to the input point.
+
+define add-list:
+(add-list lst1 lst2) => adds each element of the 2 lists
+example:
+(add-list '(1 2 3) '(2 1 4)) => (3 3 7)
+
+define delete-lists:
+(delete-lists lst) => deletes the sub-lists from this list.
+example:
+(delete-lists '(1 2 (3 4) (5 (6 7)) 8 (9)))
+returns:
+(1 2 8)
+
+define flatten:
+(flatten lst) => removes sub-list structure but keeps the list elements
+(flatten '(1 2 (3 (4 5) 6))) returns (1 2 3 4 5 6)
+
+
+Run 20 commands from Chapter 6 that you think would be particularly
+advantageous.  Make sure you experiment with vectors and their conversions
+to and from lists.
+
