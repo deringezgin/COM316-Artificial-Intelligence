@@ -166,4 +166,9 @@
 ; Run 20 commands from Chapter 6 that you think would be particularly advantageous.
 ; Make sure you experiment with vectors and their conversions to and from lists.
 
-; Command #1 -
+; Command #1 - trace - page #38
+; Shows how a function is run and the background of the function
+
+; Command #2 - map - page #41
+; Applies a function to every element of a list
+

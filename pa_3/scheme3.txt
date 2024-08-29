@@ -1,0 +1,13 @@
+Scheme Programming Assignment #3
+
+Copy the five files that I wrote to show a 2D search (they are provided on
+the Programming Assignments web page).  Modify the program so that it
+marks visited nodes (squares) as visited.  Then modify the program so that
+it will choose a free node over a visited if it has a choice.  For both
+of these modifications you only need to change/add-to grid-search.ss.
+Although changing the value of pause-num in grid-main.ss will help
+you see what's going on by reducing the speed.  Try changing other values
+in this file to see the effects.  Run the the original program and your
+modified program each 10 times.  Does your modification improve the
+steps taken to find the goal?
+
