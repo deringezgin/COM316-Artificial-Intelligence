@@ -1,0 +1,33 @@
+Derin Gezgin
+COM316: Artificial Intelligence | Fall 2024
+Scheme #3
+Due September 5 2024
+
+I made all the changes in the grid-search.ss.
+
+To make the robot mark the squares it visited, I uncommented line 20 and the draw-visited function did the rest for me.
+
+On the other hand, to make the robot choose free squares over the visited ones, I had to create a helper function.
+In the check-cells function there are 4 parameters: grid, x, y and target.
+Grid is the current grid we're working on. X and Y are our current position and target is what we're looking for.
+I added a target variable so the function can be used to look for different type of cells (target, free, visited).
+
+The check_cells function is fairly simple.
+It checks all 4 directions one by one.
+For each direction it first checks if the x/y values would be valid after the increment or decrement to ensure that we don't get outside the grid.
+After this it checks if the cell on that direction is the target cell or not. (Technically the target cell and anything better than that)
+This process is done for all 4 directions.
+At the end, if the free_cells list is not null (there's at least 1 valid direction), a random element from the list is picked.
+If there's no valid directions #f is returned.
+
+To fit in this new function, I modified the move-robot function, as well.
+The function first checks all 4 directions for the goal node.
+After that -if nothing is found- it checks all 4 directions for a free node.
+Finally -if nothing is found- it checks all 4 directions for a visited node.
+If nothing is found in all these cases, it'll return "no moves"
+After this process, it'll move the robot to the picked direction.
+
+I ran more than 10 tests with this new configuration, by also changing the pause-num to see how it runs.
+I can say that it significantly improved the results, as our robot prefers to go to the free cells rather than visited ones.
+It's more likely to explore unknown regions on the grid.
+It takes fewer moves for the robot to find the right solution, and it's a bit smarter than the previous version.

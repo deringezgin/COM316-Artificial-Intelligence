@@ -47,13 +47,14 @@
 
 (define move-robot
   (lambda (grid x y count)
-    (let ((free_direction (check_cells grid x y free)))
-      (if (not free_direction) (set! free_direction (check_cells grid x y visited)) "no move")
-      (cond
-        ((= free_direction n) (set! robot (list (- x 1) y)))
-        ((= free_direction s) (set! robot (list (+ x 1) y)))
-        ((= free_direction e) (set! robot (list x (+ y 1))))
-        ((= free_direction w) (set! robot (list x (- y 1))))))))
+    (let ((free_direction (check_cells grid x y goal-node)))
+      (if (not free_direction) (set! free_direction (check_cells grid x y free)))
+        (if (not free_direction) (set! free_direction (check_cells grid x y visited)) "no move")
+        (cond
+          ((= free_direction n) (set! robot (list (- x 1) y)))
+          ((= free_direction s) (set! robot (list (+ x 1) y)))
+          ((= free_direction e) (set! robot (list x (+ y 1))))
+          ((= free_direction w) (set! robot (list x (- y 1))))))))
 
 
 (define check_cells
@@ -61,22 +62,18 @@
     (let ((free_cells '()))
       (if (and
             (> x 0)
-            (< (get-node grid (- x 1) y) obstacle)
             (<= (get-node grid (- x 1) y) target))
         (set! free_cells (cons 0 free_cells)))
       (if (and
             (< x (- num-col-row 1))
-            (< (get-node grid (+ x 1) y) obstacle)
             (<= (get-node grid (+ x 1) y) target))
         (set! free_cells (cons 1 free_cells)))
       (if (and
           (< y (- num-col-row 1))
-          (< (get-node grid x (+ y 1)) obstacle)
           (<= (get-node grid x (+ y 1)) target))
         (set! free_cells (cons 2 free_cells)))
       (if (and
             (> y 0)
-            (< (get-node grid x (- y 1)) obstacle)
             (<= (get-node grid x (- y 1)) target))
         (set! free_cells (cons 3 free_cells)))
       (if (not (null? free_cells)) (find_element free_cells (random (len free_cells))) #f))))
