@@ -10,7 +10,7 @@ To make the robot mark the squares it visited, I uncommented line 20 and the dra
 On the other hand, to make the robot choose free squares over the visited ones, I had to create a helper function.
 In the check-cells function there are 4 parameters: grid, x, y and target.
 Grid is the current grid we're working on. X and Y are our current position and target is what we're looking for.
-I added a target variable so the function can be used to look for different type of cells (target, free, visited).
+I added a target variable so the function can be used to look for different type of cells (goal, free, visited).
 
 The check_cells function is fairly simple.
 It checks all 4 directions one by one.
