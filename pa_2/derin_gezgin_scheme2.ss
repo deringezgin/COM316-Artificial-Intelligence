@@ -142,12 +142,29 @@
 ; Function #7 flatten
 ; removes sub-list structure but keeps the list elements
 
+
 (define flatten
   (lambda (lst)
+    (reverse_lst (flattener lst '()))))
+
+(define flattener
+  (lambda (lst new)
     (cond
-      ((null? lst) '())
-      ((atom? (car lst)) (cons (car lst) (flatten (cdr lst))))
-      (else (append (flatten (car lst)) (flatten (cdr lst)))))))
+      ((null? lst) new)
+      ((atom? (car lst)) (flattener (cdr lst) (cons (car lst) new)))
+      (else (flattener (cdr lst) (flattener (car lst) new))))))
+
+
+(define reverse_lst
+  (lambda (lst)
+    (reverser lst '())))
+
+(define reverser
+  (lambda (lst new)
+    (cond
+      ((null? lst) new)
+      (else (reverser (cdr lst) (cons (car lst) new))))))
+
 
 (define l5 '(1 2 (3 (4 5) 6)))
 (define l6 '(((((1)))) (2 3) (4 5 6) ((7 8)) 9))
@@ -160,15 +177,4 @@
 (display "Applying the flatten function to l6 --> ")
 (println (flatten l6))
 (newline)
-
-
-; ___________________________________________________________________________
-; Run 20 commands from Chapter 6 that you think would be particularly advantageous.
-; Make sure you experiment with vectors and their conversions to and from lists.
-
-; Command #1 - trace - page #38
-; Shows how a function is run and the background of the function
-
-; Command #2 - map - page #41
-; Applies a function to every element of a list
 
