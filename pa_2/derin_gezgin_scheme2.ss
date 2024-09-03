@@ -118,43 +118,46 @@
 (define closest-point
   (lambda (point lst)
     (cond
+      ((null? lst) '())
       ((null? (cdr lst)) (car lst))
       (else (min-point point (car lst) (closest-point point (cdr lst)))))))
 
 (println "Function #5 closest-point")
-(define l '((2 3) (4 6) (1 8) (7 2)))
+
+(define l1 '((2 3) (4 6) (1 8) (7 2)))
 (define target '(3 4))
-(print-l l)
+(print-l l1 "1")
 (display "Current target --> ")
 (println target)
 (display "Closest point --> ")
-(println (closest-point target l))
+(println (closest-point target l1))
+(newline)
 
-(define l '((1 7) (7 1) (7 7)))
+(define l1 '((1 7) (7 1) (7 7)))
 (define target '(4 4))
-(print-l l)
+(print-l l1 "1")
 (display "Current target --> ")
 (println target)
 (display "Closest point --> ")
-(println (closest-point target l))
+(println (closest-point target l1))
+(newline)
 
-
-(define l '((5 5)))
+(define l1 '((5 5)))
 (define target '(4 4))
-(print-l l)
+(print-l l1 "1")
 (display "Current target --> ")
 (println target)
 (display "Closest point --> ")
-(println (closest-point target l))
+(println (closest-point target l1))
+(newline)
 
-
-(define l '((0 0) (3 4) (5 12) (8 15)))
+(define l1 '((0 0) (3 4) (5 12) (8 15)))
 (define target '(6 8))
-(print-l l)
+(print-l l1 "1")
 (display "Current target --> ")
 (println target)
 (display "Closest point --> ")
-(println (closest-point target l))
+(println (closest-point target l1))
 (newline)
 
 ; ___________________________________________________________________________
