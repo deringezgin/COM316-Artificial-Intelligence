@@ -97,33 +97,69 @@
 
 ; ___________________________________________________________________________
 ; Function #5 closest-point
-; returns the point in the list of points that is closest to the input point
+; Returns the point in the list of points that is closest to the input point
 
-
-(define sqr (lambda (n) (* n n)))
+(define sqr
+  (lambda (n)
+    (* n n)))
 
 (define dist_pt
   (lambda (p1 p2)
-    (let ((dx (- (car p1) (car p2))) (dy (- (car (cdr p1)) (car (cdr p2)))))
-      (sqrt (+ (sqr dx) (sqr dy))))))
+    (sqrt (+ (sqr (- (car p1) (car p2)))
+             (sqr (- (cadr p1) (cadr p2)))))))
 
 (define min-point
-      (lambda (p1 p2)
-        (if (< (dist_pt point p1) (dist_pt point p2)) p1 p2)))
+  (lambda (point p1 p2)
+    (cond
+      ((< (dist_pt point p1) (dist_pt point p2)) p1)
+      (else p2)
+    )))
 
 (define closest-point
   (lambda (point lst)
     (cond
       ((null? (cdr lst)) (car lst))
-      (else (min-point (car lst) (closest-point point (cdr lst)))))))
+      (else (min-point point (car lst) (closest-point point (cdr lst)))))))
 
-(pritnln "Function #5 closest-point")
+(println "Function #5 closest-point")
+(define l '((2 3) (4 6) (1 8) (7 2)))
+(define target '(3 4))
+(print-l l)
+(display "Current target --> ")
+(println target)
+(display "Closest point --> ")
+(println (closest-point target l))
 
+(define l '((1 7) (7 1) (7 7)))
+(define target '(4 4))
+(print-l l)
+(display "Current target --> ")
+(println target)
+(display "Closest point --> ")
+(println (closest-point target l))
+
+
+(define l '((5 5)))
+(define target '(4 4))
+(print-l l)
+(display "Current target --> ")
+(println target)
+(display "Closest point --> ")
+(println (closest-point target l))
+
+
+(define l '((0 0) (3 4) (5 12) (8 15)))
+(define target '(6 8))
+(print-l l)
+(display "Current target --> ")
+(println target)
+(display "Closest point --> ")
+(println (closest-point target l))
+(newline)
 
 ; ___________________________________________________________________________
 ; Function #6 add-list
 ; adds each element of the 2 lists
-
 
 (define add-list
   (lambda (lst1 lst2)
@@ -165,7 +201,6 @@
 ; ___________________________________________________________________________
 ; Function #8 flatten
 ; removes sub-list structure but keeps the list elements
-
 
 (define flatten
   (lambda (lst)
