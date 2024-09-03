@@ -95,9 +95,33 @@
 (print-l l1 "1")
 (newline)
 
+; ___________________________________________________________________________
+; Function #5 closest-point
+; returns the point in the list of points that is closest to the input point
+
+
+(define sqr (lambda (n) (* n n)))
+
+(define dist_pt
+  (lambda (p1 p2)
+    (let ((dx (- (car p1) (car p2))) (dy (- (car (cdr p1)) (car (cdr p2)))))
+      (sqrt (+ (sqr dx) (sqr dy))))))
+
+(define min-point
+      (lambda (p1 p2)
+        (if (< (dist_pt point p1) (dist_pt point p2)) p1 p2)))
+
+(define closest-point
+  (lambda (point lst)
+    (cond
+      ((null? (cdr lst)) (car lst))
+      (else (min-point (car lst) (closest-point point (cdr lst)))))))
+
+(pritnln "Function #5 closest-point")
+
 
 ; ___________________________________________________________________________
-; Function #5 add-list
+; Function #6 add-list
 ; adds each element of the 2 lists
 
 
@@ -110,7 +134,7 @@
 (define l2 '(1 2 3))
 (define l3 '(4 5 6))
 
-(println "Function #5 add-list")
+(println "Function #6 add-list")
 (print-l l2 "2")
 (print-l l3 "3")
 (display "Adding l2 and l3 --> ")
@@ -119,7 +143,7 @@
 
 
 ; ___________________________________________________________________________
-; Function #6 delete-lists
+; Function #7 delete-lists
 ; deletes the sub-lists from this list.
 
 (define delete-lists
@@ -131,7 +155,7 @@
 
 (define l4 '(1 2 (3 4) (5 (6 7)) 8 (9)))
 
-(println "Function #6 delete-lists")
+(println "Function #7 delete-lists")
 (print-l l4 "4")
 (display "Applying delete-lists into l4 --> ")
 (println (delete-lists l4))
@@ -139,7 +163,7 @@
 
 
 ; ___________________________________________________________________________
-; Function #7 flatten
+; Function #8 flatten
 ; removes sub-list structure but keeps the list elements
 
 
@@ -169,7 +193,7 @@
 (define l5 '(1 2 (3 (4 5) 6)))
 (define l6 '(((((1)))) (2 3) (4 5 6) ((7 8)) 9))
 
-(println "Function #7 flatten")
+(println "Function #8 flatten")
 (print-l l5 "5")
 (display "Applying the flatten function to l5 --> ")
 (println (flatten l5))
