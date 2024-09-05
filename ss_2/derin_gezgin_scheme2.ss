@@ -239,4 +239,3 @@
 (display "Applying the flatten function to l6 --> ")
 (println (flatten l6))
 (newline)
-
