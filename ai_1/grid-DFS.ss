@@ -1,5 +1,5 @@
 (define path-lst '())
-(define visited 1)
+(define visited 1)  ; Visited wasn't defined so I added this.
 
 (define expand
   (lambda (point)
@@ -50,15 +50,26 @@
           (set! robot next-robot)
           (draw-moved-robot (car robot) (cadr robot))
           (search2 grid (+ count 1) stop-count))))))
+; Explanation of my addition to the search2 function
+; First of all I changed all the queue functions into stack functions as DFS uses stack.
+; I added several conditions
+;   1. First I check if there are paths to explore.
+;   2. Second, I check if we're on a goal-node. If so I call the goal-found function I created. I'll explain it below.
+;   3. If the count (our limitor) more than the stop-count I display no more moves allowed.
+;   4. In the else statement, I set the current robot as the next robot, draw it on the grid and recursively call the function
 
 (define check-pt
   (lambda (pt1 pt2)
     ((and (= (car pt1) (car pt2)) (= (cadr pt1) (cadr pt2))))))
+; Function to check if two points p1 (x y) and p2 (x y) are equal.
 
 (define goal-found
   (lambda (next-robot)
     (draw-moved-robot (car next-robot) (cadr next-robot))
     (let ((correct-path (get-path next-robot))) (draw-path correct-path))))
+; Function I call when the goal is found.
+; In this function I draw the last position of the robot.
+; I calculate the correct path using the get-path function and I draw the path using the draw-path function.
 
 (define get-path
   (lambda (last-node)
@@ -66,6 +77,11 @@
       ((null? last-node) '())
       (else (let ((parent (assoc last-node path-lst)))
              (cons last-node (get-path (cadr parent))))))))
+; Function that recursively constructs the path backwards.
+; The base case is if the list is null. In this case I return an empty list.
+; Otherwise I found the parent of the current node and cons it with the recursive call
+; In the class, Prof. Parker said there's a specific function for this use case so I assume -and hope- using assoc is ok.
+; It's a function in the book on page 165, a part of the 6th chapter.
 
 (define draw-path
   (lambda (path)
