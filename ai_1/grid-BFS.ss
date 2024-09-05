@@ -37,20 +37,23 @@
 
 (define search2
   (lambda (grid count stop-count)
-    ;(display queue)
     (pause pause-num)
     (display count)
     (newline)
     (expand robot)
     (let ((next-robot (dequeue)))
       (cond
-        ((null? next-robot) #f)
-        ((equal? next-robot goal) (goal-found next-robot))
-        ((>= count stop-count) #f)
+        ((null? next-robot) (display "No more paths to explore"))
+        ((check-pt next-robot goal) (goal-found next-robot))
+        ((>= count stop-count) (display "No more moves allowed"))
         (else
           (set! robot next-robot)
           (draw-moved-robot (car robot) (cadr robot))
           (search2 grid (+ count 1) stop-count))))))
+
+(define check-pt
+  (lambda (pt1 pt2)
+    (and (= (car pt1) (car pt2)) (= (cadr pt1) (cadr pt2)))))
 
 (define goal-found
   (lambda (next-robot)
@@ -60,7 +63,7 @@
 (define get-path
   (lambda (last-node)
     (cond
-      ((null? last-node) '()) ; Base case: return an empty list when no more nodes
+      ((null? last-node) '())
       (else
        (let ((parent (assoc last-node path-lst)))
              (cons last-node (get-path (cadr parent))))))))
