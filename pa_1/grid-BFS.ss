@@ -1,6 +1,7 @@
 (define path-lst '())
+(define visited 1)
 
-(define expand 
+(define expand
   (lambda (point)
     (let ((lst (adjacentv point)))
       (set-lst-visited lst)
@@ -14,7 +15,7 @@
          (set! path-lst (cons child-parent path-lst))
          (add-to-path-lst (cdr lst) point)))))
 
-(define set-lst-visited 
+(define set-lst-visited
   (lambda (lst)
     (if (null? lst)
         '()
@@ -23,7 +24,7 @@
           (draw-pt-frontier x)
           (block-set! x visited)
           (set-lst-visited (cdr lst))))))
-  
+
 (define draw-pt-frontier
   (lambda (pt)
     (draw-frontier (car pt) (cadr pt))))
@@ -41,21 +42,36 @@
     (display count)
     (newline)
     (expand robot)
-    (let ((next-robot (front)))
+    (let ((next-robot (dequeue)))
       (cond
+        ((null? next-robot) #f)
+        ((equal? next-robot goal) (goal-found next-robot))
+        ((>= count stop-count) #f)
+        (else
+          (set! robot next-robot)
+          (draw-moved-robot (car robot) (cadr robot))
+          (search2 grid (+ count 1) stop-count))))))
 
-    
+(define goal-found
+  (lambda (next-robot)
+    (draw-moved-robot (car next-robot) (cadr next-robot))
+    (let ((correct-path (get-path next-robot))) (draw-path correct-path))))
+
 (define get-path
   (lambda (last-node)
-      
-      
+    (cond
+      ((null? last-node) '()) ; Base case: return an empty list when no more nodes
+      (else
+       (let ((parent (assoc last-node path-lst)))
+             (cons last-node (get-path (cadr parent))))))))
+
 (define draw-path
   (lambda (path)
-    (cond 
+    (cond
       ((not (null? path))
          (draw-pt-path-node (car path))
          (draw-path (cdr path))))))
- 
+
 (define draw-pt-path-node
   (lambda (point)
     (draw-path-node (car point) (cadr point))))
