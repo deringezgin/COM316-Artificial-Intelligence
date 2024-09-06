@@ -60,7 +60,7 @@
 
 (define check-pt
   (lambda (pt1 pt2)
-    ((and (= (car pt1) (car pt2)) (= (cadr pt1) (cadr pt2))))))
+    (and (= (car pt1) (car pt2)) (= (cadr pt1) (cadr pt2)))))
 ; Function to check if two points p1 (x y) and p2 (x y) are equal.
 
 (define goal-found
