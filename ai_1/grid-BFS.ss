@@ -44,19 +44,22 @@
     (let ((next-robot (dequeue)))
       (cond
         ((null? next-robot) (display "No more paths to explore"))
+        (else
+          (draw-visited (car next-robot) (cadr next-robot))
+          (draw-moved-robot (car next-robot) (cadr next-robot))))
+      (cond
         ((check-pt next-robot goal) (goal-found next-robot))
         ((>= count stop-count) (display "No more moves allowed"))
         (else
           (set! robot next-robot)
-          (draw-moved-robot (car robot) (cadr robot))
           (search2 grid (+ count 1) stop-count))))))
 ; Explanation of my addition to the search2 function
 ; First of all I changed front to dequeue because when I work on a node, I should remove it from the queue
 ; I added several conditions
-;   1. First I check if there are paths to explore.
+;   1. First I check if there are paths to explore. If there's I'll draw the visited square and the robot. If not, I print an error message
 ;   2. Second, I check if we're on a goal-node. If so I call the goal-found function I created. I'll explain it below.
 ;   3. If the count (our limitor) more than the stop-count I display no more moves allowed.
-;   4. In the else statement, I set the current robot as the next robot, draw it on the grid and recursively call the function
+;   4. In the else statement, I set the current robot as the next robot, and recursively call the function
 
 (define check-pt
   (lambda (pt1 pt2)
@@ -65,10 +68,8 @@
 
 (define goal-found
   (lambda (next-robot)
-    (draw-moved-robot (car next-robot) (cadr next-robot))
     (let ((correct-path (get-path next-robot))) (draw-path correct-path))))
 ; Function I call when the goal is found.
-; In this function I draw the last position of the robot.
 ; I calculate the correct path using the get-path function and I draw the path using the draw-path function.
 
 (define get-path
