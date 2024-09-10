@@ -1,7 +1,7 @@
 (define num-col-row 50)
 (define pause-num 10000)
 (define size (floor (/ 700 num-col-row)))
-(define obstacle-density 10)
+(define obstacle-density 30)
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
