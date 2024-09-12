@@ -1,8 +1,9 @@
 ; Derin Gezgin
 ; COM316: Artificial Intelligence | Fall 2024
-; Programming Assignment #1
-; Due September 9 2024
-; File that has the complete code for Breadth First Search (BFS)
+; Programming Assignment #2
+; Due September 17 2024
+; File that has the complete code for Best-First Search
+
 (load "pqueue-BEST.ss")
 (define path-lst '())
 (define visited 1)  ; Visited wasn't defined so I added this.
