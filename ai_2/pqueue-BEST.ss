@@ -1,3 +1,9 @@
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #2
+; Due September 17 2024
+; File that has the complete code for priority queue implemented for Best-First Search
+
 (define pqueue '())
 
 (define pqueue_front

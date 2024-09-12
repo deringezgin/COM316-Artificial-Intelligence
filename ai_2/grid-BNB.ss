@@ -6,14 +6,20 @@
 
 (load "pqueue-BNB.ss")
 (define path-lst '())
-(define visited 1)  ; Visited wasn't defined so I added this.
+(define visited 1)
 
 (define expand
-  (lambda (point)
+  (lambda (point depth)
     (let ((lst (adjacentv point)))
       (set-lst-visited lst)
       (add-to-path-lst lst point)
-      (pqueue_enqueue lst))))
+      (pqueue_enqueue (add_depth lst depth)))))
+
+(define add_depth
+  (lambda (lst depth)
+    (cond
+      ((null? lst) '())
+      (else (cons (list (car lst) (+ depth 1)) (add_depth (cdr lst) depth))))))
 
 (define add-to-path-lst
   (lambda (lst point)
@@ -39,15 +45,17 @@
   (lambda (grid stop-count)
     (block-set! start visited)
     (set! path-lst (list (list start '())))
-    (search2 grid 1 stop-count)))
+    (search2 grid 1 stop-count 0)))
 
 (define search2
-  (lambda (grid count stop-count)
+  (lambda (grid count stop-count depth)
     (pause pause-num)
-    (display count)
+    ; (display count)
     (newline)
-    (expand robot)
-    (let ((next-robot (pqueue_dequeue)))
+    (expand robot depth)
+    (let* ((next-robot-comb (pqueue_dequeue))
+            (next-robot (car next-robot-comb))
+            (next-depth (cadr next-robot-comb)))
       (cond
         ((null? next-robot) (display "No more paths to explore"))
         (else
@@ -58,7 +66,7 @@
         ((>= count stop-count) (display "No more moves allowed"))
         (else
           (set! robot next-robot)
-          (search2 grid (+ count 1) stop-count))))))
+          (search2 grid (+ count 1) stop-count next-depth))))))
 
 ; Function to check if two points p1 (x y) and p2 (x y) are equal.
 (define check-pt

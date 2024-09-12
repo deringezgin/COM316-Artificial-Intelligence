@@ -1,3 +1,9 @@
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #2
+; Due September 17 2024
+; File that has the complete code for priority queue implemented for Branch and Bound Search
+
 (define pqueue '())
 
 (define pqueue_front
@@ -46,24 +52,34 @@
 
 (define pqueue_enqueuer
   (lambda (to_insert current_pqueue)
-    (cond
-      ((null? current_pqueue) (list to_insert))
-      ((compare_heuristic to_insert (car current_pqueue)) (cons to_insert current_pqueue))
-      (else (cons (car current_pqueue) (pqueue_enqueuer to_insert (cdr current_pqueue)))))))
+    (display "TO INSERT:   ")
+    (display to_insert)
+    (let ((node (car to_insert))
+          (depth (cadr to_insert)))
+      (cond
+        ((null? current_pqueue) (list to_insert))
+        ((compare_heuristic to_insert (car current_pqueue)) (cons to_insert current_pqueue))
+        (else (cons (car current_pqueue) (pqueue_enqueuer to_insert (cdr current_pqueue))))))))
 
 (define compare_heuristic
-  (lambda (to_insert current)
-    (< (heuristic to_insert) (heuristic current))))
+  (lambda (to_insert current_pqueue)
+    (let ((inserted_node (car to_insert))
+          (inserted_depth (cadr to_insert))
+          (current_node (car current_pqueue))
+          (current_depth (cadr current_pqueue)))
+      (< (+ (heuristic inserted_node) inserted_depth)
+         (+ (heuristic current_node) current_depth)))))
 
 (define heuristic
   (lambda (current)
+
     (block_distance current goal)))
 
 (define block_distance
   (lambda (current goal)
-    (let ((current_x (car current))
-          (current_y (cadr current))
-          (goal_x (car goal))
-          (goal_y (cadr goal)))
+    (let* ((current_x (if (list? (car current)) (car (car current)) (car current)))
+           (current_y (if (list? (car current)) (cadr (car current)) (cadr current)))
+           (goal_x (car goal))
+           (goal_y (cadr goal)))
       (+ (abs (- current_x goal_x))
          (abs (- current_y goal_y))))))
