@@ -17,10 +17,8 @@
   (lambda ()
     (cond
       ((null? pqueue) '())
-      (else (let* ((front (pqueue_front))
-                   (heuristic_value (get_node_heuristic front))
-                   (same_heuristic (filter_elements pqueue heuristic_value))
-                   (selected (random_select same_heuristic)))
+      (else (let* ((heuristic_value (get_node_heuristic (pqueue_front)))
+                   (selected (random_select (filter_elements pqueue heuristic_value))))
               (set! pqueue (remove_element pqueue selected)) selected)))))
 
 (define random_select
@@ -53,9 +51,7 @@
 
 (define pqueue_enqueuer
   (lambda (to_insert current_pqueue)
-    (newline)
-    (let ((node (car to_insert))
-          (depth (cadr to_insert)))
+    (let ((node (car to_insert)) (depth (cadr to_insert)))
       (cond
         ((null? current_pqueue) (list to_insert))
         ((compare_heuristic to_insert (car current_pqueue)) (cons to_insert current_pqueue))
@@ -63,37 +59,15 @@
 
 (define get_node_heuristic
   (lambda (node)
-    (let ((xy_vals (car node))
-           (depth (cadr node)))
+    (let ((xy_vals (car node)) (depth (cadr node)))
       (+ (heuristic xy_vals) depth))))
 
 (define compare_heuristic
   (lambda (to_insert current_pqueue)
-    (let ((inserted_node (car to_insert))
-          (inserted_depth (cadr to_insert))
-          (current_node (car current_pqueue))
-          (current_depth (cadr current_pqueue)))
+    (let ((inserted_node (car to_insert)) (inserted_depth (cadr to_insert)) (current_node (car current_pqueue)) (current_depth (cadr current_pqueue)))
       (< (get_node_heuristic to_insert) (get_node_heuristic current_pqueue)))))
 
 (define heuristic
-  (lambda (current)
-    (display "HEURISTIC CURRENT: ")
-    (display current)
-    (newline)
-    (block_distance current goal)))
-
-(define block_distance
-  (lambda (current_node goal)
-    (display "GOAL:   ")
-    (display goal)
-    (newline)
-    (display "CURRENT_NODE: ")
-    (display current_node)
-    (newline)
-
-    (let* ((current_x (car current_node))
-           (current_y (cadr current_node))
-           (goal_x (car goal))
-           (goal_y (cadr goal)))
-      (+ (abs (- current_x goal_x))
-         (abs (- current_y goal_y))))))
+  (lambda (current_node)
+    (let* ((current_x (car current_node)) (current_y (cadr current_node)) (goal_x (car goal)) (goal_y (cadr goal)))
+      (+ (abs (- current_x goal_x)) (abs (- current_y goal_y))))))
