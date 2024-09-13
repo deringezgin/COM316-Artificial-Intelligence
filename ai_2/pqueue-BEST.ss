@@ -56,7 +56,7 @@
     (cond
       ((null? to_insert_lst) '())
       (else
-        ; Add the first elemenet to the pqueue using the helper function
+        ; Add the first element to the pqueue using the helper function
         (set! pqueue (pqueue_enqueuer (car to_insert_lst) pqueue))
         ; Call the function again by rest of the insert list
         (pqueue_enqueue (cdr to_insert_lst))))))
@@ -74,10 +74,10 @@
 ; Function to compare the heuristic of current and goal locations and return #t if current location has priority
 (define compare_heuristic
   (lambda (to_insert current)
-    (< (block_distance to_insert goal) (block_distance current goal))))
+    (< (heuristic to_insert) (heuristic current))))
 
 ; Function to calculate the block distance between the current and the goal locations
-(define block_distance
-  (lambda (current goal)
+(define heuristic
+  (lambda (current)
     (let ((current_x (car current)) (current_y (cadr current)) (goal_x (car goal)) (goal_y (cadr goal)))
       (+ (abs (- current_x goal_x)) (abs (- current_y goal_y))))))

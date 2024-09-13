@@ -4,8 +4,9 @@
 ; Due September 17 2024
 ; File that has the complete code for priority queue implemented for Branch and Bound Search
 
-(define pqueue '())
+(define pqueue '())  ; Define an empty priority queue
 
+; Function to return the first element in the priority queue
 (define pqueue_front
   (lambda ()
     (cond
@@ -14,9 +15,6 @@
 
 (define pqueue_dequeue
   (lambda ()
-    (display "FRONT:   ")
-    (display (pqueue_front))
-    (newline)
     (cond
       ((null? pqueue) '())
       (else (let* ((front (pqueue_front))
