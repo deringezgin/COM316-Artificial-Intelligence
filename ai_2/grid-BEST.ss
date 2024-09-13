@@ -4,7 +4,7 @@
 ; Due September 17 2024
 ; File that has the complete code for Best-First Search
 ; In this file, I switched the usual queue functions with the pequeue functions that I implemented in the "pequeue-BEST.ss" file.
-; I also removed my comments from the previous assignment for simplicty.
+; I removed my comments from BFS to avoid having too many comments
 
 (load "pqueue-BEST.ss")
 (define path-lst '())

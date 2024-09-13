@@ -3,8 +3,9 @@
 ; Programming Assignment #2
 ; Due September 17 2024
 ; File that has the complete code for Branch and Bound Search
+; I removed my comments from BFS to avoid having too many comments
 
-(load "pqueue-BNB.ss")
+(load "pqueue-BNB.ss")  ; This'll automatically load the Branch and Bound Search
 (define path-lst '())
 (define visited 1)
 
@@ -13,12 +14,15 @@
     (let ((lst (adjacentv point)))
       (set-lst-visited lst)
       (add-to-path-lst lst point)
+      ; Before enqueue, I add the depth of the node to it so that we can enqueue them to the right place in pqueue
       (pqueue_enqueue (add_depth lst depth)))))
 
+; Function to increase the depth level of a node
 (define add_depth
   (lambda (lst depth)
     (cond
       ((null? lst) '())
+      ; Here we create a new format for the nodes ((x y) d) so that our priority queue can find the right place to insert it
       (else (cons (list (car lst) (+ depth 1)) (add_depth (cdr lst) depth))))))
 
 (define add-to-path-lst
@@ -45,17 +49,17 @@
   (lambda (grid stop-count)
     (block-set! start visited)
     (set! path-lst (list (list start '())))
-    (search2 grid 1 stop-count 0)))
+    (search2 grid 1 stop-count 0))) ; Our start node has a depth of 0
 
 (define search2
   (lambda (grid count stop-count depth)
     (pause pause-num)
-    ; (display count)
+    (display count)
     (newline)
-    (expand robot depth)
+    (expand robot depth)  ; We call expand with the depth
     (let* ((next-robot-comb (pqueue_dequeue))
             (next-robot (car next-robot-comb))
-            (next-depth (cadr next-robot-comb)))
+            (next-depth (cadr next-robot-comb)))  ; We also get the depth of the next robot here so that we can increase the depth
       (cond
         ((null? next-robot) (display "No more paths to explore"))
         (else
@@ -68,22 +72,14 @@
           (set! robot next-robot)
           (search2 grid (+ count 1) stop-count next-depth))))))
 
-; Function to check if two points p1 (x y) and p2 (x y) are equal.
 (define check-pt
   (lambda (pt1 pt2)
     (and (= (car pt1) (car pt2)) (= (cadr pt1) (cadr pt2)))))
 
-; Function I call when the goal is found.
-; I calculate the correct path using the get-path function and I draw the path using the draw-path function.
 (define goal-found
   (lambda (next-robot)
     (let ((correct-path (get-path next-robot))) (draw-path correct-path))))
 
-; Function that recursively constructs the path backwards.
-; The base case is if the list is null. In this case I return an empty list.
-; Otherwise I found the parent of the current node and cons it with the recursive call
-; In the class, Prof. Parker said there's a specific function for this use case so I assume -and hope- using assoc is ok.
-; It's a function in the book on page 165, a part of the 6th chapter.
 (define get-path
   (lambda (last-node)
     (cond
