@@ -3,10 +3,12 @@
 ; Programming Assignment #2
 ; Due September 17 2024
 ; File that has the complete code for Best-First Search
+; In this file, I switched the usual queue functions with the pequeue functions that I implemented in the "pequeue-BEST.ss" file.
+; I also removed my comments from the previous assignment for simplicty.
 
 (load "pqueue-BEST.ss")
 (define path-lst '())
-(define visited 1)  ; Visited wasn't defined so I added this.
+(define visited 1)
 
 (define expand
   (lambda (point)
@@ -60,36 +62,24 @@
           (set! robot next-robot)
           (search2 grid (+ count 1) stop-count))))))
 
-; Function to check if two points p1 (x y) and p2 (x y) are equal.
 (define check-pt
   (lambda (pt1 pt2)
     (and (= (car pt1) (car pt2)) (= (cadr pt1) (cadr pt2)))))
 
-; Function I call when the goal is found.
-; I calculate the correct path using the get-path function and I draw the path using the draw-path function.
 (define goal-found
   (lambda (next-robot)
     (let ((correct-path (get-path next-robot))) (draw-path correct-path))))
 
-; Function that recursively constructs the path backwards.
-; The base case is if the list is null. In this case I return an empty list.
-; Otherwise I found the parent of the current node and cons it with the recursive call
-; In the class, Prof. Parker said there's a specific function for this use case so I assume -and hope- using assoc is ok.
-; It's a function in the book on page 165, a part of the 6th chapter.
 (define get-path
   (lambda (last-node)
     (cond
       ((null? last-node) '())
-      (else
-       (let ((parent (assoc last-node path-lst)))
-             (cons last-node (get-path (cadr parent))))))))
+      (else (let ((parent (assoc last-node path-lst))) (cons last-node (get-path (cadr parent))))))))
 
 (define draw-path
   (lambda (path)
     (cond
-      ((not (null? path))
-         (draw-pt-path-node (car path))
-         (draw-path (cdr path))))))
+      ((not (null? path)) (draw-pt-path-node (car path)) (draw-path (cdr path))))))
 
 (define draw-pt-path-node
   (lambda (point)
