@@ -1,9 +1,0 @@
-AI #2: Implement Branch and Bound with distance to goal estimates.
-Your program is due at the start of class on 17 Sep.
-Submit the files that contain your changed code.
-You will have an opportunity to demo your program during class.
-It is your option to implement Best-First Search for a max score of 80.
-The assigned reading (A Formal Basis for the Heuristic Determination of Minimum Cost Paths) is the original paper on A* search.
-We will not go over this paper in detail, but you should look it over and will have it for reference.
-Along with the program and reading, your answers to the standard questions pertaining to Heuristic Search are also due on 17 Sep.
-Below is my code for BFS / DFS in case they help (I'll post these Friday afternoon):

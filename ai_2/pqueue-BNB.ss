@@ -4,7 +4,8 @@
 ; Due September 17 2024
 ; File that has the complete code for priority queue implemented for Branch and Bound Search
 
-(define pqueue '())  ; Define an empty priority queue
+; Creating an empty priority queue
+(define pqueue '())
 
 ; Function to return the first element in the priority queue
 (define pqueue_front
@@ -13,24 +14,25 @@
       ((null? pqueue) '())
       (else (car pqueue)))))
 
-; Function to dequeue an element from the priority queue
+; Dequeue function for the priority queue
 (define pqueue_dequeue
   (lambda ()
     (cond
-      ((null? pqueue) '())  ; Return null if the pqueue is empty
-      ; Get the heuristic value of the first node, select a random element among the same heuristic values
-      (else (let* ((heuristic_value (get_node_heuristic (pqueue_front))) (selected (random_select (filter_elements pqueue heuristic_value))))
-              ; Remove the element from the pqueue and return the selected element
-              (set! pqueue (remove_element pqueue selected)) selected)))))
+      ((null? pqueue) '())  ; If the pequeue is empty, return an empty list
+      ; Calculate the heuristic value of the front
+      ; After this randomly select a value from the locations with the same heuristic value.
+      (else (let* ((heuristic_value (heuristic (pqueue_front)))
+                   (selected (random_select (filter_elements pqueue heuristic_value))))
+              (set! pqueue (remove_element pqueue selected)) selected)))))  ; Remove the location from the pqueue
 
-; Randomly select an element from a list
+; Function to randomly select a value in a list and return it
 (define random_select
   (lambda (lst)
     (cond
       ((null? lst) '())
       (else (list-ref lst (random (length lst)))))))
 
-; Remove an element from a list
+; Function to remove an element -to_remove- from a list and return the list
 (define remove_element
   (lambda (lst to_remove)
     (cond
@@ -38,47 +40,47 @@
       ((equal? (car lst) to_remove) (remove_element (cdr lst) to_remove))
       (else (cons (car lst) (remove_element (cdr lst) to_remove))))))
 
-; Construct a list of elements that has the same heuristic value
+; Function to return a sub-list of items that has the same heuristic value from a list
 (define filter_elements
   (lambda (lst heuristic_value)
     (cond
-      ((null? lst) '())
-      ((= (get_node_heuristic (car lst)) heuristic_value) (cons (car lst) (filter_elements (cdr lst) heuristic_value)))
+      ((null? lst) '())  ; Base-case, return an empty list
+      ; If the heuristic is the same, add it to the returning list
+      ((= (heuristic (car lst)) heuristic_value) (cons (car lst) (filter_elements (cdr lst) heuristic_value)))
+      ; Otherwise continue search with the rest
       (else (filter_elements (cdr lst) heuristic_value)))))
 
-; Add all the elements in a list one by one into a priority queue
+; Function to enqueue a list of items to a priority queue
 (define pqueue_enqueue
   (lambda (to_insert_lst)
     (cond
       ((null? to_insert_lst) '())
       (else
+        ; Add the first element to the pqueue using the helper function
         (set! pqueue (pqueue_enqueuer (car to_insert_lst) pqueue))
+        ; Call the function again by rest of the insert list
         (pqueue_enqueue (cdr to_insert_lst))))))
 
-; Helper function for priority queue enqueue
+; Helper function to insert a location into the priority queue
 (define pqueue_enqueuer
   (lambda (to_insert current_pqueue)
-    (let ((node (car to_insert)) (depth (cadr to_insert)))
-      (cond
-        ((null? current_pqueue) (list to_insert))
-        ; Comparing the heuristic of the node we'dl ike to insert and the current first node
-        ((compare_heuristic to_insert (car current_pqueue)) (cons to_insert current_pqueue))
-        ; If it's not the right place, move to the next node
-        (else (cons (car current_pqueue) (pqueue_enqueuer to_insert (cdr current_pqueue))))))))
+    (cond
+      ((null? current_pqueue) (list to_insert))
+      ; Compare the heuristic and if #t, insert the location
+      ((compare_heuristic to_insert (car current_pqueue)) (cons to_insert current_pqueue))
+      ; Otherwise, continue checking
+      (else (cons (car current_pqueue) (pqueue_enqueuer to_insert (cdr current_pqueue)))))))
 
-; Function to get the heuristic of a specific node
-(define get_node_heuristic
-  (lambda (node)
-    (let ((xy_vals (car node)) (depth (cadr node)))  ; Split the node into xy vals and it's depth
-      (+ (heuristic xy_vals) depth))))  ; Calculate the heuristic of the node
-
-; Function to compare heuristic of two nodes
+; Function to compare the heuristic of current and goal locations and return #t if current location has priority
 (define compare_heuristic
-  (lambda (to_insert current_pqueue)
-    (let ((inserted_node (car to_insert)) (inserted_depth (cadr to_insert)) (current_node (car current_pqueue)) (current_depth (cadr current_pqueue)))
-      (< (get_node_heuristic to_insert) (get_node_heuristic current_pqueue)))))
+  (lambda (to_insert current)
+    (< (heuristic to_insert) (heuristic current))))
 
+; Function to calculate the heuristic of a node
+; It gets the shortest path between the current node and the start and returns the length of the path which's the depth of it.
+; At the same time, it gets the block-wise distance between the current node and the goal node.
+; The heuristic value is the sum of these two values.
 (define heuristic
-  (lambda (current_node)
-    (let* ((current_x (car current_node)) (current_y (cadr current_node)) (goal_x (car goal)) (goal_y (cadr goal)))
-      (+ (abs (- current_x goal_x)) (abs (- current_y goal_y))))))
+  (lambda (current)
+    (let ((current_x (car current)) (current_y (cadr current)) (goal_x (car goal)) (goal_y (cadr goal)))
+      (+ (length (get-path current)) (+ (abs (- current_x goal_x)) (abs (- current_y goal_y)))))))
