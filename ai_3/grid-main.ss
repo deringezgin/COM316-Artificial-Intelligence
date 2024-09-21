@@ -5,7 +5,6 @@
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
-(load "grid-queue.ss")
 
 (define grid0 (make-grid num-col-row))
 (draw-obstacles grid0)
