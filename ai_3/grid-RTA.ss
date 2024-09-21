@@ -127,37 +127,6 @@
 (define (unique-nodes path-lst)
   (extract-nodes path-lst '()))
 
-;(define move-robot-to-target
-;  (lambda (start-node target count)
-;    (pause pause-num)
-;    (display "CURRENT ROBOT: ")
-;    (display robot)
-;    (newline)
-;    (display "MOVING THE ROBOT TO:")
-;    (display target)
-;    (newline)
-;    (display "TRY GET PATH: ")
-;    (display (assoc robot path-lst))
-;    (newline)
-;
-;    (display "ADJACENT NODES TO THE ROBOT: ")
-;    (display (adjacent robot))
-;    (newline)
-;    (let* ((adjacent-nodes (assoc robot path-lst))
-;            (not-null-adjacent (filter (lambda (node) (and (not (equal? node '())) (not (equal? node robot)))) adjacent-nodes))
-;            (sorted-steps (sort (lambda (n1 n2) (< (complete-blockwise robot target n1) (complete-blockwise robot target n2))) not-null-adjacent))
-;            (final-steps (if (member target (adjacent robot)) (list target) sorted-steps)))
-;      (display "SORTED STEPS: ")
-;      (display final-steps)
-;      (newline)
-;      (newline)
-;      (set! robot (car final-steps))
-;      (draw-moved-robot (robot-x) (robot-y))
-;      (draw-visited (car robot) (cadr robot)))
-;    (cond
-;      ((not (equal? target robot)) (move-robot-to-target start target (+ count 1)))
-;      (else '()))))
-
 (define complete-blockwise
   (lambda (s t n)
     (+ 0 (block-wise-distance t n))))
@@ -191,3 +160,24 @@
 (define draw-pt-path-node
   (lambda (point)
     (draw-path-node (car point) (cadr point))))
+
+
+;(define move-robot-to-target
+;  (lambda (start-node target count visited-nodes)
+;    (display "COUNT: ")
+;    (display count)
+;    (newline)
+;    (pause pause-num)
+;    (let* ((adjacent-nodes (adjacent robot))
+;            (legal-steps (map (lambda (n) (step robot n)) adjacent-nodes))
+;            (non-f-steps (filter (lambda (step) (and (not (equal? step #f)))) legal-steps))
+;            (filter-to-previous (filter (lambda (node) (member node visited-nodes-lst)) non-f-steps))
+;            (unvisited-steps (filter (lambda (step) (and (not (member step visited-nodes)))) filter-to-previous))
+;            (non-null (if (null? unvisited-steps) filter-to-previous unvisited-steps))
+;            (sorted-steps (sort (lambda (n1 n2) (< (complete-blockwise robot target n1) (complete-blockwise robot target n2))) non-null)))
+;      (set! robot (car sorted-steps))
+;      (draw-moved-robot (robot-x) (robot-y))
+;      (draw-visited (car robot) (cadr robot)))
+;    (cond
+;      ((not (equal? target robot)) (move-robot-to-target start target (+ count 1) (cons robot visited-nodes)))
+;      (else '()))))
