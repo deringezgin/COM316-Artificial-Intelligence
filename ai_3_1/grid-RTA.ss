@@ -1,32 +1,35 @@
-(define pqueue '())
-(define path-lst '())
-(define goal-frontier '())
-(define visited-nodes-lst '())
-(define unexplored-frontiers '())
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #3
+; Due September 24 2024
+; File that has the complete code for Real-Time A*
+
+(define pqueue '())  ; Priority queue I use while going from one frontier to another
+(define path-lst '())  ; List that I use to store (parent.child) pairs
+(define goal-frontier '())  ; Variable I keep the goal frontier
+(define visited-nodes-lst '())  ; List that I keep track of the visited nodes
+(define unexplored-frontiers '())  ; List that I store the unexplored frontiers
+(define explored-in-frontier-search '())  ; List I store the explored nodes when I'm moving one frontier to other
 (define visited 1)
 
-(newline)
-(display "NEW RUNNNN")
-(newline)
+; I modified the existing expand function for Real-Time Search
 (define expand-rta
   (lambda (point)
-    (let ((lst (adjacentv point)))
-      (set-lst-visited lst)
-      (add-to-frontiers lst)
-      (set! unexplored-frontiers (list-sort compare-heuristic unexplored-frontiers)))))
+    (let ((new-frontiers (adjacentv point)))
+      (set-lst-visited new-frontiers)  ; Setting the frontiers visited as usual
+      ; Adding the new frontiers to the unexplored frontiers list and sorting it by heuristic value
+      (set! unexplored-frontiers (list-sort (lambda (p1 p2) (< (heuristic p1) (heuristic p2))) (append new-frontiers unexplored-frontiers))))))
 
-(define pick-next-point (lambda () (random-select (filter is-min-heuristic unexplored-frontiers))))
-(define get-min-heuristic (lambda () (heuristic (car unexplored-frontiers))))
-(define is-min-heuristic (lambda (node) (= (heuristic node) (heuristic (car unexplored-frontiers)))))
-(define add-to-frontiers (lambda (new-frontiers) (set! unexplored-frontiers (append new-frontiers unexplored-frontiers))))
-(define compare-heuristic (lambda (p1 p2) (< (heuristic p1) (heuristic p2))))
-(define heuristic (lambda (target) (+ (block-wise-distance target robot) (block-wise-distance target goal))))  ; YOU CHANGED CURRENT TO ROBOT
+; Function to pick a random point among all the points with the same heuristic value in a list of points
+(define pick-next-point (lambda () (random-select (filter (lambda (node) (= (heuristic node) (heuristic (car unexplored-frontiers)))) unexplored-frontiers))))
+; Heuristic function to calculate the block-wise distance between the target & current robot and target & the goal
+(define heuristic (lambda (target) (+ (block-wise-distance target robot) (block-wise-distance target goal))))
+; Function to calculate the block-wise distance between two nodes
+(define block-wise-distance (lambda (c t) (+ (abs (- (car c) (car t))) (abs (- (cadr c) (cadr t))))))
+; Randomly select an element from the list and return it
+(define random-select (lambda (lst) (cond ((null? lst) '()) (else (list-ref lst (random (length lst)))))))
 
-(define block-wise-distance
-  (lambda (c t)
-    (let ((c-x (car c)) (c-y (cadr c)) (t-x (car t)) (t-y (cadr t)))
-      (+ (abs (- c-x t-x)) (abs (- c-y t-y))))))
-
+; Function to remove a point from the list and return the updated list
 (define remove-point
   (lambda (point lst)
     (cond
@@ -34,47 +37,38 @@
       ((equal? point (car lst)) (cdr lst))
       (else (cons (car lst) (remove-point point (cdr lst)))))))
 
-(define random-select (lambda (lst) (cond ((null? lst) '()) (else (list-ref lst (random (length lst)))))))
-
 (define draw-frontiers
   (lambda (lst)
     (cond
       ((null? lst) '())
       (else
-        (draw-pt-frontier (car lst))
+        (draw-frontier (car (car lst)) (cadr (car lst)))
         (draw-frontiers (cdr lst))))))
 
-(define draw-pt-frontier
-  (lambda (pt)
-    (draw-frontier (car pt) (cadr pt))))
-
+; Main search function
 (define search
   (lambda (grid stop-count)
-    (block-set! start visited)
-    (set! path-lst (list (list start '())))
+    (block-set! start visited)  ; Start by setting the start node as visited
     (search2 grid 1 stop-count)))
 
 (define search2
   (lambda (grid count stop-count)
-    (add-to-visited robot)
+    (set! visited-nodes-lst (cons robot visited-nodes-lst))
     (expand-rta robot)
     (let ((next-robot (pick-next-point)))
       (cond
         ((null? next-robot) (display "Cannot reach the goal") (newline))
         ((equal? next-robot goal)
           (pause pause-num)
-          (display "FINAL COUNT:")
-          (display (+ count 1))
-          (newline)
           (set! robot next-robot)
           (draw-moved-robot (robot-x) (robot-y))
-          (display "Found")
+          (display "FOUND!")
+          (newline)
+          (display "FINAL MOVE COUNT:")
+          (display (+ count 1))
           (newline))
-        ((>= count stop-count)
-          (display "Took too long")
-          (newline))
+        ((>= count stop-count) (display "Took too long") (newline))
         (else
-;          (move-robot-to-target robot next-robot count '())
           (set! goal-frontier next-robot)
           (if (not (member next-robot (adjacent robot))) (get-path-to-frontier))
           (set! robot next-robot)
@@ -85,68 +79,57 @@
           (set! unexplored-frontiers (remove-point robot unexplored-frontiers))
           (search2 grid (+ count 1) stop-count))))))
 
-
 (define move-robot-to-path
   (lambda (directions)
-    (display "CURRENT ROBOT: ")
-    (display robot)
-    (newline)
+    (draw-moved-robot (robot-x) (robot-y))
+    (pause pause-num)
     (cond
       ((null? directions) (display "ROBOT IS ON THE FRONTIER!") (newline))
       ((equal? (car directions) robot) (move-robot-to-path (cdr directions)))
       (else
         (set! robot (car directions))
-        (draw-moved-robot (robot-x) (robot-y))
         (move-robot-to-path (cdr directions))))))
 
 (define get-path-to-frontier
   (lambda ()
     (set! pqueue '())
     (set! path-lst '())
-    (display "HERE111")
+    (set! explored-in-frontier-search '())
     (let ((current (list (car robot) (cadr robot))))
       (frontier-finder current)
-      (display "PATH_LST")
-      (display path-lst)
-      (newline)
       (move-robot-to-path (get-path goal-frontier current)))))
 
 (define frontier-finder
   (lambda (current)
-    (display "CURRENT: ")
-    (display current)
-    (newline)
-    (display "HERE222")
     (expand-frontier-search current)
-    (display "HERE333")
-    (newline)
-    (display "CURRENT Pqueue")
-    (display pqueue)
     (let ((next-current (pqueue-dequeue)))
+      (display (length pqueue))
       (set! pqueue (remove-point next-current pqueue))
+      (display (length pqueue))
       (set! current next-current)
       (cond
-        ((check-frontier current)
+        ((member current (adjacent goal-frontier))
           (add-to-path-lst (list goal-frontier) current)
-          (display "FRONTIER FOUND!"))
+          (display "FRONTIER FOUND!") (newline))
         (else (frontier-finder current))))))
-
-(define check-frontier
-  (lambda (current)
-    (member current (adjacent goal-frontier))))
 
 (define expand-frontier-search
   (lambda (point)
     (let ((lst (get-adjacent-points point)))
-      (display "FOUND ADJACENT POINTS: ")
-      (display lst)
       (add-to-path-lst lst point)
+      (set! explored-in-frontier-search (append lst explored-in-frontier-search))
       (pqueue-enqueue lst))))
 
 (define pqueue-enqueue
   (lambda (nodes)
-    (set! pqueue (append pqueue nodes))
+    (set! pqueue (custom-append pqueue nodes))
     (set! pqueue (sort-pqueue))))
+
+(define (custom-append pqueue nodes)
+  (cond
+    ((null? nodes) pqueue)
+    ((member (car nodes) pqueue) (custom-append pqueue (cdr nodes)))
+    (else (custom-append (cons (car nodes) pqueue) (cdr nodes)))))
 
 (define sort-pqueue
   (lambda ()
@@ -166,16 +149,11 @@
     (let* ((adjacent-nodes (adjacent point))                       ; Get all adjacent nodes
            (steps (map (lambda (n) (step point n)) adjacent-nodes))  ; Compute steps
            (valid-steps (filter (lambda (step) (not (equal? step #f))) steps))  ; Filter out invalid steps
-           (visited-nodes (filter (lambda (node) (member node visited-nodes-lst)) valid-steps)))  ; Check visited nodes
+           (visited-nodes (filter (lambda (node)
+                                      (and (member node visited-nodes-lst)
+                                           (not (member node explored-in-frontier-search))))
+                                   valid-steps)))  ; Check visited nodes
       visited-nodes)))  ; Return the list of visited nodes
-
-(define add-to-visited
-  (lambda (node)
-    (set! visited-nodes-lst (cons node visited-nodes-lst))))
-
-(define complete-blockwise
-  (lambda (s t n)
-    (+ 0 (block-wise-distance t n))))
 
 (define add-to-path-lst
   (lambda (lst point)
@@ -186,8 +164,7 @@
 
 (define set-lst-visited
   (lambda (lst)
-    (if (null? lst)
-        '()
+    (if (null? lst) '()
         (let ((x (car lst)))
           (draw-pt-frontier x)
           (block-set! x visited)

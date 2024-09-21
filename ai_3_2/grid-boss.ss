@@ -1,0 +1,11 @@
+(define generated-grid (make-grid num-col-row))
+(load "grid-class.ss")
+(load "grid-draw.ss")
+(load "grid-make.ss")
+(load "grid-queue.ss")
+(load "grid-new.ss")
+(load "grid-RTA.ss")
+(load "grid-new.ss")
+(load "grid-RTA.ss")
+
+(run-test)
