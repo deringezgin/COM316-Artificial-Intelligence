@@ -5,9 +5,9 @@
 ; File that has the complete code for the boss file
 ; This file has the code to run tests over and over again and at the end displays the average result
 
-(define test-count 10)
-(define total-rta 0)
-(define total-hc 0)
+(define test-count 1)
+(define total-rta '())
+(define total-hc '())
 
 (define run-tests
   (lambda (test-count)
@@ -15,11 +15,22 @@
       ((> test-count 0) (load "grid-main.ss") (run-tests (- test-count 1)))
       (else (display "TEST-RUNS-DONE")))))
 
+(define sum
+  (lambda (lst)
+    (cond
+      ((null? lst) 0)
+      (else (+ (car lst) (sum (cdr lst)))))))
+
+(define (sum-list lst)
+  (cond
+    ((null? lst) 0) ; base case: if the list is empty, return 0
+    (else (+ (car lst) (sum-list (cdr lst)))))) ; add the first element to the sum of the rest
+
 (run-tests test-count)
 (newline)
 (newline)
 (display "AVERAGE RTA: ")
-(display (inexact(/ total-rta test-count)))
+(display (inexact(/ (sum total-rta) test-count)))
 (newline)
 (display "AVERAGE HC: ")
-(display (inexact(/ total-hc test-count)))
+(display (inexact(/ (sum total-hc) test-count)))
