@@ -17,15 +17,19 @@
       (let ((new-row (make-vector cols)))
         (copy-element row new-row 0 cols)))))
 
+(define copy-helper
+  (lambda (original-grid new-grid i)
+    (let ((rows (vector-length original-grid)))
+      (if (< i rows)
+          (begin
+            (vector-set! new-grid i (copy-row (vector-ref original-grid i)))
+            (copy-helper original-grid new-grid (+ i 1)))
+          new-grid))))
+
 (define copy-grid
   (lambda (original-grid)
     (let ((rows (vector-length original-grid)))
-      (let loop ((i 0) (new-grid (make-vector rows)))  ; Create the new grid
-        (cond
-          ((< i rows)
-           (vector-set! new-grid i (copy-row (vector-ref original-grid i)))
-           (loop (+ i 1) new-grid))  ; Recursive call
-          (else new-grid))))))
+      (copy-helper original-grid (make-vector rows) 0))))
 
 (define num-col-row 50)
 (define pause-num 90000)
