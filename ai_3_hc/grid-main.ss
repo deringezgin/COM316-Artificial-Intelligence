@@ -20,11 +20,11 @@
 (define copy-helper
   (lambda (original-grid new-grid i)
     (let ((rows (vector-length original-grid)))
-      (if (< i rows)
-          (begin
-            (vector-set! new-grid i (copy-row (vector-ref original-grid i)))
-            (copy-helper original-grid new-grid (+ i 1)))
-          new-grid))))
+      (cond
+        ((< i rows)
+          (vector-set! new-grid i (copy-row (vector-ref original-grid i)))
+          (copy-helper original-grid new-grid (+ i 1)))
+        (else new-grid)))))
 
 (define copy-grid
   (lambda (original-grid)
@@ -32,7 +32,7 @@
       (copy-helper original-grid (make-vector rows) 0))))
 
 (define num-col-row 100)
-(define pause-num 10000)
+(define pause-num 1000)
 (define size (floor (/ 700 num-col-row)))
 (define obstacle-density 30)
 (load "grid-class.ss")
@@ -59,6 +59,7 @@
 (newline)
 (show canvas)
 (search-rta grid 20000)
+(send top destroy)
 ; ==============================
 (load "grid-class.ss")
 (load "grid-draw.ss")
@@ -75,6 +76,7 @@
 (draw-robot)
 (show canvas)
 (search-hc grid 20000)
+(send top destroy)
 ; =============================
 (display "BOTH SEARCHES ARE DONE")
 (newline)
