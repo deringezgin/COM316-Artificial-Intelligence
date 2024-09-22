@@ -4,6 +4,7 @@
 ; Due September 24 2024
 ; File that has the complete code for the boss file
 ; This file has the code to run tests over and over again and at the end displays the average result
+; Please run this file rather than "grid-main.ss" to see the complete result
 
 (define test-count 5)
 (define total-rta '())
