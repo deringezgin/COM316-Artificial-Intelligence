@@ -1,3 +1,10 @@
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #3
+; Due September 24 2024
+; File that has the complete code for the main file
+; This file runs a test with the Real-Time A* and the Hill Climber on the same grid and saves the result in a global variable
+
 (define (copy-row row)
   (let ((cols (vector-length row)))
     (let ((new-row (make-vector cols)))
@@ -38,7 +45,6 @@
 (show canvas)
 (search-rta grid 20000)
 ; ==============================
-
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
@@ -54,7 +60,6 @@
 (draw-robot)
 (show canvas)
 (search-hc grid 20000)
-
 ; =============================
 (display "BOTH SEARCHES ARE DONE")
 (newline)

@@ -1,3 +1,10 @@
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #3
+; Due September 24 2024
+; File that has the complete code for the boss file
+; This file has the code to run tests over and over again and at the end displays the average result
+
 (define test-count 5)
 (define total-rta 0)
 (define total-hc 0)
