@@ -24,7 +24,12 @@
       (if (null? (car unexplored-frontiers)) (set! unexplored-frontiers (cdr unexplored-frontiers))))))
 
 ; Function to pick a random point among all the points with the same heuristic value in a list of points
-(define pick-next-point-hc (lambda () (let ((current-frontiers (car unexplored-frontiers))) (random-select (filter (lambda (node) (= (heuristic node) (heuristic (car current-frontiers)))) current-frontiers)))))
+(define pick-next-point-hc
+  (lambda ()
+    (cond
+      ((null? unexplored-frontiers) '())
+      (else (let ((current-frontiers (car unexplored-frontiers))) (random-select (filter (lambda (node) (= (heuristic node) (heuristic (car current-frontiers)))) current-frontiers)))))))
+
 ; Heuristic function to calculate the block-wise distance between the target & current robot and target & the goal
 (define heuristic (lambda (target) (block-wise-distance target goal)))
 ; Function to calculate the block-wise distance between two nodes
@@ -62,7 +67,7 @@
     (expand-hc robot)  ; Expanding to frontiers
     (let ((next-robot (pick-next-point-hc)))  ; Getting the next point from the frontiers list
       (cond
-        ((null? next-robot) (display "Cannot reach the goal") (newline))  ; If no options it means that we can't reach the goal
+        ((null? next-robot) (display "Cannot reach the goal") (set! hc-count -1) (newline))  ; If no options it means that we can't reach the goal
         ((equal? next-robot goal)  ; If the next robot is the goal, we found it!
           (pause pause-num)
           ; Move the robot to the goal and draw it
@@ -74,7 +79,7 @@
           (display "FINAL MOVE COUNT:")
           (display hc-count)
           (newline))
-        ((>= hc-count stop-count) (display "Took too long") (newline))
+        ((>= hc-count stop-count) (display "Took too long") (set! hc-count -1) (newline))
         (else
           (set! goal-frontier next-robot)  ; Setting the next-robot as frontier
           (cond

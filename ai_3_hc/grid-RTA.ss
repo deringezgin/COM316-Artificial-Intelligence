@@ -60,7 +60,7 @@
     (expand-rta robot)  ; Expanding to frontiers
     (let ((next-robot (pick-next-point)))  ; Getting the next point from the frontiers list
       (cond
-        ((null? next-robot) (display "Cannot reach the goal") (newline))  ; If no options it means that we can't reach the goal
+        ((null? next-robot) (display "Cannot reach the goal") (set! rta-count -1) (newline))  ; If no options it means that we can't reach the goal
         ((equal? next-robot goal)  ; If the next robot is the goal, we found it!
           (pause pause-num)
           ; Move the robot to the goal and draw it
@@ -72,7 +72,7 @@
           (display "FINAL MOVE COUNT:")
           (display rta-count)
           (newline))
-        ((>= rta-count stop-count) (display "Took too long") (newline))
+        ((>= rta-count stop-count) (display "Took too long") (set! rta-count -1) (newline))
         (else
           (set! goal-frontier next-robot)  ; Setting the next-robot as frontier
           (cond

@@ -31,10 +31,10 @@
     (let ((rows (vector-length original-grid)))
       (copy-helper original-grid (make-vector rows) 0))))
 
-(define num-col-row 5)
-(define pause-num 90000)
+(define num-col-row 100)
+(define pause-num 10000)
 (define size (floor (/ 700 num-col-row)))
-(define obstacle-density 50)
+(define obstacle-density 30)
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
