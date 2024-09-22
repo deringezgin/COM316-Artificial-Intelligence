@@ -68,10 +68,10 @@
           ; Move the robot to the goal and draw it
           (set! robot next-robot)
           (draw-moved-robot (robot-x) (robot-y))
+          (increment-count-hc)
           (display "FOUND!")
           (newline)
           (display "FINAL MOVE COUNT:")
-          (increment-count-hc)
           (display hc-count)
           (newline))
         ((>= hc-count stop-count) (display "Took too long") (newline))
