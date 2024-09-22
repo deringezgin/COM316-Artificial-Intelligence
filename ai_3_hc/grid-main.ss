@@ -8,10 +8,11 @@
     (let loop ((i 0) (new-grid (make-vector rows)))  ; Create the new grid
       (if (< i rows) (begin (vector-set! new-grid i (copy-row (vector-ref original-grid i))) (loop (+ i 1) new-grid)) new-grid))))
 
+
 (define num-col-row 50)
-(define pause-num 100000)
+(define pause-num 90000)
 (define size (floor (/ 700 num-col-row)))
-(define obstacle-density 10)
+(define obstacle-density 20)
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
@@ -35,7 +36,7 @@
 (display start-copy)
 (newline)
 (show canvas)
-(search grid 20000)
+(search-rta grid 20000)
 ; ==============================
 
 (load "grid-class.ss")
@@ -47,10 +48,21 @@
 (set! goal goal-copy)
 (set! robot robot-copy)
 (load "grid-new.ss")
-(load "grid-RTA.ss")
+(load "grid-HC.ss")
 (draw-start)
 (draw-goal)
 (draw-robot)
 (show canvas)
-(search grid 20000)
+(search-hc grid 20000)
 
+; =============================
+(display "BOTH SEARCHES ARE DONE")
+(newline)
+(display "REAL-TIME A* FINAL SCORE ")
+(display rta-count)
+(newline)
+(display "HILL-CLIMBER FINAL SCORE ")
+(display hc-count)
+(newline)
+(set! total-rta (+ total-rta rta-count))
+(set! total-hc (+ total-hc hc-count))
