@@ -5,7 +5,7 @@
 ; File that has the complete code for the boss file
 ; This file has the code to run tests over and over again and at the end displays the average result
 
-(define test-count 5)
+(define test-count 10)
 (define total-rta 0)
 (define total-hc 0)
 
@@ -16,7 +16,7 @@
       (else (display "TEST-RUNS-DONE")))))
 
 (run-tests test-count)
-
+(newline)
 (newline)
 (display "AVERAGE RTA: ")
 (display (inexact(/ total-rta test-count)))

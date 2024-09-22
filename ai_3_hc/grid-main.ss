@@ -5,21 +5,32 @@
 ; File that has the complete code for the main file
 ; This file runs a test with the Real-Time A* and the Hill Climber on the same grid and saves the result in a global variable
 
-(define (copy-row row)
-  (let ((cols (vector-length row)))
-    (let ((new-row (make-vector cols)))
-      (let loop ((j 0)) (when (< j cols) (vector-set! new-row j (vector-ref row j)) (loop (+ j 1))) new-row))))
+(define copy-element
+  (lambda (row new-row j cols)
+    (cond
+      ((>= j cols) new-row)
+      (else (vector-set! new-row j (vector-ref row j)) (copy-element row new-row (+ j 1) cols)))))
 
-(define (copy-grid original-grid)
-  (let ((rows (vector-length original-grid)))
-    (let loop ((i 0) (new-grid (make-vector rows)))  ; Create the new grid
-      (if (< i rows) (begin (vector-set! new-grid i (copy-row (vector-ref original-grid i))) (loop (+ i 1) new-grid)) new-grid))))
+(define copy-row
+  (lambda (row)
+    (let ((cols (vector-length row)))
+      (let ((new-row (make-vector cols)))
+        (copy-element row new-row 0 cols)))))
 
+(define copy-grid
+  (lambda (original-grid)
+    (let ((rows (vector-length original-grid)))
+      (let loop ((i 0) (new-grid (make-vector rows)))  ; Create the new grid
+        (cond
+          ((< i rows)
+           (vector-set! new-grid i (copy-row (vector-ref original-grid i)))
+           (loop (+ i 1) new-grid))  ; Recursive call
+          (else new-grid))))))
 
 (define num-col-row 50)
 (define pause-num 90000)
 (define size (floor (/ 700 num-col-row)))
-(define obstacle-density 20)
+(define obstacle-density 30)
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
