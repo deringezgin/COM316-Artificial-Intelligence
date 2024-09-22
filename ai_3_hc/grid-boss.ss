@@ -17,8 +17,9 @@
 
 (run-tests test-count)
 
+(newline)
 (display "AVERAGE RTA: ")
-(display (exact->inexact (/ total-rta test-count)))
+(display (inexact(/ total-rta test-count)))
 (newline)
 (display "AVERAGE HC: ")
-(display (exact->inexact (/ total-hc test-count)))
+(display (inexact(/ total-hc test-count)))
