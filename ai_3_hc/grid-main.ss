@@ -45,20 +45,21 @@
       ; Otherwise update the new row and call the function again with the next index
       (else (vector-set! new-row j (vector-ref row j)) (copy-element row new-row (+ j 1) cols)))))
 
-
-
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
 
+; ==============================
+; RUNNING THE Real-Time A*
+; ==============================
 (define grid0 (make-grid num-col-row))
-
 (draw-obstacles grid0)
 (define grid (convert-grid grid0))
 (load "grid-new.ss")
 (load "grid-RTA.ss")
 (set-goal grid)
 (set-start grid)
+; Taking a copy of the grid, start, goal and the robot's starting position so that we can use them again.
 (define grid-copy (copy-grid grid))
 (define start-copy (list (car start) (cadr start)))
 (define goal-copy (list (car goal) (cadr goal)))
@@ -66,12 +67,12 @@
 (draw-start)
 (draw-goal)
 (draw-robot)
-(display "START COPY :")
-(display start-copy)
-(newline)
 (show canvas)
 (search-rta grid 20000)
-(send top destroy)  ; Uncomment this line to close the window after the test-run
+; (send top destroy)  ; Uncomment this line to close the window after the test-run
+
+; ==============================
+; RUNNING THE HILL CLIMBER
 ; ==============================
 (load "grid-class.ss")
 (load "grid-draw.ss")
@@ -88,8 +89,11 @@
 (draw-robot)
 (show canvas)
 (search-hc grid 20000)
-(send top destroy)
-; =============================
+; (send top destroy)  ; Uncomment this line to close the window after the test-run
+
+; ==============================
+; SAVING THE RESULTS
+; ==============================
 (display "BOTH SEARCHES ARE DONE")
 (newline)
 (display "REAL-TIME A* FINAL SCORE ")
