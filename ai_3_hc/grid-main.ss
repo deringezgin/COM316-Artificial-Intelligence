@@ -5,36 +5,48 @@
 ; File that has the complete code for the main file
 ; This file runs a test with the Real-Time A* and the Hill Climber on the same grid and saves the result in a global variable
 
-(define copy-element
-  (lambda (row new-row j cols)
-    (cond
-      ((>= j cols) new-row)
-      (else (vector-set! new-row j (vector-ref row j)) (copy-element row new-row (+ j 1) cols)))))
-
-(define copy-row
-  (lambda (row)
-    (let ((cols (vector-length row)))
-      (let ((new-row (make-vector cols)))
-        (copy-element row new-row 0 cols)))))
-
-(define copy-helper
-  (lambda (original-grid new-grid i)
-    (let ((rows (vector-length original-grid)))
-      (cond
-        ((< i rows)
-          (vector-set! new-grid i (copy-row (vector-ref original-grid i)))
-          (copy-helper original-grid new-grid (+ i 1)))
-        (else new-grid)))))
+(define num-col-row 30)
+(define pause-num 100000)
+(define size (floor (/ 700 num-col-row)))
+(define obstacle-density 30)
 
 (define copy-grid
   (lambda (original-grid)
-    (let ((rows (vector-length original-grid)))
+    ; Main function I use to create a copy of the grid
+    (let ((rows (vector-length original-grid)))  ; Getting the number of rows
+      ; Calling the helper with the original grid, an empty grid, and the starting row index (0)
       (copy-helper original-grid (make-vector rows) 0))))
 
-(define num-col-row 100)
-(define pause-num 1000)
-(define size (floor (/ 700 num-col-row)))
-(define obstacle-density 30)
+(define copy-helper
+  (lambda (original-grid new-grid i)
+    ; Helper function which will access to each single row and copy it using the next helper function
+    (let ((rows (vector-length original-grid)))  ; Getting the length of the grid
+      (cond
+        ((< i rows)  ; While there are still more rows to copy
+          ; Set the relevant raw in the grid to a copy of the origianl row using the copy-row
+          (vector-set! new-grid i (copy-row (vector-ref original-grid i)))
+          ; Calling the function recursively but incrementing the row count
+          (copy-helper original-grid new-grid (+ i 1)))
+        ; If we're done, return the new grid
+        (else new-grid)))))
+
+(define copy-row
+  (lambda (row)
+    ; Helper function to copy a complete row into a new one
+    (let* ((cols (vector-length row)) (new-row (make-vector cols)))  ; Calculate the length of the row and create an empty one
+      ; Call the next helper function with row, new row, index and number of columns
+      (copy-element row new-row 0 cols))))
+
+(define copy-element
+  (lambda (row new-row j cols)
+    ; Helper function to copy a row
+    (cond
+      ((>= j cols) new-row)  ; If all elements were copied, return the new row
+      ; Otherwise update the new row and call the function again with the next index
+      (else (vector-set! new-row j (vector-ref row j)) (copy-element row new-row (+ j 1) cols)))))
+
+
+
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
@@ -59,7 +71,7 @@
 (newline)
 (show canvas)
 (search-rta grid 20000)
-(send top destroy)
+(send top destroy)  ; Uncomment this line to close the window after the test-run
 ; ==============================
 (load "grid-class.ss")
 (load "grid-draw.ss")

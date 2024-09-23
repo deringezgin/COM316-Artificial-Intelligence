@@ -29,7 +29,7 @@
   (lambda (l1 l2)
     ; In my implementation, invalid test runs (No way to reach to goal, etc.) are stored as -1.
     ; This function cleares from both result lists
-    (helper l1 l2 '() '())))
+    (negative-helper l1 l2 '() '())))
 
 (define negative-helper
   (lambda (l1 l2 result1 result2)
