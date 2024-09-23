@@ -56,8 +56,6 @@
 (define search-hc
   (lambda (grid stop-count)
     ; Main search function
-    (display "HILL-CLIMBER SEARCH")
-    (newline)
     (block-set! start visited)
     (search2-hc grid stop-count)))
 

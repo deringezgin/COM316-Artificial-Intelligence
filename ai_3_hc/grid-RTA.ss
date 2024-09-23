@@ -49,8 +49,6 @@
 (define search-rta
   (lambda (grid stop-count)
     ; Main search function
-    (display "REAL-TIME A* SEARCH")
-    (newline)
     (block-set! start visited)
     (search2 grid stop-count)))
 
