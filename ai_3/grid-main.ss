@@ -5,8 +5,8 @@
 ; File that has the complete code for the main file
 ; This file runs a test with the Real-Time A* and the Hill Climber on the same grid and saves the result in a global variable
 
-(define num-col-row 20)
-(define pause-num 100000)
+(define num-col-row 50)
+(define pause-num 1000000)
 (define size (floor (/ 700 num-col-row)))
 (define obstacle-density 30)
 
@@ -52,6 +52,7 @@
 ; ==============================
 ; RUNNING THE Real-Time A*
 ; ==============================
+
 (define grid0 (make-grid num-col-row))
 (draw-obstacles grid0)
 (define grid (convert-grid grid0))
@@ -74,6 +75,7 @@
 ; ==============================
 ; RUNNING THE HILL CLIMBER
 ; ==============================
+
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
@@ -94,6 +96,7 @@
 ; ==============================
 ; SAVING THE RESULTS
 ; ==============================
+
 (display "BOTH SEARCHES ARE DONE")
 (newline)
 (display "REAL-TIME A* FINAL SCORE ")

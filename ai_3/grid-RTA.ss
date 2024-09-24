@@ -13,22 +13,45 @@
 (define rta-count 0)  ; Counter to keep track of the step count of the robot
 (define visited 1)
 
+(newline)
+(newline)
+(display "STARTING REAL-TIME A* SEARCH")
+(newline)
+(newline)
+
 (define expand-rta
   (lambda (point)
     ; I modified the existing expand function for Real-Time Search
     (let ((new-frontiers (adjacentv point)))
       (set-lst-visited new-frontiers)  ; Setting the frontiers visited as usual
       ; Adding the new frontiers to the unexplored frontiers list and sorting it by heuristic value
-      (set! unexplored-frontiers (list-sort (lambda (p1 p2) (< (heuristic p1) (heuristic p2))) (append new-frontiers unexplored-frontiers))))))
+      (set! unexplored-frontiers
+        (list-sort (lambda (p1 p2) (< (heuristic p1) (heuristic p2)))
+          (append new-frontiers unexplored-frontiers))))))
 
-; Function to pick a random point among all the points with the same heuristic value in a list of points
-(define pick-next-point (lambda () (random-select (filter (lambda (node) (= (heuristic node) (heuristic (car unexplored-frontiers)))) unexplored-frontiers))))
-; Heuristic function to calculate the block-wise distance between the target & current robot and target & the goal
-(define heuristic (lambda (target) (+ (block-wise-distance target robot) (block-wise-distance target goal))))
-; Function to calculate the block-wise distance between two nodes
-(define block-wise-distance (lambda (c t) (+ (abs (- (car c) (car t))) (abs (- (cadr c) (cadr t))))))
-; Randomly select an element from the list and return it
-(define random-select (lambda (lst) (cond ((null? lst) '()) (else (list-ref lst (random (length lst)))))))
+(define pick-next-point
+  (lambda ()
+    ; Function to pick a random point among all the points with the same heuristic value in a list of points
+    (random-select
+      (filter (lambda (node) (= (heuristic node) (heuristic (car unexplored-frontiers))))
+        unexplored-frontiers))))
+
+(define heuristic
+  (lambda (target)
+    ; Heuristic function to calculate the block-wise distance between the target & current robot and target & the goal
+    (+ (block-wise-distance target robot) (block-wise-distance target goal))))
+
+(define block-wise-distance
+  (lambda (c t)
+    ; Function to calculate the block-wise distance between two nodes
+    (+ (abs (- (car c) (car t))) (abs (- (cadr c) (cadr t))))))
+
+(define random-select
+  (lambda (lst)
+    ; Randomly select an element from the list and return it
+    (cond
+      ((null? lst) '())
+      (else (list-ref lst (random (length lst)))))))
 
 (define remove-point
   (lambda (point lst)
@@ -58,46 +81,88 @@
     (expand-rta robot)  ; Expanding to frontiers
     (let ((next-robot (pick-next-point)))  ; Getting the next point from the frontiers list
       (cond
-        ((null? next-robot) (display "Cannot reach the goal") (set! rta-count -1) (newline))  ; If no options it means that we can't reach the goal
+        ((null? next-robot)
+          (display "Cannot reach the goal")
+          (set! rta-count -1)
+          (newline))  ; If no options it means that we can't reach the goal
         ((equal? next-robot goal)  ; If the next robot is the goal, we found it!
-          (pause pause-num)
           ; Move the robot to the goal and draw it
           (set! robot next-robot)
           (draw-moved-robot (robot-x) (robot-y))
           (increment-count)
+          (pause pause-num)
           (display "FOUND!")
           (newline)
           (display "FINAL MOVE COUNT:")
           (display rta-count)
           (newline))
-        ((>= rta-count stop-count) (display "Took too long") (set! rta-count -1) (newline))
+        ((>= rta-count stop-count)
+          (display "Took too long")
+          (set! rta-count -1)
+          (newline))
         (else
           (set! goal-frontier next-robot)  ; Setting the next-robot as frontier
+          (newline)
+          (newline)
+          (display "CURRENT ROBOT --> ")
+          (display robot)
+          (display " ||| GOAL --> ")
+          (display goal)
+          (newline)
+          (display "vvv ALL FRONTIERS AND HEURISTICS vvv ")
+          (newline)
+          (print-heuristic unexplored-frontiers)
+          (newline)
+          (display "MOVING TO NEXT FRONTIER --> ")
+          (display goal-frontier)
+          (newline)
           (cond
             ; If the node we want to go is not the adjacent of the robot, go to the frontier using the move-to-frontier function
             ((not (member next-robot (adjacent robot))) (move-to-frontier))
             (else
               ; Otherwise move the robot directly
               (set! robot next-robot)
+              (draw-moved-robot (robot-x) (robot-y))
               (increment-count)
               (pause pause-num)))
           ; Draw the moved robot and visited
           (draw-visited (car robot) (cadr robot))
-          (draw-moved-robot (robot-x) (robot-y))
           (draw-frontiers (adjacentv robot))  ; Draw the frontiers
           ; Remove the current robot from the unexplored frontiers and update the list
           (set! unexplored-frontiers (remove-point robot unexplored-frontiers))
           (search2 grid stop-count))))))
 
+(define print-heuristic
+  (lambda (lst)
+    (cond
+      ((null? lst) '())
+      (else
+        (let ((current-frontier (car lst)))
+          (display "FRONTIER --> ")
+          (display current-frontier)
+          (newline)
+          (display "DISTANCE TO (ROBOT + GOAL) --> (")
+          (display (block-wise-distance robot current-frontier))
+          (display " + ")
+          (display (block-wise-distance current-frontier goal))
+          (display ") --> ")
+          (display (heuristic current-frontier))
+          (newline)
+          (print-heuristic (cdr lst)))))))
+
 (define move-to-frontier
   (lambda ()
     ; Function to move the robot to the goal frontier
+    (display "THE FRONTIER IS NOT ADJACENT. CALCULATING THE SHORTEST PATH...")
+    (newline)
     (set! pqueue '())  ; Reseting the priority queue
     (set! path-lst '())  ; Reseting the path list
     (set! explored-in-frontier-search '())  ; Reseting the list that saves the explored nodes in frontier search
     (let ((current (list (car robot) (cadr robot))))  ; Copying the robot so any modification we do won't move the robot itself
       (frontier-finder current)  ; Find the goal frontier starting from the current node
       ; Recursively call the function
+      (display "PATH FOUND. MOVING THE ROBOT...")
+      (newline)
       (move-robot-to-path (get-path goal-frontier current)))))
 
 (define frontier-finder
@@ -134,16 +199,20 @@
 
 (define move-robot-to-path
   (lambda (directions)
-    ; After I found the path to frontier, this function moves the robot through the path
-    (draw-moved-robot (robot-x) (robot-y))  ; Draw the robot
-    (pause pause-num)  ; Pause
     (cond
-      ; If no more directions left, return
-      ((null? directions) '())
+      ((null? directions) '())  ; If no more directions left, return
       ; If it's already the robot, you don't have to move it
-      ((equal? (car directions) robot) (move-robot-to-path (cdr directions)))
+      ((equal? (car directions) robot)
+        (draw-moved-robot (robot-x) (robot-y))
+        (pause pause-num)
+        (move-robot-to-path (cdr directions)))
       ; Move robot and call it again
-      (else (set! robot (car directions)) (increment-count) (move-robot-to-path (cdr directions))))))
+      (else
+        (set! robot (car directions))
+        (draw-moved-robot (robot-x) (robot-y))
+        (increment-count)
+        (pause pause-num)
+        (move-robot-to-path (cdr directions))))))
 
 (define pqueue-enqueue
   (lambda (nodes)
