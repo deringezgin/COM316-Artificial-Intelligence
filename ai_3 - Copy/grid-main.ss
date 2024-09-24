@@ -5,8 +5,8 @@
 ; File that has the complete code for the main file
 ; This file runs a test with the Real-Time A* and the Hill Climber on the same grid and saves the result in a global variable
 
-(define num-col-row 10)
-(define pause-num 6800000)
+(define num-col-row 50)
+(define pause-num 1000000)
 (define size (floor (/ 700 num-col-row)))
 (define obstacle-density 30)
 
