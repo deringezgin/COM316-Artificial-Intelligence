@@ -52,6 +52,7 @@
 ; ==============================
 ; RUNNING THE Real-Time A*
 ; ==============================
+
 (define grid0 (make-grid num-col-row))
 (draw-obstacles grid0)
 (define grid (convert-grid grid0))
@@ -74,6 +75,7 @@
 ; ==============================
 ; RUNNING THE HILL CLIMBER
 ; ==============================
+
 (load "grid-class.ss")
 (load "grid-draw.ss")
 (load "grid-make.ss")
@@ -94,6 +96,7 @@
 ; ==============================
 ; SAVING THE RESULTS
 ; ==============================
+
 (display "BOTH SEARCHES ARE DONE")
 (newline)
 (display "REAL-TIME A* FINAL SCORE ")
