@@ -2,7 +2,7 @@
 (define num-col-row 50)
 (define pause-num 1000000)
 (define size (floor (/ 700 num-col-row)))
-(define obstacle-density 30)
+(define obstacle-density 5)
 (define step-count 0)
 (load "grid-class.ss")
 (load "grid-draw.ss")
