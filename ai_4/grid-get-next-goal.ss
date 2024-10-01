@@ -55,8 +55,7 @@
     ; If robot is enough close to the goal, return -1 to completely penalize that possiblity
     (let* ((robot-xy (if (even? depth) point2 point1))
            (goal-xy (if (even? depth) point1 point2))
-           (euclidian-difference (heuristic-euclidian robot-xy goal-xy))
-           (goal-x (car goal-xy)) (goal-y (cadr goal-xy)))
+           (euclidian-difference (heuristic-euclidian robot-xy goal-xy)))
       (cond
         ((<= euclidian-difference 2) -1)
         (else euclidian-difference)))))
