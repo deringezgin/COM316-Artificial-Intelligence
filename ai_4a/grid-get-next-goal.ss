@@ -4,7 +4,7 @@
 ; Due October 1 2024
 ; File that has the complete code for MiniMax
 
-(define max-depth 5)  ; Please modify this variable to change how deep the minimax searches
+(define max-depth 6)  ; Please modify this variable to change how deep the minimax searches
 
 (define get-next-goal (lambda (point) (minimax-big point)))  ; Function that returns the next node to go
 
