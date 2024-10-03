@@ -80,7 +80,7 @@
 (define possible-goals '())
 (define facts '())
 (define obstacle-count 0)
-(define test-count 10)  ; How many tests would you like to run?
+(define test-count 20)  ; How many tests would you like to run?
 (define pick-random-index (lambda (lst) (random (length lst))))
 
 ; Removing the element in the specific "index" from all 3 possible obstacles/starts/goals
