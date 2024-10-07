@@ -1,6 +1,5 @@
-
-(define num-col-row 50)
-(define pause-num 10)
+(define num-col-row 20)
+(define pause-num 1)
 (define size (floor (/ 700 num-col-row)))
 (define obstacle-density 25)
 (define step-count 0)
@@ -25,4 +24,4 @@
 (draw-goal)
 (draw-robot)
 (show canvas)
-(search grid 20000)
+(search grid 10000)

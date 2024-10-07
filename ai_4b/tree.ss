@@ -6,7 +6,7 @@
 
 ; Math Functions
 (define id-count 0)
-(define const-exp 2)
+(define const-exp 1.5)
 (define id (lambda () (set! id-count (+ id-count 1)) (- id-count 1)))
 (define UCB (lambda (eval current-eval-count parent-eval-count) (if (or (= current-eval-count 0) (= parent-eval-count 0)) 1e9 (let* ((vi-bar (/ eval current-eval-count)) (c const-exp) (exp-term (sqrt (/ (log parent-eval-count) current-eval-count)))) (+ vi-bar (* c exp-term))))))
 (define return-best-move (lambda (current-tree) (let ((children (tree-children current-tree))) (car (list-sort (lambda (c1 c2) (> (node-ucb (tree-root c1)) (node-ucb (tree-root c2)))) children)))))

@@ -7,5 +7,12 @@
         (load "grid-main.ss")
         (run-tests (- test-count 1))))))
 
-(run-tests 3)
+(define sum
+  (lambda (lst)
+    (cond
+      ((null? lst) 0)
+      (else (+ (car lst) (sum (cdr lst)))))))
+
+(run-tests 10)
 (display scores)
+(display (inexact(/ (sum scores) (length scores))))
