@@ -47,7 +47,14 @@
 ; Search Helper Functions
 (define tsum (lambda (current-tree) (let ((children (tree-children current-tree)) (sum 0)) (for-each (lambda (child-tree) (set! sum (+ sum (node-t (tree-root child-tree))))) children) sum)))
 (define is-leaf? (lambda (current-tree) (null? (tree-children current-tree))))
-(define update (lambda (current-tree parent-eval-count) (let* ((current-root (tree-root current-tree)) (n (node-n current-root))) (set-node-n! current-root (+ n 1)) (set-node-t! current-root (+ (tsum current-tree) (node-t0 current-root))) (set-node-ucb! current-root (UCB (node-t current-root) (node-n current-root) parent-eval-count)))))
+
+(define update
+  (lambda (current-tree parent-eval-count)
+    (let* ((current-root (tree-root current-tree))
+            (n (node-n current-root)))
+      (set-node-n! current-root (+ n 1))
+      (set-node-t! current-root (+ (tsum current-tree) (node-t0 current-root)))
+      (set-node-ucb! current-root (UCB (node-t current-root) (node-n current-root) parent-eval-count)))))
 
 ; Search Functions
 (define mcts-search
@@ -64,7 +71,7 @@
           ((is-leaf? current-tree)
             (cond
               ((= 0 (node-n (tree-root current-tree)))
-                (set-node-t0! (tree-root current-tree) (rollout (node-state (tree-root current-tree)) rollout-time)))
+                (set-node-t0! (tree-root current-tree) (rollout (node-state (tree-root current-tree)) rollout-time 0)))
               (else (expand current-tree))))
           (else (mcts-inner (return-best-move current-tree) (node-n (tree-root current-tree)))))
         (update current-tree parent-eval-count)))
@@ -73,15 +80,15 @@
       (else (mcts-inner tree 0) (mcts (- count 1) rollout-time)))))
 
 (define rollout
-  (lambda (state count)
+  (lambda (state count current-count)
     (cond
-      ((= count 0) (heuristic state))
-      ((equal? (cadr state) (caddr state)) -1)
+      ((= count current-count) (heuristic state))
+      ((equal? (cadr state) (caddr state)) current-count)
       (else
         (let ((turn (car state)) (goal (cadr state)) (robot (caddr state)))
           (cond
-            (turn (rollout (list (not turn) (get-random-move goal) robot) (- count 1)))
-            (else (rollout (list (not turn) goal (get-random-move robot)) (- count 1)))))))))
+            (turn (rollout (list (not turn) (get-random-move goal) robot) count (+ current-count 1)))
+            (else (rollout (list (not turn) goal (get-random-move robot)) count (+ current-count 1)))))))))
 
 (define heuristic (lambda (state) (let ((turn (car state)) (goal (cadr state)) (robot (caddr state))) (blockwise-dist goal robot))))
 

@@ -1,4 +1,4 @@
-(define num-col-row 20)
+(define num-col-row 50)
 (define pause-num 1)
 (define size (floor (/ 700 num-col-row)))
 (define obstacle-density 25)
@@ -20,7 +20,6 @@
 
 (set-goal grid)
 (set-start grid)
-;(draw-start)
 (draw-goal)
 (draw-robot)
 (show canvas)
