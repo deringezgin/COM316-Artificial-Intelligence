@@ -6,7 +6,7 @@
 
 ; Math Functions
 (define id-count 0)
-(define const-exp 1.5)
+(define const-exp 2)
 (define id (lambda () (set! id-count (+ id-count 1)) (- id-count 1)))
 (define UCB (lambda (eval current-eval-count parent-eval-count) (if (or (= current-eval-count 0) (= parent-eval-count 0)) 1e9 (let* ((vi-bar (/ eval current-eval-count)) (c const-exp) (exp-term (sqrt (/ (log parent-eval-count) current-eval-count)))) (+ vi-bar (* c exp-term))))))
 (define return-best-move (lambda (current-tree) (let ((children (tree-children current-tree))) (car (list-sort (lambda (c1 c2) (> (node-ucb (tree-root c1)) (node-ucb (tree-root c2)))) children)))))
@@ -33,16 +33,11 @@
         (else (map (lambda (x) (append (list (not turn)) (list goal) (list x))) (get-adjacent robot)))))))
 
 ; Grid Functions
-(define copy-grid (lambda (original-grid) (let ((rows (vector-length original-grid))) (copy-helper original-grid (make-vector rows) 0))))
-(define copy-helper (lambda (original-grid new-grid i) (let ((rows (vector-length original-grid))) (cond ((< i rows) (vector-set! new-grid i (copy-row (vector-ref original-grid i))) (copy-helper original-grid new-grid (+ i 1))) (else new-grid)))))
-(define copy-row (lambda (row) (let* ((cols (vector-length row)) (new-row (make-vector cols))) (copy-element row new-row 0 cols))))
-(define copy-element (lambda (row new-row j cols) (cond ((>= j cols) new-row) (else (vector-set! new-row j (vector-ref row j)) (copy-element row new-row (+ j 1) cols)))))
 (define shuffle-lst (lambda (lst) (cond ((null? lst) '()) (else (let ((picked-element (find-element lst (random (length lst))))) (cons picked-element (shuffle-lst (remove-element lst picked-element))))))))
 (define remove-element (lambda (lst item) (cond ((null? lst) '()) ((equal? (car lst) item) (cdr lst)) (else (cons (car lst) (remove-element (cdr lst) item))))))
 (define get-adjacent (lambda (point) (shuffle-lst (append (list point) (adjacento point)))))
-
 (define find-element (lambda (lst index) (cond ((= index 0) (car lst)) (else (find-element (cdr lst) (- index 1))))))
-(define get-random-move (lambda (point) (let ((possible-moves (get-adjacent point))) (list-ref possible-moves (random (length possible-moves))))))
+(define get-random-move (lambda (point) (let ((possible-moves (adjacento point))) (list-ref possible-moves (random (length possible-moves))))))
 
 ; Search Helper Functions
 (define tsum (lambda (current-tree) (let ((children (tree-children current-tree)) (sum 0)) (for-each (lambda (child-tree) (set! sum (+ sum (node-t (tree-root child-tree))))) children) sum)))
