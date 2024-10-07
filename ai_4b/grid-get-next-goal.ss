@@ -13,6 +13,11 @@
     ; MiniMax function we call. This function calls the helper MiniMax function on each adjacent node of the current goal.
     ; It sorts the values by their heuristic and returns the best option
     (let ((adjacents (get-adjacent point)))
+      (define start-copy (list (car start) (cadr start)))
+      (define goal-copy (list (car goal) (cadr goal)))
+      (define robot-copy (list (car robot) (cadr robot)))
+      (rollout (list goal-copy robot-copy))
+      (pause (* 10000000000 pause-num))
       (set! adjacents (map (lambda (x) (minimax x)) adjacents))
       (caadar (list-sort (lambda (x y) (> (car x) (car y))) adjacents)))))
 

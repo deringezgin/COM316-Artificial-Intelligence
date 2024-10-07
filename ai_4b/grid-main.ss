@@ -15,6 +15,7 @@
 (load "grid-get-next-robot.ss")
 (load "grid-get-next-goal.ss")
 (load "grid-chase.ss")
+(load "new-rollout.ss")
 
 (set-goal grid)
 (set-start grid)
