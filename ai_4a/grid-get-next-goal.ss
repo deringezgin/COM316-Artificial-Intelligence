@@ -46,7 +46,6 @@
 (define get-adjacent (lambda (node) (append (list node) (adjacento node))))  ; Function that returns the result of adjacento and the current node
 
 (define heuristic-euclidian (lambda (point1 point2) (sqrt (+ (sqr (- (car point1) (car point2))) (sqr (- (cadr point1) (cadr point2)))))))
-
 (define sqr (lambda (x) (* x x)))
 
 (define main-heuristic

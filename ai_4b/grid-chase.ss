@@ -29,19 +29,20 @@
 
 (define search2
   (lambda (grid count stop-count)
-    (display count)
-    (newline)
+;    (display count)
+;    (newline)
     (cond 
       ((equal? robot goal)
-        (display "Robot attains the goal"))
+;        (display "Robot attains the goal")
+        (set! scores (cons count scores)))
       ((>= count stop-count)
-        (display "Took too long")
-        (newline))
+;        (display "Took too long")
+;        (newline))
       (else
         (pause pause-num)
         (search-robot grid)
         (if (null? robot)
-          (display "Cannot reach the goal")
+;          (display "Cannot reach the goal")
           (begin
             (pause pause-num)
             (search-goal grid)
