@@ -13,24 +13,12 @@
 (define euclidian-dist (lambda (point1 point2) (sqrt (+ (sqr (- (car point1) (car point2))) (sqr (- (cadr point1) (cadr point2)))))))
 (define sqr (lambda (x) (* x x)))
 (define blockwise-dist (lambda (point1 point2) (+ (abs (- (car point1) (car point2))) (abs (- (cadr point1) (cadr point2))))))
-
+(define heuristic (lambda (state) (let ((turn (car state)) (goal (cadr state)) (robot (caddr state))) (blockwise-dist goal robot))))
 
 ; Tree Functions
-(define create-children
-  (lambda (root)
-    (let* ((adjacents (expand-max (node-state (tree-root root)))))
-      (map (lambda (state) (make-tree (make-node state 0 0 0 1e9 (id)) '())) adjacents))))
-
-(define expand
-  (lambda (current-root-tree)
-    (set-tree-children! current-root-tree (create-children current-root-tree))))
-
-(define expand-max
-  (lambda (tgr-pair)
-    (let* ((turn (car tgr-pair)) (goal (cadr tgr-pair)) (robot (caddr tgr-pair)))
-      (cond
-        (turn (map (lambda (x) (append (list (not turn)) (list x) (list robot))) (get-adjacent goal)))
-        (else (map (lambda (x) (append (list (not turn)) (list goal) (list x))) (get-adjacent robot)))))))
+(define create-children (lambda (root) (let* ((adjacents (expand-max (node-state (tree-root root))))) (map (lambda (state) (make-tree (make-node state 0 0 0 1e9 (id)) '())) adjacents))))
+(define expand (lambda (current-root-tree) (set-tree-children! current-root-tree (create-children current-root-tree))))
+(define expand-max (lambda (tgr-pair) (let* ((turn (car tgr-pair)) (goal (cadr tgr-pair)) (robot (caddr tgr-pair))) (cond (turn (map (lambda (x) (append (list (not turn)) (list x) (list robot))) (get-adjacent goal))) (else (map (lambda (x) (append (list (not turn)) (list goal) (list x))) (get-adjacent robot)))))))
 
 ; Grid Functions
 (define shuffle-lst (lambda (lst) (cond ((null? lst) '()) (else (let ((picked-element (find-element lst (random (length lst))))) (cons picked-element (shuffle-lst (remove-element lst picked-element))))))))
@@ -42,14 +30,7 @@
 ; Search Helper Functions
 (define tsum (lambda (current-tree) (let ((children (tree-children current-tree)) (sum 0)) (for-each (lambda (child-tree) (set! sum (+ sum (node-t (tree-root child-tree))))) children) sum)))
 (define is-leaf? (lambda (current-tree) (null? (tree-children current-tree))))
-
-(define update
-  (lambda (current-tree parent-eval-count)
-    (let* ((current-root (tree-root current-tree))
-            (n (node-n current-root)))
-      (set-node-n! current-root (+ n 1))
-      (set-node-t! current-root (+ (tsum current-tree) (node-t0 current-root)))
-      (set-node-ucb! current-root (UCB (node-t current-root) (node-n current-root) parent-eval-count)))))
+(define update (lambda (current-tree parent-eval-count) (let* ((current-root (tree-root current-tree)) (n (node-n current-root))) (set-node-n! current-root (+ n 1)) (set-node-t! current-root (+ (tsum current-tree) (node-t0 current-root))) (set-node-ucb! current-root (UCB (node-t current-root) (node-n current-root) parent-eval-count)))))
 
 ; Search Functions
 (define mcts-search
@@ -84,6 +65,3 @@
           (cond
             (turn (rollout (list (not turn) (get-random-move goal) robot) count (+ current-count 1)))
             (else (rollout (list (not turn) goal (get-random-move robot)) count (+ current-count 1)))))))))
-
-(define heuristic (lambda (state) (let ((turn (car state)) (goal (cadr state)) (robot (caddr state))) (blockwise-dist goal robot))))
-
