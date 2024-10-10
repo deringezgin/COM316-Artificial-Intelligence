@@ -3,6 +3,7 @@
 ; Programming Assignment #6
 ; Due October 10 2024
 ; File that has the complete code for First Order Logic Example
+;
 ; We implemented a verison of First Order Logic that it targets the specific rules while searching.
 ; Another differnece from the original PropSearch is that we loop through facts rather than the rules.
 ; Prof. Parker said that this is ok but we still think that our implementation is not completely right
