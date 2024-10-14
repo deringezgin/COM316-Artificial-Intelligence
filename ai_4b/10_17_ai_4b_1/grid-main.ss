@@ -1,7 +1,7 @@
 (define num-col-row 50)
 (define pause-num 1)
 (define size (floor (/ 700 num-col-row)))
-(define obstacle-density 15)
+(define obstacle-density 5)
 (define step-count 0)
 (load "grid-class.ss")
 (load "grid-draw.ss")
@@ -11,8 +11,7 @@
 (define grid0 (make-grid num-col-row)) 
 (draw-obstacles grid0)
 (define grid (convert-grid grid0))
-(load "new-rollout.ss")
-(load "tree.ss")
+
 (load "grid-new.ss")
 (load "grid-get-next-goal.ss")
 (load "grid-get-next-robot.ss")
@@ -24,3 +23,4 @@
 (draw-robot)
 (show canvas)
 (search grid 10000)
+(send top destroy)
