@@ -1,12 +1,22 @@
-;;;;;;;;;;;;;;;;;;;; MAIN FUNCTION TO GET THE NEXT GOAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;; HYPERPARAMETERS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(define max-rollout-depth 50)
+(define single-rollout-count 200)
+(define minimax-tours 50)
+
+
+;;;;;;;;;;;;;;;;;;;; MAIN FUNCTION TO GET THE NEXT GOAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (define get-next-goal
   (lambda (point)
-    (let ((return (cadr (mcts-search (list #t goal robot) 100 50))))
+    (let ((return (cadr (mcts-search (list #t goal robot)))))
       ;(pause (* pause-num 1000000000))
       return)))
-      
 
-;;;;;;;;;;;;;;;;;;;; STRUCTURES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;; STRUCTURES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (define-syntax struct
@@ -64,11 +74,11 @@
 (define tree '())
 
 
-;;;;;;;;;;;;;;;;;;;; MATH FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;; MATH FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (define id-count 0)
-(define const-exp (sqrt 2))
+(define const-exp 2)
 
 (define id
 	(lambda ()
@@ -113,7 +123,8 @@
 				(blockwise-dist goal robot))))
 
 
-;;;;;;;;;;;;;;;;;;;; TREE FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;; TREE FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (define create-children
@@ -137,7 +148,7 @@
 						(map (lambda (x) (append (list (not turn)) (list goal) (list x))) (get-adjacent robot)))))))
 
 
-;;;;;;;;;;;;;;;;;;;; GRID FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;; GRID FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (define shuffle-lst
@@ -173,56 +184,59 @@
       (car (list-sort (lambda (p1 p2) (< (point-heuristic p1 g) (point-heuristic p2 g))) possible-moves)))))
 
 
-;;;;;;;;;;;;;;;;;;;; SEARCH FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;; SEARCH FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (define mcts-search
-  (lambda (root count rollout-time)
+  (lambda (root)
     (let ((root-node (make-node root 0 0 0 -1 (id))))
       (set! tree (make-tree root-node '()))
-      (node-state (tree-root (mcts count rollout-time))))))
+      (node-state (tree-root (mcts 0))))))
 
 (define mcts
-  (lambda (count rollout-time)
+  (lambda (count)
     (define mcts-inner
       (lambda (current-tree parent-eval-count)
         (cond
           ((is-leaf? current-tree)
             (cond
               ((= 0 (node-n (tree-root current-tree)))
-                (set-node-t0! (tree-root current-tree) (rollout (node-state (tree-root current-tree)) rollout-time 0)))
+                (set-node-t0! (tree-root current-tree) (perform-rollout (node-state (tree-root current-tree)) 0)))
               (else (expand current-tree))))
           (else (mcts-inner (return-best-move current-tree) (node-n (tree-root current-tree)))))
         (update current-tree parent-eval-count)))
     (cond
-      ((= count 0) (return-best-move tree))
-      (else (mcts-inner tree 0) (mcts (- count 1) rollout-time)))))
+      ((= count minimax-tours) (return-best-move tree))
+      (else (mcts-inner tree 0) (mcts (+ count 1))))))
+
+
+(define perform-rollout
+  (lambda (state current-rollout-count)
+    (cond
+      ((eq? current-rollout-count single-rollout-count) 0)
+      (else (+ (rollout state 0) (perform-rollout state (+ current-rollout-count 1)))))))
+
 
 (define rollout
-  (lambda (state count current-count)
+  (lambda (state current-count)
     (cond
-      ((equal? (cadr state) (caddr state)) current-count)
+      ((equal? (cadr state) (caddr state)) 0)
+      ((equal? max-rollout-depth current-count) 1)
       (else
         (let ((turn (car state)) (current-goal (cadr state)) (current-robot (caddr state)))
           (cond
-            (turn (rollout (list (not turn) (get-best-move current-goal current-robot) current-robot) count (+ current-count 1)))
-            (else
-              (let ((play-smart (random 101)))
-                (cond
-                  ((> play-smart 70)
-                    (rollout (list (not turn) current-goal (get-random-move current-robot)) count (+ current-count 1)))
-                  (else
-                    (rollout (list (not turn) current-goal (get-random-move current-robot)) count (+ current-count 1))))))))))))
+            (turn (rollout (list (not turn) (get-random-move current-goal) current-robot) (+ current-count 1)))
+            (else (rollout (list (not turn) current-goal (get-random-move current-robot)) (+ current-count 1)))))))))
 
 
-;;;;;;;;;;;;;;;;;;;; SEARCH HELPER FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;; SEARCH HELPER FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (define tsum
 	(lambda (current-tree)
 		(let ((children (tree-children current-tree)) (total 0))
 			(for-each
-				(lambda (child-tree) (set! total (+ total (node-t (tree-root child-tree)))))
+				(lambda (child-tree) (set! total (+ total (node-t0 (tree-root child-tree)))))
 			children)
 	  total)))
 
@@ -236,7 +250,3 @@
 				(set-node-n! current-root (+ n 1))
 			  (set-node-t! current-root (+ (tsum current-tree) (node-t0 current-root)))
 				(set-node-ucb! current-root (UCB (node-t current-root) (node-n current-root) parent-eval-count)))))
-				
-				
-				
-				
