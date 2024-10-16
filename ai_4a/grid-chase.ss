@@ -21,7 +21,7 @@
                 (abs (- (cadr robot) (cadr point)))) 2)
           point
       ;else
-         (get-next-goal point)))) 
+          (time (get-next-goal point)))))
             
 (define search
   (lambda (grid stop-count)

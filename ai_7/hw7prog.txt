@@ -40,5 +40,3 @@ Submit two files.  One where the robot favors free spaces over low
 stable obstacles.  The other where the robot moves to the best adjacent 
 passable block to get it closer to the goal. And a remember, there can't 
 be any "or"s in your rules.
-
-  

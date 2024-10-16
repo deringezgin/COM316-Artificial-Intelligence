@@ -1,9 +1,9 @@
 ;;;;;;;;;;;;;;;;;;;; HYPERPARAMETERS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(define max-rollout-depth 50)
-(define single-rollout-count 200)
-(define minimax-tours 50)
+(define max-rollout-depth 500)
+(define single-rollout-count 100)
+(define start-time 0)
 
 
 ;;;;;;;;;;;;;;;;;;;; MAIN FUNCTION TO GET THE NEXT GOAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -190,7 +190,9 @@
 (define mcts-search
   (lambda (root)
     (let ((root-node (make-node root 0 0 0 -1 (id))))
+      (set! start-time (time-second (current-time)))
       (set! tree (make-tree root-node '()))
+      (expand tree)
       (node-state (tree-root (mcts 0))))))
 
 (define mcts
@@ -206,7 +208,7 @@
           (else (mcts-inner (return-best-move current-tree) (node-n (tree-root current-tree)))))
         (update current-tree parent-eval-count)))
     (cond
-      ((= count minimax-tours) (return-best-move tree))
+      ((> (- (time-second (current-time)) start-time) 5) (return-best-move tree))
       (else (mcts-inner tree 0) (mcts (+ count 1))))))
 
 
@@ -220,7 +222,7 @@
 (define rollout
   (lambda (state current-count)
     (cond
-      ((equal? (cadr state) (caddr state)) 0)
+      ((is-caught? state) -1)
       ((equal? max-rollout-depth current-count) 1)
       (else
         (let ((turn (car state)) (current-goal (cadr state)) (current-robot (caddr state)))
@@ -231,6 +233,11 @@
 
 ;;;;;;;;;;;;;;;;;;;; SEARCH HELPER FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+(define is-caught?
+  (lambda (state)
+    (let ((goal (cadr state)) (robot (caddr state)))
+      (<= (+ (abs (- (car goal) (car robot))) (abs (- (cadr goal) (cadr robot)))) 1))))
 
 (define tsum
 	(lambda (current-tree)

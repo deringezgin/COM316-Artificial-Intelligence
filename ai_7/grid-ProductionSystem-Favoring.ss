@@ -31,6 +31,10 @@
 
 (define move_to
   (lambda (point)
+    (display "FACTS: ")
+    (display facts)
+    (newline)
+    (newline)
     (set! current point)
     (draw-visited (robot-x) (robot-y))
     (set! robot current)
