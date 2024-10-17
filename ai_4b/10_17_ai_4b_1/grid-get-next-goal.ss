@@ -1,3 +1,10 @@
+; Derin Gezgin | Russell Kosovsky | Jay Nash
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #4b | MCTS
+; Due October 17, 2024
+; File that has the complete code for MCTS - Goal
+
+
 ;;;;;;;;;;;;;;;;;;;; HYPERPARAMETERS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
