@@ -17,6 +17,7 @@
 
 ;;;;;;;;;;;;;;;;;;;; MAIN FUNCTION TO GET THE NEXT GOAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 ; Calling the MCTS in the current board state
 (define get-next-goal
   (lambda (point)
@@ -24,6 +25,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;; STRUCTURES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ; We found this function definition from page 318 of the book. It allows us to create structures with fields for easy representation
 (define-syntax struct
