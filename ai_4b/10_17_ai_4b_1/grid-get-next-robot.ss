@@ -1,6 +1,6 @@
-(define get-next-robot 
+(define get-next-robot
   (lambda (point)
-    (let* ((lst1 (cons point (adjacento point))) 
+    (let* ((lst1 (cons point (adjacento point)))
            (lst0 (randomize lst1))
            (flst (calculate-h lst0))
            (lst (map list flst lst0)))
@@ -9,7 +9,7 @@
       (let ((num (random 10))
             (len (length lst0))
             (best (front)))
-         (cond 
+         (cond
            ((= num 0)
               (list-ref lst0 (random len)))
            (else

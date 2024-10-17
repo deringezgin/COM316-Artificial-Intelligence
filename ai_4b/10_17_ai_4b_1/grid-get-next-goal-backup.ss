@@ -1,10 +1,9 @@
 ;;;;;;;;;;;;;;;;;;;; HYPERPARAMETERS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(define gmax-rollout-depth 50)
-(define gsingle-rollout-count 100)
-(define gstart-time 0)
-(define gmax-time 5)
+(define max-rollout-depth 200)
+(define single-rollout-count 200)
+(define start-time 0)
 
 
 ;;;;;;;;;;;;;;;;;;;; MAIN FUNCTION TO GET THE NEXT GOAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -12,7 +11,7 @@
 
 (define get-next-goal
   (lambda (point)
-    (let ((return (cadr (gmcts-search (list #t goal robot)))))
+    (let ((return (cadr (mcts-search (list #t goal robot)))))
       ;(pause (* pause-num 1000000000))
       return)))
 
@@ -69,162 +68,192 @@
                   (lambda (x update)
                     (vector-set! x index update))) ...))])))
 
-(struct gtree root children)
-(struct gnode state t0 t n ucb node-id)
+(struct tree root children)
+(struct node state t0 t n ucb node-id)
 
-(define gtree '())
+(define tree '())
 
 
 ;;;;;;;;;;;;;;;;;;;; MATH FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(define gid-count 0)
-(define gconst-exp 2)
+(define id-count 0)
+(define const-exp 2)
 
-(define gid
+(define id
 	(lambda ()
-		(set! gid-count (+ gid-count 1)) (- gid-count 1)))
+		(set! id-count (+ id-count 1)) (- id-count 1)))
 		
-(define gUCB
+(define UCB
 	(lambda (eval current-eval-count parent-eval-count)
 		(if (or (= current-eval-count 0) (= parent-eval-count 0))
 			1e9
 			(let* ((vi-bar (/ eval current-eval-count))
-					(c gconst-exp)
+					(c const-exp)
 					(exp-term (sqrt (/ (log parent-eval-count) current-eval-count))))
 				(+ vi-bar (* c exp-term))))))
 				
-(define greturn-best-move
+(define return-best-move
 	(lambda (current-tree)
-		(let ((children (gtree-children current-tree)))
-			(car (list-sort (lambda (c1 c2) (> (gnode-ucb (gtree-root c1)) (gnode-ucb (gtree-root c2)))) children)))))
+		(let ((children (tree-children current-tree)))
+			(car (list-sort (lambda (c1 c2) (> (node-ucb (tree-root c1)) (node-ucb (tree-root c2)))) children)))))
+			
+(define euclidian-dist
+	(lambda (point1 point2)
+		(sqrt (+ (sqr (- (car point1) (car point2))) (sqr (- (cadr point1) (cadr point2)))))))
+		
+(define point-heuristic
+  (lambda (point1 point2)
+    (euclidian-dist point1 point2)))
+		
+(define sqr
+	(lambda (x)
+		(* x x)))
+		
+(define blockwise-dist
+	(lambda (point1 point2)
+		(+ (abs (- (car point1) (car point2)))
+				(abs (- (cadr point1) (cadr point2))))))
+		
+(define heuristic
+	(lambda (state)
+		(let ((turn (car state))
+					(goal (cadr state))
+					(robot (caddr state)))
+				(blockwise-dist goal robot))))
+
 
 
 ;;;;;;;;;;;;;;;;;;;; TREE FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(define gcreate-children
+(define create-children
 	(lambda (root)
-		(let* ((adjacents (gexpand-max (gnode-state (gtree-root root)))))
-			(map (lambda (state) (make-gtree (make-gnode state 0 0 0 1e9 (gid)) '())) adjacents))))
+		(let* ((adjacents (expand-max (node-state (tree-root root)))))
+			(map (lambda (state) (make-tree (make-node state 0 0 0 1e9 (id)) '())) adjacents))))
 			
-(define gexpand
+(define expand
 	(lambda (current-root-tree)
-		(set-gtree-children! current-root-tree (gcreate-children current-root-tree))))
+		(set-tree-children! current-root-tree (create-children current-root-tree))))
 		
-(define gexpand-max
+(define expand-max
 	(lambda (tgr-pair)
 		(let* ((turn (car tgr-pair))
 						(goal (cadr tgr-pair))
 						(robot (caddr tgr-pair)))
 					(cond
 						(turn
-							(map (lambda (x) (append (list (not turn)) (list x) (list robot))) (gget-adjacent goal)))
+							(map (lambda (x) (append (list (not turn)) (list x) (list robot))) (get-adjacent goal)))
 					(else
-						(map (lambda (x) (append (list (not turn)) (list goal) (list x))) (gget-adjacent robot)))))))
+						(map (lambda (x) (append (list (not turn)) (list goal) (list x))) (get-adjacent robot)))))))
 
 
 ;;;;;;;;;;;;;;;;;;;; GRID FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(define gshuffle-lst
+(define shuffle-lst
 	(lambda (lst)
 		(cond
 			((null? lst) '())
 			(else
-				(let ((picked-element (gfind-element lst (random (length lst)))))
-					(cons picked-element (gshuffle-lst (gremove-element lst picked-element))))))))
+				(let ((picked-element (find-element lst (random (length lst)))))
+					(cons picked-element (shuffle-lst (remove-element lst picked-element))))))))
 
-(define gremove-element
+(define remove-element
 	(lambda (lst item)
-		(cond ((null? lst) '()) ((equal? (car lst) item) (cdr lst)) (else (cons (car lst) (gremove-element (cdr lst) item))))))
+		(cond ((null? lst) '()) ((equal? (car lst) item) (cdr lst)) (else (cons (car lst) (remove-element (cdr lst) item))))))
 
-(define gget-adjacent
+(define get-adjacent
 	(lambda (point)
-		(gshuffle-lst (append (list point) (adjacento point)))))
+		(shuffle-lst (append (list point) (adjacento point)))))
 
-(define gfind-element
+(define find-element
 	(lambda (lst index)
 		(cond
 			((= index 0) (car lst))
-			(else (gfind-element (cdr lst) (- index 1))))))
+			(else (find-element (cdr lst) (- index 1))))))
 
-(define gget-random-move
+(define get-random-move
 	(lambda (point)
 		(let ((possible-moves (adjacento point)))
 			(list-ref possible-moves (random (length possible-moves))))))
+			
+(define get-best-move
+  (lambda (point g)
+    (let ((possible-moves (get-adjacent point)))
+      (car (list-sort (lambda (p1 p2) (< (point-heuristic p1 g) (point-heuristic p2 g))) possible-moves)))))
 
 
 ;;;;;;;;;;;;;;;;;;;; SEARCH FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(define gmcts-search
+(define mcts-search
   (lambda (root)
-    (let ((root-node (make-gnode root 0 0 0 -1 (gid))))
-      (set! gstart-time (time-second (current-time)))
-      (set! gtree (make-gtree root-node '()))
-      (gexpand gtree)
-      (gnode-state (gtree-root (gmcts 0))))))
+    (let ((root-node (make-node root 0 0 0 -1 (id))))
+      (set! start-time (time-second (current-time)))
+      (set! tree (make-tree root-node '()))
+      (expand tree)
+      (node-state (tree-root (mcts 0))))))
 
-(define gmcts
+(define mcts
   (lambda (count)
     (define mcts-inner
       (lambda (current-tree parent-eval-count)
         (cond
-          ((gis-leaf? current-tree)
+          ((is-leaf? current-tree)
             (cond
-              ((= 0 (gnode-n (gtree-root current-tree)))
-                (set-gnode-t0! (gtree-root current-tree) (gperform-rollout (gnode-state (gtree-root current-tree)) 0)))
-              (else (gexpand current-tree))))
-          (else (mcts-inner (greturn-best-move current-tree) (gnode-n (gtree-root current-tree)))))
-        (gupdate current-tree parent-eval-count)))
+              ((= 0 (node-n (tree-root current-tree)))
+                (set-node-t0! (tree-root current-tree) (perform-rollout (node-state (tree-root current-tree)) 0)))
+              (else (expand current-tree))))
+          (else (mcts-inner (return-best-move current-tree) (node-n (tree-root current-tree)))))
+        (update current-tree parent-eval-count)))
     (cond
-      ((> (- (time-second (current-time)) gstart-time) gmax-time) (greturn-best-move gtree))
-      (else (mcts-inner gtree 0) (gmcts (+ count 1))))))
+      ((> (- (time-second (current-time)) start-time) 5) (return-best-move tree))
+      (else (mcts-inner tree 0) (mcts (+ count 1))))))
 
 
-(define gperform-rollout
+(define perform-rollout
   (lambda (state current-rollout-count)
     (cond
-      ((eq? current-rollout-count gsingle-rollout-count) 0)
-      (else (+ (grollout state 0) (gperform-rollout state (+ current-rollout-count 1)))))))
+      ((eq? current-rollout-count single-rollout-count) 0)
+      (else (+ (rollout state 0) (perform-rollout state (+ current-rollout-count 1)))))))
 
 
-(define grollout
+(define rollout
   (lambda (state current-count)
     (cond
-      ((gis-caught? state) -1)
-      ((equal? gmax-rollout-depth current-count) 1)
+      ((is-caught? state) -1)
+      ((equal? max-rollout-depth current-count) 1)
       (else
         (let ((turn (car state)) (current-goal (cadr state)) (current-robot (caddr state)))
           (cond
-            (turn (grollout (list (not turn) (gget-random-move current-goal) current-robot) (+ current-count 1)))
-            (else (grollout (list (not turn) current-goal (gget-random-move current-robot)) (+ current-count 1)))))))))
+            (turn (rollout (list (not turn) (get-random-move current-goal) current-robot) (+ current-count 1)))
+            (else (rollout (list (not turn) current-goal (get-random-move current-robot)) (+ current-count 1)))))))))
 
 
 ;;;;;;;;;;;;;;;;;;;; SEARCH HELPER FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(define gis-caught?
+(define is-caught?
   (lambda (state)
     (let ((goal (cadr state)) (robot (caddr state)))
       (<= (+ (abs (- (car goal) (car robot))) (abs (- (cadr goal) (cadr robot)))) 1))))
 
-(define gtsum
+(define tsum
 	(lambda (current-tree)
-		(let ((children (gtree-children current-tree)) (total 0))
+		(let ((children (tree-children current-tree)) (total 0))
 			(for-each
-				(lambda (child-tree) (set! total (+ total (gnode-t (gtree-root child-tree)))))
+				(lambda (child-tree) (set! total (+ total (node-t0 (tree-root child-tree)))))
 			children)
 	  total)))
 
-(define gis-leaf?
+(define is-leaf?
 	(lambda (current-tree)
-		(null? (gtree-children current-tree))))
+		(null? (tree-children current-tree))))
 
-(define gupdate
+(define update
 	(lambda (current-tree parent-eval-count)
-		(let* ((current-root (gtree-root current-tree)) (n (gnode-n current-root)))
-				(set-gnode-n! current-root (+ n 1))
-			  (set-gnode-t! current-root (+ (gtsum current-tree) (gnode-t0 current-root)))
-				(set-gnode-ucb! current-root (gUCB (gnode-t current-root) (gnode-n current-root) parent-eval-count)))))
+		(let* ((current-root (tree-root current-tree)) (n (node-n current-root)))
+				(set-node-n! current-root (+ n 1))
+			  (set-node-t! current-root (+ (tsum current-tree) (node-t0 current-root)))
+				(set-node-ucb! current-root (UCB (node-t current-root) (node-n current-root) parent-eval-count)))))
