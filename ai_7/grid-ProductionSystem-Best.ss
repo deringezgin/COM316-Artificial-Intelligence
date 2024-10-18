@@ -6,40 +6,41 @@
     (move_to start)))
 
 
-(define rules 
+(define rules
   '(
-    ;; Rule to move to an unvisited free adjacent block
-    (r1 (if (current x) (adjacent y) (not visited y) (not obstacle y))
+    (r1 (if (current x) (adjacent y) (not path y) (not move_to z) (not visited y) (not obstacle y))
         (delete (current x))
-        (add (path x) (move_to y)))
+        (add (path x) (parent y x) (delete_adjacents) (move_to y)))
 
-    ;; Rule to move to an unvisited low stable obstacle if no free spaces are available
-    (r2 (if (current x) (adjacent y) (not visited y) (obstacle y) (stable y) (height y low))
+    (r2 (if (current x) (adjacent y) (not path y) (not move_to z) (not visited y) (obstacle y) (stable y) (height y low))
         (delete (current x))
-        (add (path x) (move_to y)))
+        (add (path x) (parent y x) (delete_adjacents) (move_to y)))
 
-    ;; Rule to backtrack when no unvisited adjacent blocks are available
-    (r3 (if (current x) (not path x))
+    (r3 (if (current x) (parent x y))
         (delete (current x))
-        (add (visited x))
-        (execute (backtrack)))
+        (add (visited x) (delete_adjacents) (backtrack_to y)))
 
-    ;; Execution rules for moving and backtracking
-    (r4 (if (move_to x))
+    (r4 (if (current x) (not (parent x y)))
+        (delete (current x))
+        (add (visited x) (delete_adjacents)))
+
+    (r5 (if (delete_adjacents) (adjacent x))
+        (delete (adjacent x)))
+
+    (r6 (if (delete_adjacents))
+        (delete (delete_adjacents)))
+
+    (r7 (if (move_to x) (not delete_adjacents))
         (delete (move_to x))
         (execute (move_to x)))
 
-    (r5 (if (backtrack))
-        (execute (backtrack_action)))
+    (r8 (if (backtrack_to x) (not delete_adjacents))
+        (delete (backtrack_to x))
+        (execute (backtrack_to x)))
 
-    ;; Rule to mark adjacent blocks as not needing further exploration
-    (r6 (if (visited x) (adjacent y))
-        (delete (adjacent y)))
-
-    ;; Rule to handle reaching the goal
-    (r7 (if (current x) (goal x))
-        (execute (goal_reached)))
-))
+    (r9 (if (visited x))
+        (delete (visited x)))
+  ))
 
 
 (define facts '())
