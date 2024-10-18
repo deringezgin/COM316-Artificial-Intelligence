@@ -8,11 +8,13 @@
 
 (define rules
   '(
-    (r1 (if (current x) (adjacent y) (not path y) (not move_to z) (not visited y) (not obstacle y))
-        (delete (current x))
-        (add (path x) (parent y x) (delete_adjacents) (move_to y)))
+    (r10 (if (adjacent y) (obstacle y) (height y low) (not stable y) (not obstacle_high_or_unstable y))
+         (add (obstacle_high_or_unstable y)))
 
-    (r2 (if (current x) (adjacent y) (not path y) (not move_to z) (not visited y) (obstacle y) (stable y) (height y low))
+    (r11 (if (adjacent y) (height y high) (not obstacle_high_or_unstable y))
+         (add (obstacle_high_or_unstable y)))
+
+    (r1 (if (current x) (adjacent y) (not obstacle_high_or_unstable y) (not path y) (not visited y))
         (delete (current x))
         (add (path x) (parent y x) (delete_adjacents) (move_to y)))
 
