@@ -1,3 +1,13 @@
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #7
+; Due October 22 2024
+; File that has the production system rules which goes to the best possible non-visited free OR low-stable-obstacle location
+; I used the favoring program to fix the backtracking.
+; To manage the "choosing the best move" situation, I simply tagged the low and non-stable OR high obstacle locations.
+; When choosing my next move, I just check the location to be not tagged as obstacle_high_or_unstable.
+; I worked with Matthew in the brainstorming and the implementation of the rules but we have a few differences so
+; we're submitting separately.
 
 (define current start)
 
@@ -8,12 +18,16 @@
 
 (define rules
   '(
-    (r10 (if (adjacent y) (obstacle y) (height y low) (not stable y) (not obstacle_high_or_unstable y))
+     ; If a node is adjacent to us, is a low obstacle but not stable, we should mark it.
+    (r00 (if (adjacent y) (obstacle y) (height y low) (not stable y) (not obstacle_high_or_unstable y))
          (add (obstacle_high_or_unstable y)))
 
-    (r11 (if (adjacent y) (height y high) (not obstacle_high_or_unstable y))
+      ; If a node is adjacent to us and high, we should also mark it
+    (r01 (if (adjacent y) (height y high) (not obstacle_high_or_unstable y))
          (add (obstacle_high_or_unstable y)))
 
+     ; If a node is not marked as illegal and satisfies our regular requirements, move to it.
+     ; The rest of the rules are entirely same.
     (r1 (if (current x) (adjacent y) (not obstacle_high_or_unstable y) (not path y) (not visited y))
         (delete (current x))
         (add (path x) (parent y x) (delete_adjacents) (move_to y)))
@@ -29,7 +43,7 @@
     (r5 (if (delete_adjacents) (adjacent x))
         (delete (adjacent x)))
 
-    (r6 (if (delete_adjacents))
+    (r6 (if (delete_adjacents) (not adjacent x))
         (delete (delete_adjacents)))
 
     (r7 (if (move_to x) (not delete_adjacents))
@@ -39,9 +53,6 @@
     (r8 (if (backtrack_to x) (not delete_adjacents))
         (delete (backtrack_to x))
         (execute (backtrack_to x)))
-
-    (r9 (if (visited x))
-        (delete (visited x)))
   ))
 
 

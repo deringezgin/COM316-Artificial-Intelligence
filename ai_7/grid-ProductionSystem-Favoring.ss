@@ -1,3 +1,12 @@
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #7
+; Due October 22 2024
+; File that has the production system rules which favor the non-obstacle nodes over the low & stable obstacles.
+; I fixed the backtracking functionality, and added another rule to check the low & stable obstacles
+; I fixed the backtracking functionality simply by keeping track of the parent node.
+; I worked with Matthew in the brainstorming and the implementation of the rules but we have a few differences so
+; we're submitting separately.
 
 (define current start)
 
@@ -8,38 +17,47 @@
 
 (define rules 
   '(
+     ; Rule that checks for a non-visited and a non-obstacle node to move.
+     ; If it finds a match, it removes current x, adds that y is a parent of x, adds the (delete_adjacents) marker and adds (move_to y) as we have to move another node
     (r1 (if (current x) (adjacent y) (not path y) (not visited y) (not obstacle y))
         (delete (current x))
         (add (path x) (parent y x) (delete_adjacents) (move_to y)))
 
+     ; Another rule similar to r1 which now checks for a non-visited, low and a stable obstacle.
+     ; If it finds a match, the rest of the process is the same as r1
     (r2 (if (current x) (adjacent y) (not path y) (not visited y) (obstacle y) (stable y) (height y low))
         (delete (current x))
         (add (path x) (parent y x) (delete_adjacents) (move_to y)))
 
+     ; If x is current and y is a parent of x, add x to visited, clean up the adjacents and add (backtrack_to y) as an option
+     ; This ensures that we always backtrack to our parent node.
     (r3 (if (current x) (parent x y))
         (delete (current x))
         (add (visited x) (delete_adjacents) (backtrack_to y)))
 
+     ; If x is current and it doesn't have a parent, delete x is current, add it to visited and clean up the adjacents.
+     ; This rule will fire once for the starting point as it does not have a parent
     (r4 (if (current x) (not (parent x y)))
         (delete (current x))
         (add (visited x) (delete_adjacents)))
 
+     ; If (delete_adjacents) and there is an adjacent fact, delete the adjacent fact
     (r5 (if (delete_adjacents) (adjacent x))
         (delete (adjacent x)))
 
-    (r6 (if (delete_adjacents))
+     ; If delete adjacents exist, and we don't have anymore adjacents to clean up, remove the delete_adjacents fact
+    (r6 (if (delete_adjacents) (not adjacent x))
         (delete (delete_adjacents)))
 
+     ; If we have a move_to x and do not have delete_adjacents we can (move_to x) and delete it.
     (r7 (if (move_to x) (not delete_adjacents))
         (delete (move_to x))
         (execute (move_to x)))
 
+     ; If we have to backtrack, and no more adjacents are left to delete, just execute backtrack
     (r8 (if (backtrack_to x) (not delete_adjacents))
         (delete (backtrack_to x))
         (execute (backtrack_to x)))
-
-    (r9 (if (visited x))
-        (delete (visited x)))
   ))
 
 
@@ -47,10 +65,6 @@
 
 (define move_to
   (lambda (point)
-    ;(display "FACTS: ")
-    ;(display facts)
-    ;(newline)
-    ;(newline)
     (set! current point)
     (draw-visited (robot-x) (robot-y))
     (set! robot current)
