@@ -14,7 +14,6 @@
   (lambda ()
     (move_to start)))
 
-
 (define rules 
   '(
      ; Rule that checks for a non-visited and a non-obstacle node to move.

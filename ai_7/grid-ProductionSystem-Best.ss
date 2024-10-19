@@ -15,7 +15,6 @@
   (lambda ()
     (move_to start)))
 
-
 (define rules
   '(
      ; If a node is adjacent to us, is a low obstacle but not stable, we should mark it.
