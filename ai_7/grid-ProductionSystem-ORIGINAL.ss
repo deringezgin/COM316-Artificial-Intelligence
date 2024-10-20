@@ -11,7 +11,7 @@
     (r1 (if (current x) (adjacent y) (not path y) (not visited y) (not obstacle y))
         (delete (current x))
         (add (path x) (delete_adjacents) (move_to y)))
-    (r2 (if (current x) (adjacent y) (not visited y) (not obstacle y))
+    (r2 (if (current x) (path y) (not visited y))
         (delete (current x) (path x))
         (add (visited x) (delete_adjacents) (backtrack_to y)))
     (r3 (if (delete_adjacents) (adjacent x))

@@ -11,7 +11,7 @@
 (draw-obstacles grid0)
 (define grid (convert-grid grid0))
 (load "grid-new.ss")
-(load "grid-ProductionSystem-Favoring.ss")
+(load "grid-ProductionSystem-FAVORING.ss")
 (set-goal grid)
 (set-start grid)
 (draw-start)
