@@ -1,0 +1,1 @@
+AI #1: Implement DFS and BFS. Your programs are due before the start of class on 10 Sep. You are not allowed to mark the grid to help in your search, except to mark the nodes you visited and/or looked at (frontiers) with a 1. Submit the files that contain your changed code. You will have an opportunity to demo your program during class.

@@ -1,0 +1,17 @@
+Problem 3  Real-Time Search
+
+Intro:  If we were programming a robot with limited sensor range, we could
+not assume that it could find the best path first and then follow it.  It
+needs to explore as it finds the best path.
+
+Given:
+1. Same as Problem 2, except you can only check the status of nodes 
+adjacent to the robot.
+2. Now we need to keep track of the number of steps taken.  The robot
+starts at the start spot and each move to a new frontier block costs the
+number of steps it takes.
+
+Problem:  Find an efficient way to get from the start to the goal.  We can
+no longer expect to find the best way, but need to find a good way while
+minimizing our steps taken.
+

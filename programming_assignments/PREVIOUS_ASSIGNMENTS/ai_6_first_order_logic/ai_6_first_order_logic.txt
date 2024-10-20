@@ -1,0 +1,73 @@
+Problem 6     First Order Logic    
+
+Intro: To add more to the representation we will introduce predicates
+such as (height B high) [with B being a coordinate position such as 
+'(2 5)], which says that the height of block B is high.  Block B will 
+be shown to be an obstacle by using the predicate (obstacle B).  
+Predicates also allow us to use variables such as x or y or p1 or p2 
+for point one and point two.   This makes it easier to  write rules 
+applicable to all blocks such as: 
+(visited p1) ^ ~(obstacle p2) -> (visited p2)
+Now we can more easily assert the information systematically.
+
+There is a difficulty with this sentence (besides that it is not dealing
+with changes over time) and that's that p2 may be 5 spaces away from p1.
+This would force us to have a new function called (adjacent p1 p2) which
+would return T if p1 and p2 are neighbors.  Now we write this clause as:
+(visited p1) ^ ~(obstacle p2) ^ (adjacent p1 p2) -> (visited p2).
+However, probably a better solution is to generate all the adjacents as
+facts after each move. In this way you would have up to 4 facts such as
+(adjacent A B) added to the fact list. [Note: You could also generate the 
+facts such as (adjacent B) for each of the adjacent blocks, but then you 
+would need to delete them from the facts list after you move, which is not 
+possible in our current first order logic system.]  Bear in mind that the 
+function that generates (adjacent A B) is purely mathematical and has no 
+idea of which blocks are obstacles or free. It's just determining adjacency.
+
+A control function is needed that takes in two predicates and returns 
+variable bindings if they match.  This is called unifying two predicates 
+so we will call the function unify.  An example follows:
+(unify (visited p1) (visited A)) yields the binding ((p1 A))
+Now using our binding of p1 to A, we can call:
+(unify (adjacent A p2) (adjacent A B)),
+which expands the binding list to yield ((p1 A) (p2 B))
+In order to check ~(obstacle B) we would need to check the database for 
+(obstacle B) and if it does not exist bind consider ~(obstacle B) as true.
+Now we can use these bindings to make the substitution in (visited p2) and
+assert (visited B).  In other words, declare (visited B) as a new fact.
+The binding list is specific to the rule and cleared after it fires
+or the system finds that it can't be satisfied.  
+
+There are still issues with
+(visited p1) ^ ~(obstacle p2) ^ (adjacent p1 p2) -> (visited p2)
+Since to check ~(obstacle p2), which you should write as (not obstacle p2) 
+in Scheme, you would search your fact list for (obstacle p2) and if you do
+not find it, consider (not obstacle p2) as true, you don't even know what 
+to make p2 for this search.  So it's better to write the rule like this:
+(visited p1) ^ (adjacent p1 p2) ^ ~(obstacle p2)  -> (visited p2)
+or in Scheme, like this:
+(((visited p1) (adjacent p1 p2) (not obstacle p2)) ((visited p2)))
+Another issue is that the system could move from one visited block to 
+another visited block.  Actually, it could just be bouncing back and forth.  
+We need to add to the rule to prevent this.  
+
+
+Given:
+1.  Same as problem 2.
+2.  You can write a function that generates the adjacent block and asserts
+new facts, such as (adjacent A B).  This would be part of each move, so the 
+new adjacent facts will be generated each time a new visited fact is asserted.  
+
+Problem: Rewrite the needed facts and rules (plus any other needed
+functions) that will allow you to reason about how to search through the 
+search space.  Use predicates to represent the information in a way 
+appropriate for search.  First write a program with rules for free spaces 
+and obstacles.  Once you have that working, add height and stability.  
+Attempt to maintain search control within the rule system, although it 
+may be necessary to use global variables to hold the path. 
+
+The main point of this programming assignment is that you consider all of 
+the issues in such an implementation.  I will therefore except some code 
+with extensive explanation for partial credit (up to 90%).  
+
+

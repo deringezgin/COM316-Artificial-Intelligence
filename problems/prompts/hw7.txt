@@ -1,0 +1,32 @@
+Problem 7  Production System
+Intro: We have a fairly good representation that can express numerous
+facts but our reasoning and action control of these facts has not been
+formally addressed.  There may be several rules with their left-handed
+side satisfied by facts in the system after any one pass.  Some means
+of determining which will be applicable at what time must be
+considered.  The robot cannot go to both its left and right neighbor
+at the same time even though both are possible.  This is referred to
+as conflict resolution.  It is highly probable, that you have
+addressed these issues in previous problems as they could not be
+easily avoided.  Other issues may have been part of your design that
+made it a form of production system.  In this problem, we will look
+deeper into what tools are usually used in the production systems and
+use them to improve our system.
+Given:  Same as problem 5, except environment not known in advance.
+Problem: Create a production system that can perform our search.  Write
+production rules (like the ones we did for the blocks). We need to have 
+this work for an actual robot.  The start position and goal are know, but
+all else is sensed by the robot.  You can assume that there is a function 
+that produces adjacent literals (predicates with variables or points) for 
+all the nodes adjacent to the robot.  In addition literals will be added
+which specify if each of the adjacent nodes are obstacles or not.  Do not
+worry about the high/low stable/unstable issue at this point.  Your primary
+task is to write rules that control the movement of the robot.  You need a 
+current, but there should only be one at a time.  You need to deal with 
+backtracking when there is nowhere to go.  If possible, you should delete 
+previous adjacent literals since they will clutter the facts list and not 
+be needed.  You will need to introduce new literals that are there just for 
+control.  In my solution, there are 6 rules.  In addition to "add" and 
+"delete", I have "execute" as possible consequences.  Execute calls a 
+function that executes what is specified by the literal.  In my case this
+happens with the literals (move_to x) and (backtrack_to x).        
