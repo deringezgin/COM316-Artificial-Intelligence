@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f37022b3-67aa-42e3-a623-f7e11a87a8db" name="Changes" comment="Updating with other course material, so far.">
-      <change beforePath="$PROJECT_DIR$/programming_assignments/ai_7_production_systems/grid-ProductionSystem-Best.ss" beforeDir="false" afterPath="$PROJECT_DIR$/programming_assignments/PREVIOUS_ASSIGNMENTS/ai_7_production_systems/grid-ProductionSystem-Best.ss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programming_assignments/ai_7_production_systems/grid-ProductionSystem-Favoring.ss" beforeDir="false" afterPath="$PROJECT_DIR$/programming_assignments/PREVIOUS_ASSIGNMENTS/ai_7_production_systems/grid-ProductionSystem-Favoring.ss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programming_assignments/ai_7_production_systems/grid-class.ss" beforeDir="false" afterPath="$PROJECT_DIR$/programming_assignments/PREVIOUS_ASSIGNMENTS/ai_7_production_systems/grid-class.ss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programming_assignments/ai_7_production_systems/grid-draw.ss" beforeDir="false" afterPath="$PROJECT_DIR$/programming_assignments/PREVIOUS_ASSIGNMENTS/ai_7_production_systems/grid-draw.ss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programming_assignments/ai_7_production_systems/grid-main.ss" beforeDir="false" afterPath="$PROJECT_DIR$/programming_assignments/PREVIOUS_ASSIGNMENTS/ai_7_production_systems/grid-main.ss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programming_assignments/ai_7_production_systems/grid-make.ss" beforeDir="false" afterPath="$PROJECT_DIR$/programming_assignments/PREVIOUS_ASSIGNMENTS/ai_7_production_systems/grid-make.ss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programming_assignments/ai_7_production_systems/grid-new.ss" beforeDir="false" afterPath="$PROJECT_DIR$/programming_assignments/PREVIOUS_ASSIGNMENTS/ai_7_production_systems/grid-new.ss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programming_assignments/ai_7_production_systems/hw7prog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/programming_assignments/PREVIOUS_ASSIGNMENTS/ai_7_production_systems/hw7prog.txt" afterDir="false" />
-    </list>
+    <list default="true" id="f37022b3-67aa-42e3-a623-f7e11a87a8db" name="Changes" comment="Updating with other course material, so far." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,6 +55,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\deringezgin\IdeaProjects\COM316\programming_assignments\ai_7_production_systems" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\deringezgin\IdeaProjects\COM316\programming_assignments\PREVIOUS_ASSIGNMENTS" />
+    </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -86,7 +80,7 @@
       <workItem from="1729547425332" duration="735000" />
       <workItem from="1729555997273" duration="477000" />
       <workItem from="1729556495499" duration="3024000" />
-      <workItem from="1729627243331" duration="297000" />
+      <workItem from="1729627243331" duration="356000" />
     </task>
     <task id="LOCAL-00001" summary="Updating with other course material, so far.">
       <option name="closed" value="true" />
@@ -120,7 +114,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729627519852</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Updating with other course material, so far.">
+      <option name="closed" value="true" />
+      <created>1729627548586</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729627548586</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
