@@ -1,0 +1,15 @@
+Problem 6 First Order Logic
+
+Intro:  Representation is still not general enough.  We can
+only represent true or false in each proposition.  In addition,
+we need to write a rule for each possible case.  It would be 
+better if we could generalize the representation.
+
+Given:  Same as problem 2.
+
+Problem:  Create a representation that is more general and can
+hold more information than just yes or no.  For example; a 
+represention where we can have heights of low, medium, and high.  
+Also discuss how this system would reason. How would it do Modus 
+Ponens?
+

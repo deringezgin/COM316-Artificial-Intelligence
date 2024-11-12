@@ -1,0 +1,97 @@
+A. Planning
+
+Use the STRIPS planning approach to make a plan to solve the blocks
+problem given below.  The set of facts that describes an initial
+condition and the set of facts that describes a goal condition are
+provided.  In your solution you should describe how you handled
+all links including when they were generated.  In addition, discuss 
+how things might change if the ordering of the preconditions of the 
+rules changed.  Your answers show be both specific to the problem 
+given and general enough to handle any initial/goal situation.  For 
+extra credit, write a pseudocode algorithm that shows how the 
+planner works.
+
+RULES
+
+Rule1
+if      on(x y)
+        clear(x)
+        clear(z)
+add     on(x z)
+        clear(y)
+delete  on(x y)
+        clear(z)
+Rule2
+if      on(x y)
+        clear(x)
+add     on(x Table)
+        clear(y)
+delete  on(x y)
+
+Rule3
+if      on(x Table)
+        clear(x)
+        clear(z)
+add     on(x z)
+delete  on(x Table)
+        clear(z)
+
+INITIAL SITUATION
+on(A C)
+clear(A)
+on(D B)
+clear(D)
+on(C Table)
+on(B Table)
+
+GOALS
+clear(A)
+on(A B)
+on(B C)
+on(D Table)
+on(C Table)
+
+
+B. Current-Best Learning 
+
+Describe how the robot can use learning through induction
+and the semantic representation of an object to learn important
+concepts that will help in its search.  The primary concept that is
+needed for search as we do it now, is passability.  We have several
+possible objects that can be obstacles (chairs, desks, book shelves,
+buildings, monsters, kittens, etc.).  We need the robot to learn the
+concept of passability.  Initially think of this as you showing the
+robot objects and telling it whether they are passable or not.  What
+objects would you use and in what order?  What will change about the
+robot's concept of passable with each example?  Show an example of a
+learning session. Draw each new object shown to the robot along with
+its semantic net representation and the new semantic net representing
+the concept of a passable object.  Once trained, would it be able to
+sense the attributes of some new obstacle and determine if it is
+passable?  How useful is this for the robot's ability to search in our
+more complicated environment?
+
+Assuming that the robot is capable of attempting to move into any
+block, but that unpassable blocks hurt (make the robot lose E points
+or something), can the robot use inductive learning without the help
+of an instructor?  How would this system work in our search problem?
+
+
+C. Representation
+
+Although we have some more organization with semantic 
+networks, we still have a scattering of links.  Objects and classes 
+of objects can be linked by relationship links -- we can designate
+an object as Chair5 with an isa link to wheeled-chairs and a color
+link to red.  But what if there was no color link or even a default
+color link in the hierarchy?  How would we know there was even the 
+possibility of color for a chair?  Another issue is that it's a
+problem to represent information that is not discrete. More 
+structure in our organization would help us use the isa links for 
+inheritance and possibly make it easier for data to be continuous.  
+Suggest some possibilities for this more structured method of 
+representation. 
+
+
+3q: Your answers to the 3 questions pertaining to Planning and 
+Current-Best Learning is also due.

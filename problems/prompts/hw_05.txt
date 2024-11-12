@@ -1,0 +1,26 @@
+Problem 5 Propositions
+
+Intro:  Representation is still a problem.  We cannot store more than
+clear or obstacle in our current system.  In addition we are restricted in
+our representation to 2d search type problems.  We want to eventually be
+able to reason about more general problems, so we will try to switch to a
+more general representation.  For continuity we will still apply it to the
+same problem.  Two more bits of information will now be applicable to each
+block.
+
+Given:  Same as problem 2.
+
+Problem:  Create a representation that can hold three facts about each
+block:  obstacle (yes or no), high (yes or no), and stable (yes or no).
+The second two are only applicable when the block is an object.  This
+added info in the representation gives us more options for reasoning.  
+Come up with a scheme that can do reasoning without the grid for storage.  
+We are not so concerned with the efficiency at this point and will not even
+be using the heuristic.  We just want to find a representation that can be 
+used to find if there is a path to the goal.  
+
+After we have a way to list facts we need a way to reason with these
+facts.  Such as if the block is clear (not an obstacle) we can step into
+it or if it is an obstacle that is not high and stable we can step on to
+it.  Determine how to add rules that will allow you to reason about the
+facts developed above.  Give examples of these rules.

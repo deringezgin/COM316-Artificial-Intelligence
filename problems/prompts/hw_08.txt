@@ -1,0 +1,27 @@
+Problem 8 Semantic Networks
+
+Intro: Problem 6 used predicate calculus with predicate
+representations to deal with the objects of the world.  Now we want to
+expand that to help our ability to reason.  What if we had categories
+of objects that we could reason with?  Say we had different types of
+obstacles some that we could walk over, others that we couldn't.  For
+example, we could have boxes, crates, poles, chairs, tables, rocks,
+buildings, etc.  These could be categorized such as chairs and tables
+are both furniture-items.  And we could go on to say that if it is a
+furniture-item then one could step on it to get past.  Now we can
+write a general rule using furniture-item instead of two rules, one
+for chairs and one for tables.
+
+Given:
+1.  Same as Problem 6.
+2.  A more complicated world with differing obstacles.
+3.  isa links that link objects to their category: (isa chair
+furniture-item).
+
+Problem: Using a graphical representation with nodes as objects and
+edges as links create a hierarchical structure with block at the top.
+clear and obstacle will have one way isa links to block.  Make up
+reasonable objects to be obstacles that can fit into the hierarchy.
+Add additional links to describe the objects.  Now graphically
+represent some portion of our 2d grid (2x2 blocks should suffice) that
+makes use of the new hierarchy.

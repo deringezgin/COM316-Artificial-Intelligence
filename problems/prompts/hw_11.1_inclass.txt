@@ -1,0 +1,16 @@
+
+Version Space Learning
+
+There have been some sick people lately and we think it may be the food so
+we want to learn what might be the problem.
+
+We can use use version-space learning on this problem.  Here are the input 
+examples (yes under reaction indicates that the person got sick):
+
+Number  Restaurant  Meal        Day        Cost        Reaction
+-------------------------------------------------------------
+1       Sam's       breakfast   Friday     cheap         yes
+2       Lobdell     lunch       Friday     expensive     no
+3       Sam's       lunch       Saturday   cheap         yes
+4       Jill's      breakfast   Sunday     cheap         no
+5       Sam's       breakfast   Sunday     expensive     no

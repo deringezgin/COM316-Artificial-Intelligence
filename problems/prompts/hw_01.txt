@@ -1,0 +1,32 @@
+Problem 1.  Simple Search
+
+Intro:  One of the first problems tackled in the field of AI was basic
+search.  Finding a path from a start state to a goal state.
+
+Given:
+1.  A 20x20 2d array with random 0s and 100000s.  This is to represent an
+area of terrain with 400 blocks of space.  A 0 means the block is free; a
+100000 means it is occupied by an obstacle.  This array can also be used
+to mark blocks that have been visited (looked at during the search).
+2.  One of the 0s (free blocks) will be designated as the start position
+and one as the goal position (marked as -1).  What we will be doing is
+finding if there is a path from the start to the finish.  If so, what
+blocks are part of the path?
+3.  A function (block-status B) that will return -1, 0, or 100000 for
+block B.  Block B will be designated by a list of 2 elements (x y)
+designating the x and y coordinates of the box with the top left block
+being (0 0); x increases from left to right, y increases from top to
+bottom.
+4.  A function (adjacent B) that returns a list of blocks adjacent (one
+step vertical or horizontal) to block B.
+5.  A function (stepo B C) that returns C if a step from B to C is a legal
+move (neither B or C are obstacles and C is adjacent to B).  It returns #f
+if B->C is not a legal move.
+6.  A function (stepv B C) that returns C if a step from B to C is a new
+move (neither B or C are obstacles, C is not marked as visited, and C is
+adjacent to B).  It returns #f if not.
+
+Problem:  Assuming you know where the start is, using only horizontal and
+vertical movements, find a path to the goal if one exists.  Does your
+algorithm find the path quickly?  How much storage space does it require?
+Does it find the shortest possible path? 

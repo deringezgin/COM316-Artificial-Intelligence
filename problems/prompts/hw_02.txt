@@ -1,0 +1,18 @@
+Problem 2 Heuristic Search
+
+Intro:  The search in Problem 1 lacked direction.  If we had some way of
+determining the goodness of our possible choices, we could better decide
+which one to try first.
+
+Given:
+1. Same as Problem 1.
+2. A function (h B C), which returns the goodness of block B in regards
+to reaching block C.  This function is called a heuristic.  You may define
+this function in any way you like as long as it does not use any other
+information than the positions of the two blocks.
+3. The x,y position of the goal.
+
+Problem:  Find a more efficient way than used in Problem 1 to find a path
+from the start to goal.  Have it find the shortest path or discuss ideas
+of how this could be done.
+
