@@ -1,0 +1,77 @@
+Thematic-Role Frames
+
+A few notes on thematic-role frames: 
+1. The idea is to have a way to represent sentences so that a computer
+program can understand.  Thematic-role frames describe actions conveyed
+by the verbs and nouns in a sentence.
+2. There are two types of frame: action and state-change.
+3. There are also links, such as subaction (action within the main
+action, but not a result of it) and results (result of an action (could
+be another action or a state-change)), that link frames to frames.  I
+also add desired-result as a link.
+4. The thematic roles are roles being played in the theme.
+5. The slots of each frame are the verb, identifying the action, and a
+number of objects that play roles in the execution of the verb.
+6. Each action frame, in general, has the following slots: verb, agent,
+coagent, beneficiary, object, instrument, source, destination, old
+surroundings, new surroundings, conveyance, trajectory, time, location,
+and duration.  Not all are used for each action.  And some actions may
+require others.
+7. In addition, the frame has slots for links to link it to another
+frame.  It can have one or more subaction and result link slots.
+8. We can help make our thematic-role frames simpler for the computer to
+understand by using primitives for the verbs -- a single word would
+represent the ideas of hit and strike.  Examples would be speak, strike,
+ingest, move-object, and move-possession.
+9. State-change frames have an object, which is what is being changed. 
+
+Problem One:
+Redo the sentences from the previous HW using thematic-role frames as 
+described in class.  Represent the following sentences in thematic-role 
+frames:
+Suzie told Robbie to put the wedge on the red block.
+Robbie was unhappy because of the poor grade he received on a test.
+Joe moved the car to the garage.
+Suzie hit Robbie, which made him sad.
+
+Problem Two:
+Here is a new thematic-role frame issue we need to deal with.
+Let's say that we told someone:
+"Joe went to McDonalds.  He left feeling satisfied with his meal."
+If we ask them:
+"Did he eat?" 
+They would say yes (or at least that the statement implies that they ate).
+If we asked them:
+"How did he get his food?"
+They could probably answer this also without a problem.
+Now, what if we went through the same sequence with a computer?
+It probably couldn't answer correctly, even if we used our spiffy thematic-role 
+frames to represent the questions.
+Suggest and explain a method to deal with this.
+
+
+Problem Three: Version Space Learning
+Now we can use version space learning to help us learn the concept of 
+passability.
+Show the steps that would take place while using version-space learning on
+this problem.  Here are the input examples (yes under passable indicates
+that the block is passable):
+
+Number  Width       Heigth      Color      Wheels        Passable
+-----------------------------------------------------------------
+1       wide        low         green      no wheels     yes
+2       narrow      low         red        wheels        no
+3       wide        low         yellow     no wheels     yes
+4       narrow      high        green      no wheels     no
+5       wide        high        blue       no wheels     no
+6       wide        low         blue       wheels        no
+7       narrow      low         green      no wheels     no
+
+
+Reading: Chapters 10 and 20 of Winston's AI book.
+
+3q: Your answers to the 3 questions pertaining to Frames, Thematic-Role Frames,  
+and Version Space Learning.
+
+
+
