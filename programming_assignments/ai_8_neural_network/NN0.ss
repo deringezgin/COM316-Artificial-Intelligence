@@ -40,3 +40,18 @@
 (define g
   (lambda (x)
     (if (> x 0) 1 0)))
+
+(define test-nn
+  (lambda ()
+    (display "Output for 0 0 --> ")
+    (display (NN '(0 0)))
+    (newline)
+    (display "Output for 0 1 --> ")
+    (display (NN '(0 1)))
+    (newline)
+    (display "Output for 1 0 --> ")
+    (display (NN '(1 0)))
+    (newline)
+    (display "Output for 1 1 --> ")
+    (display (NN '(1 1)))
+    (newline)))
