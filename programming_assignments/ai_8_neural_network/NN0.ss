@@ -1,10 +1,10 @@
-; Derin Gezgin | Jay Nash
+; Derin Gezgin
 ; COM316: Artificial Intelligence | Fall 2024
 ; Programming Assignment #8
 ; Due November 19 2024
 ; File that has the code with responses to the questions in the homework.
 
-; (define threshold-weights '(((1.5 1 1))))
+;(define threshold-weights '(((1.5 1 1))))
 ; When I run these set of weights, I get the following output
 ; Input: (0 0) | Output: 0
 ; Input: (0 1) | Output: 0
@@ -20,7 +20,7 @@
 ; Input: (1 1) | Output: 0
 ; In this case, these weights belong to the XOR logic function
 
-; (define threshold-weights '(((0.5 1 1))))
+;(define threshold-weights '(((0.5 1 1))))
 ; This is the set of weights I added for the OR logic function
 ; When I run these set of weights, I get the following output
 ; Input: (0 0) | Output: 0
