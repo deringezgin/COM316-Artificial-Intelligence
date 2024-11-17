@@ -5,6 +5,8 @@
 ; Input: (1 0) | Output: 0.377 | Smaller than 0.5 --> 0
 ; Input: (1 1) | Output: 0.622 | Larger then 0.5 --> 1
 ; In this case, these weights belong to the AND logic function
+(define threshold-weights '(((15 10 10))))
+
 
 ;(define threshold-weights '(((.6 1 -.5) (.6 -.5 1)) ((.4 1 1))))
 
