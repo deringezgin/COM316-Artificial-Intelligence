@@ -31,7 +31,7 @@
 ; Input: (1 1) | Output: 0.99999 | Larger then 0.5 --> 1
 ; In this case, these weights belong to the OR logic function
 
-;(define threshold-weights '(((30 50 -25) (30 -25 50)) ((20 50 50))))
+(define threshold-weights '(((30 50 -25) (30 -25 50)) ((20 50 50))))
 ; I took the weights for OR logic function from NN0.ss and multiplied it by 50
 ; When I run these set of weights, I get the following output
 ; Input: (0 0) | Output: 0.00000000206 | Smaller than 0.5 --> 0
