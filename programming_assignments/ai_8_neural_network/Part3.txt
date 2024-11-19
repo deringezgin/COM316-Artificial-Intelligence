@@ -27,3 +27,13 @@ opponents distance from the border, opponents recent actions, etc. Similar to th
 enough wide neural network can perform significantly good in our pred-prey problem, but I am unsure how better it would
 be compared to MCTS.
 
+A neural network can be helpful in our third variation of the search problem where we check for the passability. In
+this case, we can input certain characteristics of the block we are examining to the neural network and we can get
+1/0 as an output, which would show us if that block is passable or not. The only issue with this would be we will not
+able to increase the input size of our network during the training as that will modify the network structure.
+
+In general, a neural network can help us with any problem we have in the grid as it has the potential of establishing
+complex connections and figure out tasks with a lot of different X variables which can change the result. As I said
+before, more complex we make the network, more we have to train it so it can need computational resources to be trained
+well.
+
