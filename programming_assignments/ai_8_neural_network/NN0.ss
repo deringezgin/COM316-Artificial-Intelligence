@@ -30,7 +30,7 @@
 ; Input: (1 1) | Output: 1
 ; In this case, these weights belong to the OR logic function
 
-(define threshold-weights '(((.6 1 -.5) (.6 -.5 1)) ((-0.5 -1 -1))))
+;(define threshold-weights '(((.6 1 -.5) (.6 -.5 1)) ((-0.5 -1 -1))))
 ; This is the set of weights I added for the NOT XOR logic function
 ; For the NOT XOR, I just have to change the final layer to ensure the NOT part compared to the regular XOR.
 ; When I run these set of weights, I get the following output
