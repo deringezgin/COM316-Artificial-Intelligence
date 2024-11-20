@@ -1,0 +1,370 @@
+==================== Training the perceptron for OR using different epsilon values ====================
+Training the perceptron...
+Generation Count: 1000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9795165326021258 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.03280643126969921 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9796595967541684 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.9999852729670149 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 1000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9999999999953433 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.9999998047799247 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9999999986840751 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.9999999999999687 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 1000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 10000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9936512690062808 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.010056556156246161 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.993666859981797 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.9999995863148438 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 10000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9999797060929427 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.010268859676088314 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9917294046644803 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.999999998244006 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 10000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 100000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.997991115513352 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.0031786392336130933 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9979912769714913 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.9999999870805061 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 100000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9999969400046766 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 4.5357891194438123e-4 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9999620438524649 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.9999999999999474 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 100000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 2.3427050004101053e-35 ... Check Over/Under: 0 ... True Output? #f
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 6.680554361312534e-39 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 1.5029066056046063e-28 ... Check Over/Under: 0 ... True Output? #f
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 5.270321338134416e-25 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 1000000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9993665784846082 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.0010017460393150514 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9993665835581447 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.9999999995971667 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 1000000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9997318432098296 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 4.059942241132743e-4 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9997559706766294 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.9999999999734082 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 1000000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+
+
+
+==================== Training the perceptron for AND using different epsilon values ====================
+Training the perceptron...
+Generation Count: 1000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 0.0011964437568975621 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.014623452918274502 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 1.0418394199587189e-4 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 8.410210776711901e-6 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 1000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 8.818202664142856e-13 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 8.410972431387155e-5 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 6.152011517044169e-4 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 6.453298244645889e-12 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 1000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 1.8216688108778067e-12 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 2.7106065199918558e-5 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 4.964780865221102e-7 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 3.336502633688314e-14 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 10000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 0.01010671098823353 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.265798056079052e-6 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 0.010129593994681958 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.9880298423239832 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 10000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 1.4640807047124459e-5 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.1713864625003764e-6 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 3.6545641208140222e-9 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 4.567791100615486e-8 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 10000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 2.6691902155412764e-109 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.0377033238158344e-53 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 1.4043787324419038e-54 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 3.6123561383267394e-110 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 100000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 0.003192659096407132 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 3.8920261570490435e-8 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 0.0031933870124020805 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.996221237486723 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 100000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 3.053085259372313e-4 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 3.1048073853212945e-5 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 4.825536701321282e-13 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 4.74645122673595e-12 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 100000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 8.393134489029238e-37 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 7.520139316746418e-20 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 4.105856946858677e-18 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 4.5824961608037574e-35 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 1000000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 0.001001946284181203 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.1940835283899917e-9 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 0.0010019688713343536 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 0.9988143675010742 ... Check Over/Under: 1 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 1000000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 1.0298491958005546e-8 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 3.512421120879939e-11 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 1.4844588092784985e-11 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 4.352464204550218e-9 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 1000000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (0) ... Perceptron Output: 9.509050559801195e-22 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 2.1611922332436634e-16 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (0) ... Perceptron Output: 9.436308792477555e-11 ... Check Over/Under: 0 ... True Output? #t
+Testing: (1 1) ... Expected Output: (1) ... Perceptron Output: 4.1518906108300753e-16 ... Check Over/Under: 0 ... True Output? #f
+
+
+
+
+
+
+==================== Training the perceptron for XOR using different epsilon values ====================
+Training the perceptron...
+Generation Count: 1000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9679305750327982 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.9999558419197487 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9672216049193509 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 0.03784141444193538 ... Check Over/Under: 0 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 1000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.999999797260168 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9999999999953966 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 1000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 10000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 4.7580502391745386e-7 ... Check Over/Under: 0 ... True Output? #f
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.007907108100794919 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.990885469207906 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 0.006448274501568033 ... Check Over/Under: 0 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 10000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 7.014813257232304e-13 ... Check Over/Under: 0 ... True Output? #f
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.0736494048712633e-7 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 4.84771339763756e-12 ... Check Over/Under: 0 ... True Output? #f
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 3.1673095895065874e-17 ... Check Over/Under: 0 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 10000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 100000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9979852694339891 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.003184653856669146 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9979854291592531 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 0.9999999869803682 ... Check Over/Under: 1 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 100000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 3.7227836698805044e-14 ... Check Over/Under: 0 ... True Output? #f
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 4.203281233820157e-11 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 7.314977128638021e-16 ... Check Over/Under: 0 ... True Output? #f
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 6.478766440795489e-19 ... Check Over/Under: 0 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 100000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 1000000 ... Epsilon-Value: 10
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.998996918743193 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.9999999988020569 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9989968961004327 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 0.001186770515235158 ... Check Over/Under: 0 ... True Output? #t
+
+
+
+Training the perceptron...
+Generation Count: 1000000 ... Epsilon-Value: 100
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 0.9999992062213411 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 1.4190244020268895e-4 ... Check Over/Under: 0 ... True Output? #t
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 0.9999819462145716 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 0.999999999999998 ... Check Over/Under: 1 ... True Output? #f
+
+
+
+Training the perceptron...
+Generation Count: 1000000 ... Epsilon-Value: 1000
+Testing the perceptron that is trained...
+Testing: (1 0) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (0 0) ... Expected Output: (0) ... Perceptron Output: 0.9999999999999944 ... Check Over/Under: 1 ... True Output? #f
+Testing: (0 1) ... Expected Output: (1) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #t
+Testing: (1 1) ... Expected Output: (0) ... Perceptron Output: 1.0 ... Check Over/Under: 1 ... True Output? #f
+
+
+
+
