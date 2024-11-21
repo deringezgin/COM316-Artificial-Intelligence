@@ -1,3 +1,10 @@
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #9
+; Due November 21 2024
+; File that has the code that will try to train our passability check agent
+; It tries out every learning rate - generaton count combination and nicely presents the output
+
 (define training-input-passability
   '(
      ((0.95 0.3) 1) ((0.98 0.4) 1) ((0.92 0.2) 1) ((0.97 0.1) 1) ((0.93 0.45) 1)

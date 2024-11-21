@@ -1,3 +1,10 @@
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #9
+; Due November 21 2024
+; File that has the code that will try to train our perceptron for OR AND and XOR logic functions.
+; It tries every learning rate - generation coutn combination and nicely present the output for each.
+
 (define training-input-or '(((1 0) 1) ((0 0) 0) ((0 1) 1) ((1 1) 1)))
 (define training-input-and '(((1 0) 0) ((0 0) 0) ((0 1) 0) ((1 1) 1)))
 (define training-input-xor '(((1 0) 1) ((0 0) 0) ((0 1) 1) ((1 1) 0)))
