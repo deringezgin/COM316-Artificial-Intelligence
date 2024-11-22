@@ -1,0 +1,15 @@
+AI #10 is due 26 Nov.
+
+Copy GAcode.ss. This is a genetic algorithm (GA) that learns a set of integers -- almost.
+It still needs GAevaluate-ind completed in GAcode-helper.ss. Write three of these.
+
+One that learns to have all of the integers as large as possible.
+A second that learns to have all of the integers equally divisible by 10 (mod 10 = 0).
+The third should learn any set of integers that you specify -- you can have a global variable called int-target-list or something.
+
+You only need to modify GAcode-helper.ss for all of these.
+
+Read Chapter One of An Introduction to Genetic Algorithms by Melanie Mitchell and Using a Genetic Algorithm to Replicate
+Allopatric Speciation by Parker and Edwards.
+
+No 3q are due.

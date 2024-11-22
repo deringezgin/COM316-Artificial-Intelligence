@@ -1,3 +1,12 @@
+; Derin Gezgin
+; COM316: Artificial Intelligence | Fall 2024
+; Programming Assignment #10
+; Due November 26 2024
+; I did not touch the body of the code at all. I just added a testing part at the end to be able to
+; visualize the best individual before and after training to see if it really works.
+; Please change the function GAevaluate-ind calls to do each part of the problem.
+; Generation count is 10,000.
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; GAcode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; G.B. Parker
 ; 4 Dec 2017
@@ -204,14 +213,24 @@
         (- gene e2b)
       ;else
         (+ gene e2b)))))
- 
-
 
 (define real-rand
   (lambda (real)
     (exact->inexact (* real (/ (+ 1 (random 999999998)) 999999999)))))
 
-  
 
+;****************************** testing *******************************
+; I added this section of the code to ensure my functions work
 
+(define get-best-individual
+  (lambda (inds)
+    ; Function to get the individual with the highest fitness in a population
+    (car (list-sort (lambda (ind1 ind2) (< (GAevaluate-ind ind1) (GAevaluate-ind ind2))) inds))))
 
+(define starting-population (make-pop))  ; Setting up the initial population and displaying the best individual
+(display "Best individual before training: ")
+(display (get-best-individual starting-population))
+(define final-population (GAtrain starting-population 10000))  ; Running the GA for 1000 generations
+(display " | Best individual after training: ")
+(display (get-best-individual final-population))  ; Showing the best individual
+(newline)

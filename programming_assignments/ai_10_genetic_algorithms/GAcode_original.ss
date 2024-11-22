@@ -204,8 +204,6 @@
         (- gene e2b)
       ;else
         (+ gene e2b)))))
- 
-
 
 (define real-rand
   (lambda (real)
