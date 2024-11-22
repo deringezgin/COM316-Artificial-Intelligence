@@ -1,0 +1,21 @@
+Program 9  Perceptron Learning
+
+Part 1: Copy perceptron.ss and perceptron-input.  The program contains a single 
+perceptron that uses a sigmoid function to determine output and the delta rule 
+to do learning. The file perceptron-input defines a training set to learn OR.  
+Try it out over 1000 training generations.  Write a training list for AND and 
+attempt one for XOR.  If you can't get XOR, explain what might be the problem.
+
+Part 2: Go back to doing OR.  Change epsilon, the learning rate to 10, 100, and 1000.
+What do you observe and why?
+
+Part 3: Write a training set (perceptron-input file) to learn passability based on 
+2 continuous inputs (stability and height).  Let's assume to be passable the stability 
+needs to be greater than .9 and the height needs to be less than .5.  How does it do
+learning the concept?  Explain.  
+
+Part 4: Discuss how NNs with learning can be used to help us in our search problem.
+
+
+Do the 3q for NNs.
+

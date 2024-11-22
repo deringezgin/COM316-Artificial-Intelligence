@@ -1,0 +1,39 @@
+Derin Gezgin
+COM316: Artificial Intelligence | Fall 2024
+Programming Assignment #8
+Due November 19 2024
+Part3: Discuss how NNs can be used to help us in our search problem.
+
+I think that using a neural network in our search problem can help us depending on how wide the network is
+or how many layers there are.
+
+Depending on how complex/large we want our network to be, our input can range from only the goal location and current
+location to a more complex structure like goal location, current location, block-wise distance, Euclidean distance,
+obstacle density of the grid, etc. Moreover, -as the grid is in an infinite size- we can input an nxn representation of
+the grid where we encode it simply (0 is free space, 1 is obstacle, we are 2 and goal is 3, etc.). We would have more
+weights to optimize as we have more inputs. Moreover, depending on how many layers we have, there can be significant
+amount of weights to optimize. It is important to note that, larger we have our input, more details we have which can
+help our decision process.
+
+A well-trained neural network would outperform what we had previously as our previous options for the search only had
+a specific heuristic (block-wise distance, Euclidean distance, etc.). In our neural network, we can have more than one
+factor to affect our decision-making process and assign weights to each input according to their importance. Doing this
+could also be possible in our previous attempts but doing a multi-layer neural-network is not easily possible without a
+boilerplate structure.
+
+I think that a Neural Network would be much helpful in our second variation of the search problem where we implement
+a simple predator prey game. We can input our location, our opponents location, the obstacle density, our and our
+opponents distance from the border, opponents recent actions, etc. Similar to the previous example, a well-trained and
+enough wide neural network can perform significantly good in our pred-prey problem, but I am unsure how better it would
+be compared to MCTS.
+
+A neural network can be helpful in our third variation of the search problem where we check for the passability. In
+this case, we can input certain characteristics of the block we are examining to the neural network and we can get
+1/0 as an output, which would show us if that block is passable or not. The only issue with this would be we will not
+able to increase the input size of our network during the training as that will modify the network structure.
+
+In general, a neural network can help us with any problem we have in the grid as it has the potential of establishing
+complex connections and figure out tasks with a lot of different X variables which can change the result. As I said
+before, more complex we make the network, more we have to train it so it can need computational resources to be trained
+well.
+
