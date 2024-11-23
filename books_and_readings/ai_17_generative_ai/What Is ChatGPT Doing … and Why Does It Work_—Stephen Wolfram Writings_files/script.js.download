@@ -1,0 +1,209 @@
+// 
+// If you need to add the notification to a WordPress site (e.g. support.wolfram.com), you'll need to update that server.
+//
+
+document.addEventListener("DOMContentLoaded", function(event) { 
+
+	function stringMatchQ(str, rule) {
+		var escapeRegex = (str) => str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+		return new RegExp("^" + rule.split("*").map(escapeRegex).join(".*") + "$").test(str);
+	}
+
+// Make your own css here, if needed 
+    function defaultCSS() {
+    	return `<style>
+				#notice { margin-top: 0rem; padding: 0;}
+
+				#notice-content {
+					background: #fffeec;
+					border: 2px solid #FEF4BC;
+					color: #000; 
+					font-family: 'Source Sans Pro', Arial, sans-serif; 
+					font-size:16px;
+					padding: 1rem;
+					margin: 0 0 0 0;
+				}
+
+				#notice-content a { 
+				  color:#d71318;
+				  text-decoration: none; 
+				}
+ 
+				 #notice-content a:hover { color: #f77700; }
+				</style>`;
+    }
+    
+// Put your messages here
+	function message1(css) {
+		return `<!-- Notice Stripe -->
+                ${css}
+				<div id="notice">
+				  <p id="notice-content">
+				  <br>
+				  <strong>IMPORTANT:</strong><br>
+				  Version 14.1 introduces our new, universal desktop application for Wolfram Language products. Users will need to download and install the <strong>Wolfram</strong> app to access <strong>Wolfram|One</strong>, <strong>Mathematica</strong>, <strong>Wolfram|Alpha Notebook Edition</strong> or <strong>Wolfram Finance Platform</strong>. For information about how to transition from your previous desktop application to Wolfram, read <a href=https://community.wolfram.com/groups/-/m/t/3238233>our Wolfram Community post</a>. If you have any questions or need assistance, <a href="https://www.wolfram.com/support/contact/?topic=installation" target="_blank">contact us</a>.
+				  <br><br>
+				  </p>
+				</div>
+
+				<!-- End Notice Stripe -->`;
+	}
+	
+	function message2(css) {
+		return `<!-- Notice Stripe -->
+		        ${css}
+				<div id="notice">
+				  <p id="notice-content">
+				  <br>
+				  <strong>OUTAGE NOTIFICATION:</strong><br>
+				  Wolfram systems (including Wolfram|Alpha, Cloud, APIs and other websites and services) are experiencing intermittent outages. We are actively working on restoring normal functionality. We appreciate your patience and understanding.
+				   <br><br>
+				  </p>
+				</div>
+
+				<!-- End Notice Stripe -->`;
+	}
+
+// Find where you want to insert the message based on a html's ID
+//<!-- beforebegin -->
+//<p>
+//  <!-- afterbegin -->
+//  foo
+//  <!-- beforeend -->
+//</p>
+//<!-- afterend -->
+
+
+/* Super Duper Alert Everywhere on wolfram.com */
+//
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/*')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message2(defaultCSS()));
+// 	}
+
+
+/* Level 1 Alerts */
+//
+// 	if(stringMatchQ(window.location.hostname, 'support*.wolfram.com') && stringMatchQ(window.location.pathname, '/*')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/support/contact/*')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+//	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/contact-us/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/company/contact/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+
+
+/* Level 2 Alerts */
+//	
+// 	if(stringMatchQ(window.location.hostname, 'store*.wolfram.com') && stringMatchQ(window.location.pathname, '/*')){
+// 		document.getElementById('gl-header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+//
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/get-products-services/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+//
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/promotions-discounts-offers/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+//
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/siteinfo/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/mathematica/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/mathematica/system-requirements/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/mathematica/pricing/*')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/mathematica-home-edition/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/mathematica-student-edition/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/system-modeler/')){
+// 		document.getElementById('_header').insertAdjacentHTML("beforebegin", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/system-modeler/pricing/*')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/system-modeler/trial/')){
+// 		document.getElementById('_header').insertAdjacentHTML("beforebegin", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/wolfram-one/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/wolfram-one/pricing/*')){
+//		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/wolfram-one/system-requirements/')){
+//		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/wolfram-alpha-notebook-edition/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/wolfram-alpha-notebook-edition/pricing/*')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+//
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/wolfram-alpha-notebook-edition/system-requirements/*')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+//
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/wolfram-u/registration/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+//
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/events/technology-conference/2024/registration/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/desktop/system-requirements/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	 	
+
+
+/* Level 3 Alerts */
+//
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/cloud/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+// 	
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/player/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+//
+// 	if(stringMatchQ(window.location.hostname, 'www*.wolfram.com') && stringMatchQ(window.location.pathname, '/engine/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+//
+// 	if(stringMatchQ(window.location.hostname, 'reseller*.wolfram.com') && stringMatchQ(window.location.pathname, '/')){
+// 		document.getElementById('_header').insertAdjacentHTML("afterend", message1(defaultCSS()));
+// 	}
+
+});

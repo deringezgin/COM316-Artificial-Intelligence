@@ -1,0 +1,348 @@
+$(window).on('load resize', function(){
+    $('#header > .inner').removeClass('open');
+    $('.overlay').remove();
+    $('.links').removeClass('show');
+    if($(window).width() > 430) {
+        $('.recent-categories').removeClass('hide');
+    }
+    if($(window).width() < 430 && !$('.search-field').hasClass('hide')) {
+        $('.recent-categories').addClass('hide');
+    } else {
+        $('.recent-categories').removeClass('hide');
+    }
+});
+
+
+
+$(document).ready(function(){
+    //TOC sticky top
+    if ($('#toc-bar').length) {
+        var stickyTop = $('#toc-bar').offset().top;
+
+        $(window).on('load resize scroll', function(){
+            var windowTop = $(window).scrollTop();
+
+            if (stickyTop < windowTop) {
+                $('#toc-bar').addClass('is-sticky');//.css('position', 'fixed');
+            } else {
+                $('#toc-bar').removeClass('is-sticky');//.css('position', 'relative');
+            }
+        });
+    }
+
+    //TOC menu
+    $('body').click(function(){
+        $('.toc-button').removeClass('active');
+        $('.toc-menu').addClass('hide');
+    });
+    $('.toc-button').click(function(e){
+        e.stopPropagation();
+        $('.toc-menu').toggleClass('hide');
+        $('.toc-button').toggleClass('active');
+        $('.categories-list-menu').addClass('hide');
+    });
+    $('.toc-menu').click(function(e){
+        e.stopPropagation();
+        $(this).addClass('hide');
+        $('.toc-button').removeClass('active');
+    });
+
+    $('.abstract-button').click(function(e){
+        e.stopPropagation();
+        $('.abstract-button').toggleClass('active');
+        $('.abstract').toggleClass('hide');
+    });
+    
+    $('.closer-button').click(function(e){
+        e.stopPropagation();
+        $('.abstract-button').toggleClass('active');
+        $('.abstract').toggleClass('hide');
+    });
+
+
+    $('#join-big').addClass('hide');
+
+    if(document.URL.indexOf('#comments') == -1) {
+        $('#comment-section').addClass('hide');
+    } else {
+        $('#comment-section').removeClass('hide');
+        $('#show-all-comments').addClass('hide');
+        $('#comments-heading').css('cursor', 'auto');
+    }
+
+    $('#fakeComment').focus( function() {
+        $('#join-big').removeClass('hide');
+        $('#comment').focus();
+        $('#join-small').addClass('hide');
+        }
+    );
+
+    $('#join-button').click(function(){
+        $('#join-big').removeClass('hide');
+        $('#comment').focus();
+        $('#join-small').addClass('hide');
+    });
+
+    $('#exit-image').click( function() {
+        $('#join-big').addClass('hide');
+        $('#join-small').removeClass('hide');
+    });
+
+    $('#comments-heading, .comments-link').click( function() {
+        $('#comment-section').toggleClass('hide');
+        $('.expand-collapse').toggleClass('collapse');
+    });
+
+    // colorbox
+    $(".colorbox-zoom").click(function() {
+        $(this).parent(".colorbox-container").find(".colorbox").trigger('click');
+    });
+    $(".colorbox").colorbox(function(){ preload: false; });
+    $(".sliderbar").each(function(){
+
+        var slidevalue =$(this).attr("data-value");
+        var slidemin = $(this).attr("data-min");
+        var slidemax = $(this).attr("data-max");
+        var slidestep = $(this).attr("data-step");
+        var width = $(this).prev(".anim").attr("data-width");
+
+        if(typeof(slidevalue) == 'string')
+           slidevalue=parseInt(slidevalue);
+        if(typeof(slidemin) == 'string')
+           slidemin=parseInt(slidemin);
+        if(typeof(slidemax) == 'string')
+           slidemax=parseInt(slidemax);
+        if(typeof(slidestep) == 'string')
+           slidestep=parseInt(slidestep);
+        if(typeof(width) == 'string')
+           width=parseInt(width);
+
+        $(this).slider({
+            value: slidevalue, min: slidemin, max: slidemax, step: slidestep,
+            slide: function( event, ui ) {
+                $(this).prev(".anim").css( "background-position", (-1*width*ui.value)+"px 0px" );
+            }
+        });
+    });
+    $("#postContainer, #loadMore").css('display', 'block');
+
+
+    // article links
+    $('.article-links').insertBefore('.blog-post-title');
+
+    $('.article-links').each(function() {
+        $(this).insertBefore($(this).parent().parent().find('.home-post-title'));
+    });
+
+    $('.WriAudio').on('click', function(){
+        var clicked = document.getElementById($(this).find('audio').attr('id'));
+        $('.WriAudio').each(function(e){
+            var audio = document.getElementById($(this).find('audio').attr('id'));
+            if(audio !== clicked) {
+                if(audio.paused == false && audio.currentTime > 0) {
+                    audio.pause();
+                    audio.parentNode.classList.remove('paused');
+                    audio.parentNode.querySelector('.tooltip').textContent = 'Play Audio';
+                }
+            }
+        });
+        if(clicked.paused == false) {
+            clicked.pause();
+            clicked.parentNode.classList.remove('paused');
+            clicked.parentNode.querySelector('.tooltip').textContent = 'Play Audio';
+        }
+        else if(clicked.paused == true) {
+            clicked.play();
+            clicked.parentNode.classList.add('paused');
+            clicked.parentNode.querySelector('.tooltip').textContent = 'Pause Audio';
+        }
+        else {
+            clicked.play();
+            clicked.parentNode.classList.remove('paused');
+            clicked.parentNode.querySelector('.tooltip').textContent = 'Play Audio';
+        }
+    });
+
+    $(".InCell.collapsible").before('<div class="toggle-controls"><i></i><span>show code</span></div>');
+
+    $(document).on('click', '.toggle-controls', function() {
+        var toggleControl = $(this);
+        if (toggleControl.hasClass("open")) {
+            toggleControl.removeClass("open");
+            toggleControl.find("span").text("show code");
+            toggleControl.next(".InCell").hide();
+        } else {
+            toggleControl.addClass("open");
+            toggleControl.find("span").text("hide code");
+            toggleControl.next(".InCell").show();
+        }
+    });
+
+    // toggle All by date years
+    $('.toggle').click(function(){
+        $(this).toggleClass('open');
+        $(this).next('.posts').toggleClass('hide');
+    });
+
+
+    //dropdown
+    $('.hamburger').click(function(e){
+        $('.categories-list-menu').addClass('hide');
+        $('.toc-button').removeClass('active');
+        $('.toc-menu').addClass('hide');
+    });
+    $('body').click(function(){
+        $('.categories-list-menu').addClass('hide');
+    });
+    $('.categories').click(function(e){
+        e.stopPropagation();
+        $('.links').removeClass('show');
+        $('.categories-list-menu').toggleClass('hide');
+        $('.toc-button').removeClass('active');
+        $('.toc-menu').addClass('hide');
+    });
+    $('.categories-list-menu').click(function(e){
+        e.stopPropagation();
+    });
+    $('.search-button').click(function(){
+        $('.search-link').toggleClass('open');
+        $('.search-field').toggleClass('hide');
+        $('.close').toggleClass('hide');
+        if($(window).width() < 430) {
+            $('.recent-categories').toggleClass('hide');
+        }
+    });
+    $('.close').click(function(){
+        $('.search-link').removeClass('open');
+        $('.search-field').addClass('hide');
+        $(this).addClass('hide');
+        $('.recent-categories').removeClass('hide');
+    });
+    $('.related-writings').html($('#footer_recent_posts').html());
+    $('.popup-clipboard').on('mouseover', function(){
+        $(this).addClass('open');
+    });
+    $('.popup-clipboard').on('click', function(e){
+        e.stopPropagation();
+    });
+    $('body').on('click', function(){
+        $('.popup-clipboard').removeClass('open');
+    })
+
+
+    //audio
+    $('.wri-audio').on('click', function() {
+        var clicked = document.getElementById($(this).find('audio').attr('id'));
+
+        $('.wri-audio').each(function(e) {
+            var audio = document.getElementById($(this).find('audio').attr('id'));
+            if (audio !== clicked) {
+                if (audio.paused == false && audio.currentTime > 0) {
+                    audio.pause();
+                    audio.parentNode.classList.remove('playing');
+                }
+            }
+        });
+
+        if (clicked.paused == false) {
+            clicked.pause();
+            clicked.parentNode.classList.remove('playing');
+        } else if (clicked.paused == true) {
+            clicked.play();
+            clicked.parentNode.classList.add('playing');
+        } else if (clicked.ended == true) {
+            clicked.parentNode.classList.add('HELLO');
+        } else {
+            clicked.play();
+            clicked.parentNode.classList.remove('playing');
+        }
+
+        clicked.addEventListener("ended",function() {
+            clicked.parentNode.classList.remove('playing');
+        });
+    });
+
+
+    ////////////////////////////////////////////////////////////
+    // video
+    ////////////////////////////////////////////////////////////
+    $('.wri-video.basic').on('click', function() {
+        var clicked = document.getElementById($(this).find('video').attr('id'));
+        $('.wri-video.basic').each(function(e) {
+            var video = document.getElementById($(this).find('video').attr('id'));
+            if (video !== clicked) {
+                if (video.paused == false && video.currentTime > 0) {
+                    //console.log(video.parentNode.classList);
+                    video.pause();
+                    video.parentNode.classList.add('paused');
+                }
+            }
+        });
+        if (clicked.paused == false) {
+            clicked.pause();
+            clicked.parentNode.classList.add('paused');
+        } else if (clicked.paused == true) {
+            clicked.play();
+            clicked.parentNode.classList.remove('paused');
+        //} else if (clicked.ended == true) {
+        //    clicked.parentNode.classList.add('');
+        } else {
+            clicked.play();
+            clicked.parentNode.classList.remove('paused');
+        }
+        clicked.addEventListener("ended", function() {
+            clicked.parentNode.classList.add('paused');
+        });
+    });
+
+    $('.wri-video.with-placeholder').on('click', function() {
+        var clicked = document.getElementById($(this).find('video').attr('id'));
+        $('.wri-video.with-placeholder').each(function(e) {
+            var video = document.getElementById($(this).find('video').attr('id'));
+            if (video !== clicked) {
+                if (video.paused == false && video.currentTime > 0) {
+                    //console.log('if video !== clicked');
+                    video.pause();
+                    video.attr('controls', false);
+                    video.parentNode.classList.add('paused');
+                }
+            }
+        });
+        if (clicked.paused == false) {
+            //console.log('if clicked.paused == false {clicked.pause()}');
+            clicked.pause();
+            $(this).find('video').attr('controls', false);
+            clicked.parentNode.classList.add('paused');
+        } else if (clicked.paused == true) {
+            //console.log('else if clicked.paused == true {clicked.play()} / remove overlay');
+            clicked.play();
+            $(this).find('video').attr('controls', true);
+            clicked.parentNode.classList.remove('paused');
+            clicked.parentNode.classList.add('no-overlay');
+        //} else if (clicked.ended == true) {
+        //    clicked.parentNode.classList.add('');
+        } else {
+            clicked.play();
+            //console.log('else {clicked.play()}');
+            $(this).find('video').attr('controls', true);
+            clicked.parentNode.classList.remove('paused');
+        }
+        clicked.addEventListener("ended", function() {
+            //console.log('ended event listener / restore overlay');
+            clicked.parentNode.classList.add('paused');
+            clicked.parentNode.classList.remove('no-overlay');
+        });
+    });
+});
+
+
+
+var audios = document.querySelectorAll('.WriAudio');
+if(audios !== null) {
+    Array.prototype.forEach.call(audios, function(el, i){
+        el.querySelector('audio').addEventListener('ended', function() {
+            el.classList.remove('paused');
+            el.querySelector('.tooltip').textContent = 'Play Audio';
+        }, false);
+    });
+}
