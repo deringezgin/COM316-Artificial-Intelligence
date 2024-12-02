@@ -112,18 +112,17 @@
 
 ;;;;;;;;;;;;;;;;;;;; TREE FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(define gexpand
+	(lambda (current-root-tree)
+    ; Setting the children of a tree the newly generated children (which are also trees) from the gcreate-children function
+		(set-gtree-children! current-root-tree (gcreate-children current-root-tree))))
 
 (define gcreate-children
 	(lambda (root)
     ; Function to generate a children from a root. A child is also a tree with many a root and an empty children list
 		(let* ((adjacents (gexpand-max (gnode-state (gtree-root root)))))
 			(map (lambda (state) (make-gtree (make-gnode state 0 0 0 1e9 (gid)) '())) adjacents))))
-			
-(define gexpand
-	(lambda (current-root-tree)
-    ; Setting the children of a tree the newly generated children (which are also trees) from the gcreate-children function
-		(set-gtree-children! current-root-tree (gcreate-children current-root-tree))))
-		
+
 (define gexpand-max
 	(lambda (tgr-pair)
     ; Function that takes a (turn goal robot) pair and expands the relevant player depending on whose turn it is
