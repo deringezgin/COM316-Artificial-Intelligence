@@ -23,7 +23,7 @@
   (lambda (point)
     (let ((new-location (cadr (gmcts-search (list #t goal robot)))))
       (cond
-        ((eq? point new-location)
+        ((eq? point new-location)  ; If the point is our current location, blast all 4 directions
           (gblast-real (adjacent new-location))))
       new-location)))
 
@@ -116,6 +116,7 @@
 
 ;;;;;;;;;;;;;;;;;;;; TREE FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 (define gexpand
 	(lambda (current-root-tree)
     ; Setting the children of a tree the newly generated children (which are also trees) from the gcreate-children function
@@ -124,22 +125,19 @@
 (define gcreate-children
 	(lambda (root)
     ; Function to generate a children from a root. A child is also a tree with many a root and an empty children list
+    ; If the child is the same point as its parent, this means that it is going to blast.
+    ; To keep track of the blasted nodes throughout the MCTS tree we keep track of a list of blasted nodes which also
+    ; carries through the children of the parent.
 		(let* ((adjacents (gexpand-max (gnode-state (gtree-root root))))
-            (previous-state (gnode-state (gtree-root root)))
-            (previous-turn (car previous-state))
-            (previous-goal (cadr previous-state))
-            (previous-robot (caddr previous-state)))
+            (previous-state (gnode-state (gtree-root root))) (previous-turn (car previous-state))
+            (previous-goal (cadr previous-state)) (previous-robot (caddr previous-state)))
 			(map
         (lambda (state)
           (let ((previous-blastList (gnode-blastList (gtree-root root))))
             (cond
-            (previous-turn
-              (cond ((eq? previous-goal (cadr state)) (set! previous-blastList (append (list previous-goal) previous-blastList)))))
-            (else
-              (cond ((eq? previous-robot (caddr state)) (set! previous-blastList (append (list previous-robot) previous-blastList))))))
+            (previous-turn (cond ((eq? previous-goal (cadr state)) (set! previous-blastList (append (list previous-goal) previous-blastList)))))
+            (else (cond ((eq? previous-robot (caddr state)) (set! previous-blastList (append (list previous-robot) previous-blastList))))))
           (make-gtree (make-gnode state 0 0 0 1e9 (gid) previous-blastList) '())))
-
-
         adjacents))))
 
 (define gexpand-max
@@ -183,6 +181,7 @@
 		(let ((possible-moves (append (list point) (gadjacento grid-copy point))))
 			(list-ref possible-moves (random (length possible-moves))))))
 
+; We rewrite some of the built-in functions as the grid we are working on can change depending on the blasted squares
 (define gadjacento
   (lambda (grid-copy block)
     (let* ((adj-lst0 (gadjacent block))
@@ -216,6 +215,7 @@
   (lambda (grid-copy block)
     (get-node grid-copy (car block) (cadr block))))
 
+
 ;;;;;;;;;;;;;;;;;;;; SEARCH FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -247,7 +247,6 @@
       ((> (- (time-second (current-time)) gstart-time) gmax-time) (greturn-best-move gtree))
       (else (mcts-inner gtree 0) (gmcts (+ count 1))))))  ; This is the recursive call
 
-
 (define gperform-rollout
   (lambda (state current-rollout-count blast-list)
     ; Function that performs multiple rollouts and take a sum of the scores
@@ -257,9 +256,11 @@
 
 (define grollout
   (lambda (state current-count blast-list)
-    ;
+    ; Function that performs rollout using the helper inner function.
     (define grollout-inner
       (lambda (state current-count grid-copy)
+        ; Helper function to perform a single rollout until the end condition.
+        ; This also blasts the nodes in the used grid for a better estimate.
         (cond
           ((gis-caught? state) -1)
           ((equal? gmax-rollout-depth current-count) 1)
@@ -274,9 +275,9 @@
               (let ((new-location (gget-random-move grid-copy current-robot)))
                 (cond ((eq? new-location current-robot) (set! grid-copy (gblast grid-copy (adjacent current-robot)))))
                 (grollout-inner (list (not turn) current-goal new-location) (+ current-count 1) grid-copy)))))))))
-    (let ((new-grid (copy-grid grid)))
-      (set! new-grid (gblast new-grid blast-list))
-      (grollout-inner state current-count new-grid))))
+    (let ((new-grid (copy-grid grid))) ; Copy the current grid
+      (set! new-grid (gblast new-grid blast-list)) ; Blast the points that were blasted in the tree
+      (grollout-inner state current-count new-grid))))  ; Perform rollout
 
 
 ;;;;;;;;;;;;;;;;;;;; SEARCH HELPER FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -305,9 +306,9 @@
 			  (set-gnode-t! current-root (+ (gtsum current-tree) t0))
 				(set-gnode-ucb! current-root (gUCB t n parent-eval-count)))))
 
-
 (define gblast
   (lambda (grid-copy lst)
+    ; Function to blast a list of nodes in a specific grid --rather than the global grid
     (if (not (null? lst))
       (let* ((pt (car lst))
              (x (car pt))
@@ -315,6 +316,21 @@
         (cond ((= (get-node grid-copy x y) obstacle)
           (set-node! grid-copy x y free)))
         (gblast grid-copy (cdr lst))) grid-copy)))
+
+(define gblast-real
+  (lambda (lst)
+    ; Function to really blast a node and show it in the canvas
+    (if (not (null? lst))
+      (let* ((pt (car lst))
+             (x (car pt))
+             (y (cadr pt)))
+        (cond ((= (get-node grid x y) obstacle)
+          (set-node! grid x y free)
+          (send canvas make-now-free x y)))
+        (gblast-real (cdr lst))))))
+
+
+;;;;;;;;;;;;;;;;;;;; GRID-COPY FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (define copy-grid
@@ -352,13 +368,3 @@
       ; Otherwise update the new row and call the function again with the next index
       (else (vector-set! new-row j (vector-ref row j)) (copy-element row new-row (+ j 1) cols)))))
 
-(define gblast-real
-  (lambda (lst)
-    (if (not (null? lst))
-      (let* ((pt (car lst))
-             (x (car pt))
-             (y (cadr pt)))
-        (cond ((= (get-node grid x y) obstacle)
-          (set-node! grid x y free)
-          (send canvas make-now-free x y)))
-        (gblast-real (cdr lst))))))
