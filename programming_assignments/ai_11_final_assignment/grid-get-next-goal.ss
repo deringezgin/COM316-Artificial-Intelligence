@@ -78,7 +78,7 @@
                     (vector-set! x index update))) ...))])))
 
 (struct gtree root children)  ; This is our tree structure which has a root node and its children
-(struct gnode state t0 t n ucb node-id)  ; This is the node structure which has the necessarry fields for the MCTS
+(struct gnode state t0 t n ucb node-id blastList)  ; This is the node structure which has the necessarry fields for the MCTS
 
 (define gtree '())  ; Our MCTS tree
 
@@ -120,8 +120,23 @@
 (define gcreate-children
 	(lambda (root)
     ; Function to generate a children from a root. A child is also a tree with many a root and an empty children list
-		(let* ((adjacents (gexpand-max (gnode-state (gtree-root root)))))
-			(map (lambda (state) (make-gtree (make-gnode state 0 0 0 1e9 (gid)) '())) adjacents))))
+		(let* ((adjacents (gexpand-max (gnode-state (gtree-root root))))
+            (previous-state (gnode-state (gtree-root root)))
+            (previous-turn (car previous-state))
+            (previous-goal (cadr previous-state))
+            (previous-robot (caddr previous-state)))
+			(map
+        (lambda (state)
+          (let ((previous-blastList (gnode-blastList (gtree-root root))))
+            (cond
+            (previous-turn
+              (cond ((eq? previous-goal (cadr state)) (set! previous-blastList (append (list previous-goal) previous-blastList)))))
+            (else
+              (cond ((eq? previous-robot (caddr state)) (set! previous-blastList (append (list previous-robot) previous-blastList))))))
+          (make-gtree (make-gnode state 0 0 0 1e9 (gid) previous-blastList) '())))
+
+
+        adjacents))))
 
 (define gexpand-max
 	(lambda (tgr-pair)
@@ -203,7 +218,7 @@
 (define gmcts-search
   (lambda (root)
     ; Our main MCTS search function. It logs the start time, creates a new tree and calls the helper function
-    (let ((root-node (make-gnode root 0 0 0 -1 (gid))))
+    (let ((root-node (make-gnode root 0 0 0 -1 (gid) '())))
       (set! gstart-time (time-second (current-time)))
       (set! gtree (make-gtree root-node '()))
       (gexpand gtree)
