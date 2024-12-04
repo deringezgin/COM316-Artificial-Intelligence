@@ -21,7 +21,11 @@
 ; Calling the MCTS in the current board state
 (define get-next-goal
   (lambda (point)
-    (cadr (gmcts-search (list #t goal robot)))))
+    (let ((new-location (cadr (gmcts-search (list #t goal robot)))))
+      (cond
+        ((eq? point new-location)
+          (gblast-real (adjacent new-location))))
+      new-location)))
 
 
 ;;;;;;;;;;;;;;;;;;;; STRUCTURES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -233,7 +237,8 @@
           ((null? (gtree-children current-tree))  ; If it is a leaf
             (cond
               ((= 0 (gnode-n (gtree-root current-tree)))  ; Check if it is never explored. If so, perform rollout
-                (set-gnode-t0! (gtree-root current-tree) (gperform-rollout (gnode-state (gtree-root current-tree)) 0)))
+                (set-gnode-t0! (gtree-root current-tree)
+                  (gperform-rollout (gnode-state (gtree-root current-tree)) 0 (gnode-blastList (gtree-root current-tree)))))
               (else (gexpand current-tree))))  ; If it was explored, expand it
           (else (mcts-inner (greturn-best-move current-tree) (gnode-n (gtree-root current-tree)))))  ; Otherwise call the function again
         (gupdate current-tree parent-eval-count)))  ; When a single tour is done, update the value
@@ -244,14 +249,14 @@
 
 
 (define gperform-rollout
-  (lambda (state current-rollout-count)
+  (lambda (state current-rollout-count blast-list)
     ; Function that performs multiple rollouts and take a sum of the scores
     (cond
       ((eq? current-rollout-count gsingle-rollout-count) 0)
-      (else (+ (grollout state 0) (gperform-rollout state (+ current-rollout-count 1)))))))
+      (else (+ (grollout state 0 blast-list) (gperform-rollout state (+ current-rollout-count 1) blast-list))))))
 
 (define grollout
-  (lambda (state current-count)
+  (lambda (state current-count blast-list)
     ;
     (define grollout-inner
       (lambda (state current-count grid-copy)
@@ -270,6 +275,7 @@
                 (cond ((eq? new-location current-robot) (set! grid-copy (gblast grid-copy (adjacent current-robot)))))
                 (grollout-inner (list (not turn) current-goal new-location) (+ current-count 1) grid-copy)))))))))
     (let ((new-grid (copy-grid grid)))
+      (set! new-grid (gblast new-grid blast-list))
       (grollout-inner state current-count new-grid))))
 
 
@@ -298,6 +304,7 @@
 				(set-gnode-n! current-root (+ n 1))
 			  (set-gnode-t! current-root (+ (gtsum current-tree) t0))
 				(set-gnode-ucb! current-root (gUCB t n parent-eval-count)))))
+
 
 (define gblast
   (lambda (grid-copy lst)
@@ -345,3 +352,13 @@
       ; Otherwise update the new row and call the function again with the next index
       (else (vector-set! new-row j (vector-ref row j)) (copy-element row new-row (+ j 1) cols)))))
 
+(define gblast-real
+  (lambda (lst)
+    (if (not (null? lst))
+      (let* ((pt (car lst))
+             (x (car pt))
+             (y (cadr pt)))
+        (cond ((= (get-node grid x y) obstacle)
+          (set-node! grid x y free)
+          (send canvas make-now-free x y)))
+        (gblast-real (cdr lst))))))
