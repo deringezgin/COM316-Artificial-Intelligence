@@ -21,11 +21,36 @@
 ; Calling the MCTS in the current board state
 (define get-next-robot
   (lambda (point)
-    (let ((new-location (cadr (rmcts-search (list #t robot goal)))))
-      (cond
-        ((eq? point new-location)  ; If the point is our current location, blast all 4 directions 
-          (rblast-real (adjacent new-location))))
-        new-location)))
+    (cond
+      ((> (block-wise-distance robot) 4)
+        (let ((new-location (get-best-move)))
+        (cond
+          ((= (rblock-status grid new-location) obstacle) (rblast-real (adjacent point)) point)
+          (else new-location))))
+      (else
+        (let ((new-location (cadr (rmcts-search (list #t robot goal)))))
+          (cond ((eq? point new-location) (rblast-real (adjacent new-location)))) new-location)))))
+
+(define get-best-move
+  (lambda ()
+    (let* ((adjacent-points (adjacent robot))
+            (sorted-points (list-sort (lambda (node1 node2) (< (block-wise-distance node1) (block-wise-distance node2))) adjacent-points))
+            (best-heuristic (block-wise-distance (car sorted-points)))
+            (best-points (filter (lambda (point) (= (block-wise-distance point) best-heuristic)) sorted-points)))
+      (random-select best-points))))
+
+(define block-wise-distance
+  (lambda (pt)
+    ; Function to calculate the block-wise distance between two nodes
+    (+ (abs (- (car goal) (car pt))) (abs (- (cadr goal) (cadr pt))))))
+
+(define random-select
+  (lambda (lst)
+    ; Randomly select an element from the list and return it
+    (cond
+      ((null? lst) '())
+      (else (list-ref lst (random (length lst)))))))
+
 
 ;;;;;;;;;;;;;;;;;;;; STRUCTURES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -129,13 +154,13 @@
     ; carries through the children of the parent.
 		(let* ((adjacents (rexpand-max (rnode-state (rtree-root root))))
             (previous-state (rnode-state (rtree-root root))) (previous-turn (car previous-state))
-            (previous-goal (cadr previous-state)) (previous-robot (caddr previous-state)))
+            (previous-robot (cadr previous-state)) (previous-goal (caddr previous-state)))
 			(map
         (lambda (state)
           (let ((previous-blastList (rnode-blastList (rtree-root root))))
             (cond
-            (previous-turn (cond ((eq? previous-goal (cadr state)) (set! previous-blastList (append (list previous-goal) previous-blastList)))))
-            (else (cond ((eq? previous-robot (caddr state)) (set! previous-blastList (append (list previous-robot) previous-blastList))))))
+            (previous-turn (cond ((eq? previous-robot (cadr state)) (set! previous-blastList (append (list previous-robot) previous-blastList)))))
+            (else (cond ((eq? previous-goal (caddr state)) (set! previous-blastList (append (list previous-goal) previous-blastList))))))
           (make-rtree (make-rnode state 0 0 0 1e9 (rid) previous-blastList) '())))
         adjacents))))
 
@@ -143,13 +168,13 @@
 	(lambda (tgr-pair)
     ; Function that takes a (turn goal robot) pair and expands the relevant player depending on whose turn it is
 		(let* ((turn (car tgr-pair))
-						(goal (cadr tgr-pair))
-						(robot (caddr tgr-pair)))
+						(robot (cadr tgr-pair))
+						(goal (caddr tgr-pair)))
 					(cond
 						(turn
-							(map (lambda (x) (append (list (not turn)) (list x) (list robot))) (rget-adjacent goal)))
+							(map (lambda (x) (append (list (not turn)) (list x) (list goal))) (rget-adjacent robot)))
 					(else
-						(map (lambda (x) (append (list (not turn)) (list goal) (list x))) (rget-adjacent robot)))))))
+						(map (lambda (x) (append (list (not turn)) (list robot) (list x))) (rget-adjacent goal)))))))
 
 
 ;;;;;;;;;;;;;;;;;;;; GRID FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -264,16 +289,16 @@
           ((ris-caught? state) 1)
           ((equal? rmax-rollout-depth current-count) -1)
         (else
-          (let ((turn (car state)) (current-goal (cadr state)) (current-robot (caddr state)))
+          (let ((turn (car state)) (current-robot (cadr state)) (current-goal (caddr state)))
           (cond
             (turn
-              (let ((new-location (rget-random-move grid-copy current-goal)))
-                (cond ((eq? new-location current-goal) (set! grid-copy (rblast grid-copy (adjacent current-goal)))))
-                (rrollout-inner (list (not turn) new-location current-robot) (+ current-count 1) grid-copy)))
-            (else
               (let ((new-location (rget-random-move grid-copy current-robot)))
                 (cond ((eq? new-location current-robot) (set! grid-copy (rblast grid-copy (adjacent current-robot)))))
-                (rrollout-inner (list (not turn) current-goal new-location) (+ current-count 1) grid-copy)))))))))
+                (rrollout-inner (list (not turn) new-location current-goal) (+ current-count 1) grid-copy)))
+            (else
+              (let ((new-location (rget-random-move grid-copy current-goal)))
+                (cond ((eq? new-location current-goal) (set! grid-copy (rblast grid-copy (adjacent current-goal)))))
+                (rrollout-inner (list (not turn) current-robot new-location) (+ current-count 1) grid-copy)))))))))
     (let ((new-grid (copy-grid grid))) ; Copy the current grid
       (set! new-grid (rblast new-grid blast-list)) ; Blast the points that were blasted in the tree
       (rrollout-inner state current-count new-grid))))  ; Perform rollout
@@ -285,8 +310,8 @@
 (define ris-caught?
   (lambda (state)
     ; Checks if the goal is caught or not
-    (let ((goal (cadr state)) (robot (caddr state)))
-      (<= (+ (abs (- (car goal) (car robot))) (abs (- (cadr goal) (cadr robot)))) 1))))
+    (let ((robot (cadr state)) (goal (caddr state)))
+      (<= (+ (abs (- (car robot) (car goal))) (abs (- (cadr robot) (cadr goal)))) 1))))
 
 (define rtsum
 	(lambda (current-tree)
