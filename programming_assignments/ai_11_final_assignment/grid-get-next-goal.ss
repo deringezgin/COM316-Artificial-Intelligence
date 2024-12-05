@@ -21,12 +21,39 @@
 ; Calling the MCTS in the current board state
 (define get-next-goal
   (lambda (point)
-    (let ((new-location (cadr (gmcts-search (list #t goal robot)))))
+    (let ((b-point (calc-dist goal robot)))
       (cond
-        ((eq? point new-location)  ; If the point is our current location, blast all 4 directions
-          (gblast-real (adjacent new-location))))
-      new-location)))
+      ((not (eq? b-point -1)) (gbuild (list b-point)) point)
+      (else
+        (let ((new-location (cadr (gmcts-search (list #t goal robot)))))
+          (cond
+            ((eq? point new-location)  ; If the point is our current location, blast all 4 directions
+            (gblast-real (adjacent new-location))))
+          new-location))))))
 
+(define gbuild
+  (lambda (lst)
+    (if (not (null? lst))
+      (let* ((blst (randomize lst))
+             (pt (car blst))
+             (x (car pt))
+             (y (cadr pt)))
+        (cond
+          ((= (get-node grid x y) free)
+            (set-node! grid x y obstacle)
+            (send canvas make-obstacle x y))
+          (else
+            (gbuild (cdr blst))))))))
+
+(define calc-dist
+  (lambda (p1 p2)
+    (let* ((p1-x (car p1)) (p1-y (cadr p1)) (p2-x (car p2)) (p2-y (cadr p2)))
+      (cond
+        ((and (eq? (+ p1-x 2) p2-x) (eq? p1-y p2-y)) (list (+ p1-x 1) p1-y))
+        ((and (eq? (- p1-x 2) p2-x) (eq? p1-y p2-y)) (list (- p1-x 1) p1-y))
+        ((and (eq? (+ p1-y 2) p2-y) (eq? p1-x p2-x)) (list p1-x (+ p1-y 1)))
+        ((and (eq? (- p1-y 2) p2-y) (eq? p1-x p2-x)) (list p1-x (- p1-y 1)))
+        (else -1)))))
 
 ;;;;;;;;;;;;;;;;;;;; STRUCTURES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -244,7 +271,7 @@
         (gupdate current-tree parent-eval-count)))  ; When a single tour is done, update the value
     (cond
       ; After each iteration, check for the time limit and if we're over the limit return the best move
-      ((> (- (time-second (current-time)) gstart-time) gmax-time) (greturn-best-move gtree))
+      ((>= (- (time-second (current-time)) gstart-time) gmax-time) (greturn-best-move gtree))
       (else (mcts-inner gtree 0) (gmcts (+ count 1))))))  ; This is the recursive call
 
 (define gperform-rollout
