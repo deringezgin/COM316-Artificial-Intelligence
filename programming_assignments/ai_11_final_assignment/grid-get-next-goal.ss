@@ -1,6 +1,6 @@
 ; Derin Gezgin | Russell Kosovsky | Jay Nash | Sarah Goyette
 ; COM316: Artificial Intelligence | Fall 2024
-; Programming Assignment #4b | MCTS
+; Final Programming Assignment
 ; Due December 5th, 2024
 ; File that has the complete code for MCTS - Goal - For the Final Project
 
