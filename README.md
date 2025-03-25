@@ -2,7 +2,7 @@
 
 This repository has all my work for the **Artificial Intelligence** class at Connecticut College taught by [Gary Parker](https://oak.conncoll.edu/parker/).  The class covers the history of Artificial Intelligence, from basic search systems to rule-based systems.  The programming assignments are in [Petite Chez Scheme](https://www.scheme.com/csv8.4/) .
 
-Every week, a new topic was introduced with a problem statement, and the students were expected to find a solution to this problem without using outside sources. The problem prompts and my (and my groupmates') answers can be found in the [Problems](problems) folder.
+Every week, a new topic was introduced with a problem statement, and the students were expected to find a solution to this problem without using outside sources. The problem prompts, and my (and my groupmates') answers can be found in the [Problems](problems) folder.
 
 The class after the problem is assigned, the student solutions are due, and the correct solutions are discussed. At the end of the class, a solution is agreed upon, and it should be implemented in Scheme due next class. My groupmates' and my implementations are in the [Programming Assignments](programming_assignments) folder. 
 
