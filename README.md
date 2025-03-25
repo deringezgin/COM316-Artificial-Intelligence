@@ -1,7 +1,5 @@
 # COM316 - Artificial Intelligence
 
-> Derin Gezgin
-
 This repository has all my work for the **Artificial Intelligence** class at Connecticut College taught by [Gary Parker](https://oak.conncoll.edu/parker/).  The class covers the history of Artificial Intelligence, from basic search systems to rule-based systems.  The programming assignments are in [Petite Chez Scheme](https://www.scheme.com/csv8.4/) .
 
 Every week, a new topic was introduced with a problem statement, and the students were expected to find a solution to this problem without using outside sources. The problem prompts and my (and my groupmates') answers can be found in the [Problems](problems) folder.
